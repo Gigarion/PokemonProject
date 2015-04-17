@@ -1,0 +1,5 @@
+Battle text file format:
+background image
+battle sound file
+enemy name
+enemy's pokemon in standard format
