@@ -17,17 +17,22 @@ public class Pokemon {
     private int tempHealth;
     private int speed;
     private String name;
-    private String sprite;
     private Move[] moves;
+    private boolean faint;
+    private String status;
+    private String sprite;
+
+    private static final String[] STATS = {"no", "plyz", "psn", "slp"};
     
-    public Pokemon (String name, int maxHealth, int speed, int attack, 
-                    Move[] moveSet) {
+    public Pokemon (String name, int maxHealth, int speed, Move[] moveSet) {
         this.name = name;
         this.sprite = name + ".txt";
         this.maxHealth = maxHealth;
         this.tempHealth = maxHealth;
         this.speed = speed;
         this.moves = moveSet;
+        this.faint = false;
+        this.status = "no";
     }
     
     public int getSpeed() {
@@ -37,19 +42,34 @@ public class Pokemon {
     public String getName() {
         return name;
     }
-    
-    public int getHealth() {
+
+    public int getMaxHealth() {
+        return maxHealth;
+    }
+
+    public int getTempHealth() {
         return tempHealth;
     }
-    
+
     public Move getMove(int number) {
         return moves[number];
     }
-    
-    public void reset() {
-        tempHealth = maxHealth;
+
+    public void receive(int dam) {
+        tempHealth -= dam;
+        if (tempHealth <= 0)
+            faint = true;
     }
     
+    public void reset() {
+        faint = false;
+        tempHealth = maxHealth;
+    }
+
+    public boolean isFaint() {
+        return faint;
+    }
+
     public static Pokemon fromFile(Scanner s) throws IOException {
         /*********************************************************
         * fromFile requires the following format:
@@ -63,15 +83,14 @@ public class Pokemon {
         String n = s.next();
         int m = Integer.parseInt(s.next());
         int sp = Integer.parseInt(s.next());
-        int a = Integer.parseInt(s.next());
         
         Move[] myMoves = new Move[MOVES];
         for (int i = 0; i < MOVES; i++) {
             myMoves[i] = Move.setMove(s);
         }
-        s.close();
         
-        Pokemon toReturn = new Pokemon(n, m, sp, a, myMoves);
+        Pokemon toReturn = new Pokemon(n, m, sp, myMoves);
+        //System.out.println(n);
         return toReturn;
     }
 
@@ -82,7 +101,7 @@ public class Pokemon {
         for (int i = 0; i < MOVES; i++)
             moves[i].toFile(p);
     }
-    
+
     public static void main(String[] args) throws IOException {
         File test = new File("pokemon.txt");
         Scanner scan = new Scanner(test);
@@ -90,5 +109,6 @@ public class Pokemon {
         for (int i = 0; i < MOVES; i++) {
             System.out.println(tester.getMove(i).getName());
         }
+        scan.close();
     }
 }

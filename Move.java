@@ -14,6 +14,8 @@ public class Move {
     private String status; // detail what status effect if any occurs
     private int damage; // how much damage the move does
     private int accuracy; //  likelihood of hit
+    private static final int SPER = 20;
+    private static final int PLYZ = 45;
     
     public Move (String name, int targetable, String stat, int dam, int acc) {
         this.name = name;
@@ -40,7 +42,6 @@ public class Move {
         int a = Integer.parseInt(s.next());
         Move toReturn = new Move(n, t, st, d, a);
         return toReturn;
-        
     }
 
     public void toFile(PrintWriter p) {
@@ -55,11 +56,23 @@ public class Move {
         return name;
     }
     
-    public void makeMove(Pokemon user, Pokemon target) {
-        int roll = (int) (Math.random() * 100);
-        if (roll <= accuracy) {
-            Message.makeMove(user, name);
-        }
-        else Message.textBuilder(user, Message.miss);
+    public int getTarget() {
+        return whoHit;
+    }
+
+    public int getAccuracy() {
+        return accuracy;
+    }
+
+    public void listStats() {
+        System.out.println("Name: "         + name);
+        System.out.println("whoHit: "     + whoHit);
+        System.out.println("status: "     + status);
+        System.out.println("damage: "     + damage);
+        System.out.println("accuracy: " + accuracy);
+    }
+
+    public void makeMove(Pokemon t) {
+        t.receive(damage);
     }
 }

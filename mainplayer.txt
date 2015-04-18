@@ -3,11 +3,10 @@ pipe
 Squirrel
 100
 15
-20
 Cut
 1
 no
-15
+100
 90
 Dry
 1
