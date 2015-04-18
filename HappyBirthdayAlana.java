@@ -5,8 +5,14 @@
 
 import java.io.*;
 import java.util.*;
+import java.awt.*;
 
 public class HappyBirthdayAlana {
+    private static final int UP = 119;
+    private static final int DOWN = 115;
+    private static final int LEFT = 108;
+    private static final int RIGHT = 100;
+    private static final int ENTER = 102;
     
     private void Battle(String fileName, Player player) throws IOException {
          /****************************************************\
@@ -40,17 +46,31 @@ public class HappyBirthdayAlana {
         boolean win = false;
         boolean lose = false;
         
-        Display.openSequence(enemy, player);
-        
-        Message.challenge(enemy, player);
-        // display challenge message
-        
-        Display.setBackground(battleBackground);        
+        Display.openSequence(enemy, player, battleBackground);
         
         while (!(win || lose)) {
             Display.update();
+            
             if (StdDraw.hasNextKeyTyped()) {
-                switch
+                if (StdDraw.isKeyPressed(UP)) {
+                    Display.upCursor();
+                }
+                
+                else if (StdDraw.isKeyPressed(DOWN)) {
+                    Display.downCursor();
+                }
+                
+                else if (StdDraw.isKeyPressed(LEFT)) {
+                    Display.leftCursor();
+                }
+                
+                else if (StdDraw.isKeyPressed(RIGHT)) {
+                    Display.leftCursor();
+                }
+                
+                else if (StdDraw.isKeyPressed(ENTER)) {
+                    Display.battleMenuAction();
+                }
             }
         }
     }
@@ -60,5 +80,6 @@ public class HappyBirthdayAlana {
         Scanner toRead = new Scanner(pokemon);
         for (int i = 0; i < 6; i++)
             team[i] = Pokemon.fromFile(toRead);
+        battle("Battle1.txt", player);
     }
 }

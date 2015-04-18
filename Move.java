@@ -5,6 +5,8 @@
   * BP
   *******************************/
 import java.util.*;
+import java.io.*;
+
 public class Move {
     String name;
     private int whoHit; // who can be hit by this move?  <0 for self only, 
@@ -39,6 +41,14 @@ public class Move {
         Move toReturn = new Move(n, t, st, d, a);
         return toReturn;
         
+    }
+
+    public void toFile(PrintWriter p) {
+        p.println(name);
+        p.println(whoHit);
+        p.println(status);
+        p.println(damage);
+        p.println(accuracy);
     }
     
     public String getName() {

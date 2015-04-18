@@ -25,4 +25,8 @@ public class Message {
         currentState = enemy.getName() + " has challenged " + main.getName()
             + "!";
     }
+
+    public static String getMessage() {
+        return currentState;
+    }
 }
