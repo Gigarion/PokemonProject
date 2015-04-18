@@ -57,7 +57,6 @@ public class Pokemon {
         * Pokemon name
         * integer maxhealth
         * integer speed
-        * integer attack
         * setMove format, see Move.java
         *********************************************************/
         
@@ -74,6 +73,14 @@ public class Pokemon {
         
         Pokemon toReturn = new Pokemon(n, m, sp, a, myMoves);
         return toReturn;
+    }
+
+    public void toFile(PrintWriter p) throws IOException {
+        p.println(name);
+        p.println(maxHealth);
+        p.println(speed);
+        for (int i = 0; i < MOVES; i++)
+            moves[i].toFile(p);
     }
     
     public static void main(String[] args) throws IOException {
