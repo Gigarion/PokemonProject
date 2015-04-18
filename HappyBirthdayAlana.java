@@ -12,7 +12,7 @@ public class HappyBirthdayAlana {
     private static final int DOWN = 83;
     private static final int LEFT = 65;
     private static final int RIGHT = 68;
-    private static final int ENTER = 70;
+    private static final int ENTER = 32;
     
     private static void battle(String fileName, Player player) throws IOException {
          /****************************************************\
@@ -76,7 +76,6 @@ public class HappyBirthdayAlana {
             }                
             else if (StdDraw.isKeyPressed(ENTER)) {
                 Display.battleMenuAction();
-                System.out.println("enter");
                 Display.update();
                 Display.timeDelay();
             }
