@@ -1,8 +1,6 @@
-pipe.png
-battle.mid
-shield
+pipe
 1
-Caleb
+Squirrel
 100
 15
 20

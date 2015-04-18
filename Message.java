@@ -21,9 +21,14 @@ public class Message {
         currentState = poke.getName() + " used " + moveName + "!";
     }
     
+    public static void customSet(String custom) {
+        currentState = custom;
+    }
+
     public static void challenge(Player enemy, Player main) {
         currentState = enemy.getName() + " has challenged " + main.getName()
             + "!";
+        Display.messageUpdate();
     }
 
     public static String getMessage() {
