@@ -73,7 +73,7 @@ public class Display {
         StdDraw.setPenColor(StdDraw.BLACK);
         StdDraw.polygon(MESSX, MESSY);
         StdDraw.setPenRadius();
-        StdDraw.text(-.75, -.875, Message.getMessage());
+        StdDraw.textLeft(-.75, -.875, Message.getMessage());
     }
 
     public static void menuUpdate() {
@@ -180,6 +180,7 @@ public class Display {
             StdDraw.show(10);
             StdDraw.clear(StdDraw.GRAY);
         }
+
         enPoke = true;
         enPokeOut = 0;
         update();
@@ -240,7 +241,19 @@ public class Display {
 
     public static void battleMenuAction() {
         int spot = getBattleCursorLocation();
-        currentMenu = BMENU[spot];
+        if (spot != 3)
+            currentMenu = BMENU[spot];
+
+        switch(spot) {
+            case 0: enterFightMenu(); break;
+            case 1: enterPokeMenu();  break;
+            case 2: enterBagMenu();   break;
+            case 3: runText();        break;
+        }
+    }
+
+    private static void runText() {
+        
     }
 
     public static void main(String[] args) throws IOException {
