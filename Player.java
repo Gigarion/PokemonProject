@@ -14,12 +14,11 @@ public class Player {
     
     public Player(Scanner s) throws IOException {
         name = s.next();
-        image = name + ".jpg";
+        image = name + ".png";
         teamSize = Integer.parseInt(s.next());
         team = new Pokemon[teamSize];
         for (int i = 0; i < teamSize; i++)
-     
-       team[i] = Pokemon.fromFile(s);
+          team[i] = Pokemon.fromFile(s);
     }
     
     public String getName() {
@@ -28,6 +27,10 @@ public class Player {
 
     public String getImage() {
         return image;
+    }
+
+    public String getPokemon(int number) {
+        return team[number].getName();
     }
 
     public void addPokemon(Scanner s) throws IOException {

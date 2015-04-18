@@ -8,13 +8,13 @@ import java.util.*;
 import java.awt.*;
 
 public class HappyBirthdayAlana {
-    private static final int UP = 119;
-    private static final int DOWN = 115;
-    private static final int LEFT = 108;
-    private static final int RIGHT = 100;
-    private static final int ENTER = 102;
+    private static final int UP = 87;
+    private static final int DOWN = 83;
+    private static final int LEFT = 65;
+    private static final int RIGHT = 68;
+    private static final int ENTER = 70;
     
-    private void Battle(String fileName, Player player) throws IOException {
+    private static void battle(String fileName, Player player) throws IOException {
          /****************************************************\
          * Notes on the battle function:
          * 
@@ -36,11 +36,15 @@ public class HappyBirthdayAlana {
         
         Scanner s = new Scanner(battle);
         // find the battle file and set up the scanner
+        Display.setBackground("pipe.png");
         String battleBackground = s.next();
-        StdAudio.play(s.next());
+        Display.update();
+        StdAudio.loop(s.next());
         // set this battle's background and audio
        
         Player enemy = new Player(s);
+        Display.setEnemy(enemy);
+        Display.setMain(player);
         s.close();
         
         boolean win = false;
@@ -49,37 +53,40 @@ public class HappyBirthdayAlana {
         Display.openSequence(enemy, player, battleBackground);
         
         while (!(win || lose)) {
-            Display.update();
             
-            if (StdDraw.hasNextKeyTyped()) {
-                if (StdDraw.isKeyPressed(UP)) {
-                    Display.upCursor();
-                }
-                
-                else if (StdDraw.isKeyPressed(DOWN)) {
-                    Display.downCursor();
-                }
-                
-                else if (StdDraw.isKeyPressed(LEFT)) {
-                    Display.leftCursor();
-                }
-                
-                else if (StdDraw.isKeyPressed(RIGHT)) {
-                    Display.leftCursor();
-                }
-                
-                else if (StdDraw.isKeyPressed(ENTER)) {
-                    Display.battleMenuAction();
-                }
+            if (StdDraw.isKeyPressed(UP)) {
+                Display.upCursor();
+                Display.update();
+                Display.timeDelay();
+            }                
+            else if (StdDraw.isKeyPressed(DOWN)) {
+                Display.downCursor();
+                Display.update();
+                Display.timeDelay();
+            }                
+            else if (StdDraw.isKeyPressed(LEFT)) {
+                Display.leftCursor();
+                Display.update();
+                Display.timeDelay();
+            }                
+            else if (StdDraw.isKeyPressed(RIGHT)) {
+                Display.rightCursor();
+                Display.update();
+                Display.timeDelay();
+            }                
+            else if (StdDraw.isKeyPressed(ENTER)) {
+                Display.battleMenuAction();
+                System.out.println("enter");
+                Display.update();
+                Display.timeDelay();
             }
         }
     }
     public static void main(String[] args)throws IOException {
-        Pokemon[] team = new Pokemon[6];
-        File pokemon = new File("pokemon.txt");
-        Scanner toRead = new Scanner(pokemon);
-        for (int i = 0; i < 6; i++)
-            team[i] = Pokemon.fromFile(toRead);
+        Display.setBounds();
+        File readMain = new File("mainplayer.txt");
+        Scanner read = new Scanner(readMain);
+        Player player = new Player(read);
         battle("Battle1.txt", player);
     }
 }
