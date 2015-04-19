@@ -11,13 +11,12 @@ public class HappyBirthdayAlana {
     private static final int DOWN = 83;
     private static final int LEFT = 65;
     private static final int RIGHT = 68;
-    private static final int ENTER = 32;
+    public static final int ENTER = 32;
 
     private static boolean win;
     private static boolean lose;
 
     public static void winBattle() {
-        System.out.println("yo?");
         win = true;
     }
 
@@ -61,7 +60,7 @@ public class HappyBirthdayAlana {
         win = false;
         lose = false;
         
-        Display.openSequence(enemy, player, battleBackground);
+        Display.openSequence(battleBackground);
         while (!(win || lose)) {
             
             if (StdDraw.isKeyPressed(UP)) {
@@ -90,17 +89,14 @@ public class HappyBirthdayAlana {
             else if (StdDraw.isKeyPressed(ENTER)) {
                 Display.battleMenuAction();
                 Display.update();
-                System.out.println(win);
                 Display.timeDelay();
             }
         }
         System.out.println("im free");
         if (win) {
             StdAudio.play("win.mid");
-            System.out.println("yeh");
             Display.winSequence(enemy, player);
         }
-        System.out.println("absolute end");
     }
     public static void main(String[] args)throws IOException {
         Display.setBounds();

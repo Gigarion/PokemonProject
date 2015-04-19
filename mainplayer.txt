@@ -4,7 +4,7 @@ Squirrel
 100
 15
 Cut
-1
+-1
 no
 100
 90

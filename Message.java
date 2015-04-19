@@ -41,6 +41,17 @@ public class Message {
         currentState = poke.getName() + MISS;
     }
 
+    public static void endBattle(Player winner, Player loser) {
+        currentState = winner.getName() + " has defeated " + loser.getName() + "!";
+    }
+
+    public static void retort(Player loser) {
+        currentState = loser.getName() + ":  Grr.. Who do you even know here?";
+    }
+
+    public static void smirk(Player winner) {
+        currentState = winner.getName() + ": Ha! I knew you didn't have it in you";
+    }
     public static String getMessage() {
         return currentState;
     }

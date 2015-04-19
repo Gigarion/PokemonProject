@@ -1,7 +1,7 @@
 shield.png
 battle.mid
 shield
-1
+2
 Caleb
 100
 15
