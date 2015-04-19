@@ -97,6 +97,10 @@ public class HappyBirthdayAlana {
             StdAudio.play("win.mid");
             Display.winSequence(enemy, player);
         }
+        else if (lose) {
+            System.out.println("ya lost sucker");
+            Display.loseSequence(enemy, player);
+        }
     }
     public static void main(String[] args)throws IOException {
         Display.setBounds();
