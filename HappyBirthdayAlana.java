@@ -5,14 +5,24 @@
 
 import java.io.*;
 import java.util.*;
-import java.awt.*;
 
 public class HappyBirthdayAlana {
     private static final int UP = 87;
     private static final int DOWN = 83;
     private static final int LEFT = 65;
     private static final int RIGHT = 68;
-    private static final int ENTER = 70;
+    public static final int ENTER = 32;
+
+    private static boolean win;
+    private static boolean lose;
+
+    public static void winBattle() {
+        win = true;
+    }
+
+    public static void loseBattle() {
+        lose = true;
+    }
     
     private static void battle(String fileName, Player player) throws IOException {
          /****************************************************\
@@ -36,7 +46,7 @@ public class HappyBirthdayAlana {
         
         Scanner s = new Scanner(battle);
         // find the battle file and set up the scanner
-        Display.setBackground("pipe.png");
+        Display.setBackground("shield.png");
         String battleBackground = s.next();
         Display.update();
         StdAudio.loop(s.next());
@@ -47,11 +57,10 @@ public class HappyBirthdayAlana {
         Display.setMain(player);
         s.close();
         
-        boolean win = false;
-        boolean lose = false;
+        win = false;
+        lose = false;
         
-        Display.openSequence(enemy, player, battleBackground);
-        
+        Display.openSequence(battleBackground);
         while (!(win || lose)) {
             
             if (StdDraw.isKeyPressed(UP)) {
@@ -61,25 +70,36 @@ public class HappyBirthdayAlana {
             }                
             else if (StdDraw.isKeyPressed(DOWN)) {
                 Display.downCursor();
+                if (!(win || lose))
                 Display.update();
                 Display.timeDelay();
             }                
-            else if (StdDraw.isKeyPressed(LEFT)) {
+            else if (StdDraw.isKeyPressed(LEFT)) { 
                 Display.leftCursor();
-                Display.update();
+                if (!(win || lose))
+                    Display.update();
                 Display.timeDelay();
             }                
             else if (StdDraw.isKeyPressed(RIGHT)) {
                 Display.rightCursor();
-                Display.update();
+                if (!(win || lose))
+                    Display.update();
                 Display.timeDelay();
             }                
             else if (StdDraw.isKeyPressed(ENTER)) {
                 Display.battleMenuAction();
-                System.out.println("enter");
                 Display.update();
                 Display.timeDelay();
             }
+        }
+        System.out.println("im free");
+        if (win) {
+            StdAudio.play("win.mid");
+            Display.winSequence(enemy, player);
+        }
+        else if (lose) {
+            System.out.println("ya lost sucker");
+            Display.loseSequence(enemy, player);
         }
     }
     public static void main(String[] args)throws IOException {

@@ -17,8 +17,9 @@ public class Player {
         image = name + ".png";
         teamSize = Integer.parseInt(s.next());
         team = new Pokemon[teamSize];
+        //System.out.println(teamSize);
         for (int i = 0; i < teamSize; i++)
-          team[i] = Pokemon.fromFile(s);
+            team[i] = Pokemon.fromFile(s);
     }
     
     public String getName() {
@@ -29,8 +30,20 @@ public class Player {
         return image;
     }
 
-    public String getPokemon(int number) {
-        return team[number].getName();
+    public int getTeamSize() {
+        return teamSize;
+    }
+
+    public Pokemon getPokemon(int number) {
+        return team[number];
+    }
+
+    public void makeMove(int poke, int move, Pokemon target) {
+        team[poke].getMove(move).makeMove(target);
+    }
+
+    public String getMove(int pokeNum, int moveNum) {
+        return team[pokeNum].getMove(moveNum).getName();
     }
 
     public void addPokemon(Scanner s) throws IOException {
