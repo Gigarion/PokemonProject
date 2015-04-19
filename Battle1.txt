@@ -1,4 +1,4 @@
-shield.png
+background.png
 battle.mid
 shield
 2
