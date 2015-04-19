@@ -155,7 +155,7 @@ public class Display {
 
     public static void update() {
 
-        StdDraw.picture(0, 0, background);
+        StdDraw.picture(0, 0, background, 2, 2);
         if (players) {
             StdDraw.picture(EPX, EPY, enemy.getImage(), ENWID, ENHI);
             StdDraw.picture(PPX, PPY, main.getImage(), PWID, PHI);
@@ -262,14 +262,18 @@ public class Display {
         mainPoke = false;
         enPoke = false;
         mainPokeStats = false;
+        enPokeStats = false;
         battle = false;
         StdDraw.clear();
         Message.endBattle(main, enemy);
         update();
         endPlayers();
         do {} while (!StdDraw.isKeyPressed(HappyBirthdayAlana.ENTER));
+        Message.retort(enemy);
+        showMessage();
         world = true;
         players = false;
+        do {} while (!StdDraw.isKeyPressed(HappyBirthdayAlana.ENTER));
         fadeOut(mainBack);
         return;
     }
@@ -278,14 +282,18 @@ public class Display {
         mainPoke = false;
         enPoke = false;
         mainPokeStats = false;
+        enPokeStats = false;
         battle = false;
         StdDraw.clear();
         Message.endBattle(enemy, main);
         update();
         endPlayers();
         do {} while (!StdDraw.isKeyPressed(HappyBirthdayAlana.ENTER));
+        Message.smirk(enemy);
+        showMessage();
         world = true;
         players = false;
+        do {} while (!StdDraw.isKeyPressed(HappyBirthdayAlana.ENTER));
         fadeOut(mainBack);
         return;
     }
@@ -303,7 +311,7 @@ public class Display {
             update();
             StdDraw.picture(EPX + i, EPY, enemy.getPokemon(enPokeOut).getName() + ".png");
             StdDraw.show(5);
-            StdDraw.clear(StdDraw.GRAY);
+            StdDraw.picture(0, 0, background, 2, 2);
         }
         enPokeStats = true;
         enPoke = true;
@@ -334,7 +342,7 @@ public class Display {
             update();
             StdDraw.picture(PPX - i, PPY, main.getPokemon(mainPokeOut).getName() + ".png");
             StdDraw.show(5);
-            StdDraw.clear(StdDraw.GRAY);
+            StdDraw.picture(0, 0, background, 2, 2);
         }
         mainPokeStats = true;
         mainPoke = true;
@@ -356,19 +364,20 @@ public class Display {
         myTurn = false;
         timeDelay();
         Message.fainted(enemy, enemy.getPokemon(enPokeOut));
+        showMessage();
         for (double i = 0; i < 0.1; i += 0.04) {
             update();
             StdDraw.picture(EPX, EPY + i, enemy.getPokemon(enPokeOut).getName() + ".png");
             StdDraw.show(10);
-            StdDraw.clear(StdDraw.GRAY);
+            StdDraw.picture(0, 0, background, 2, 2);
         }
         for (double i = 0; i < 0.3; i += 0.04) {
             update();
             StdDraw.picture(EPX, EPY - i, enemy.getPokemon(enPokeOut).getName() + ".png");
             StdDraw.show(10);
-            StdDraw.clear(StdDraw.GRAY);
+            StdDraw.picture(0, 0, background, 2, 2);
         }
-        StdDraw.clear(StdDraw.GRAY);
+        StdDraw.picture(0, 0, background, 2, 2);
         timeDelay();
         StdDraw.show();
 
@@ -381,19 +390,17 @@ public class Display {
         myTurn = false;
         timeDelay();
         Message.fainted(main, main.getPokemon(mainPokeOut));
+        showMessage();
         for (double i = 0; i < 0.1; i += 0.04) {
             update();
             StdDraw.picture(PPX, PPY + i, main.getPokemon(mainPokeOut).getName() + ".png");
-            StdDraw.show(10);
-            StdDraw.clear(StdDraw.GRAY);
+            StdDraw.show(40);
         }
-        for (double i = 0; i < 0.3; i += 0.04) {
-            StdDraw.picture(PPX, PPY - i, main.getPokemon(mainPokeOut).getName() + ".png");
+        for (double i = 0; i < 0.2; i += 0.04) {
             update();
-            StdDraw.show(10);
-            StdDraw.clear(StdDraw.GRAY);
+            StdDraw.picture(PPX, PPY - i, main.getPokemon(mainPokeOut).getName() + ".png");
+            StdDraw.show(40);
         }
-        StdDraw.clear(StdDraw.GRAY);
         timeDelay();
         StdDraw.show();
 
@@ -407,13 +414,19 @@ public class Display {
         }
     }
 
+    public static void interval() {
+        double a = System.currentTimeMillis();
+        while (System.currentTimeMillis() - a < 100) {
+        }
+    }
+
     private static void endPlayers() {
         for (double i = 2; i > 0; i -= 0.02) {
             update();
             StdDraw.picture(EPX + i, EPY, enemy.getImage(), ENWID, ENHI);
             StdDraw.picture(PPX - i, PPY, main.getImage(), PWID, PHI);
             StdDraw.show(5);
-            StdDraw.clear(StdDraw.GRAY);
+            StdDraw.picture(0, 0, background, 2, 2);
         }
         players = true;
         messageUpdate();
@@ -423,7 +436,7 @@ public class Display {
 
     private static void showPlayers(String newBackground) {
         decide = "What will " + main.getPokemon(mainPokeOut).getName() + " do?";
-        StdDraw.picture(0, 0, background);
+        StdDraw.picture(0, 0, background, 2, 2);
         StdDraw.picture(EPX, EPY, enemy.getImage(), ENWID, ENHI);
         StdDraw.picture(PPX, PPY, main.getImage(), PWID, PHI);
         StdDraw.show(5);
@@ -442,7 +455,7 @@ public class Display {
             StdDraw.picture(EPX + i, EPY, enemy.getImage(), ENWID, ENHI);
             StdDraw.picture(PPX - i, PPY, main.getImage(), PWID, PHI);
             StdDraw.show(5);
-            StdDraw.clear(StdDraw.GRAY);
+            StdDraw.picture(0, 0, background, 2, 2);
         }
         
         StdDraw.picture(0, 0, background);
@@ -455,7 +468,7 @@ public class Display {
             update();
             StdDraw.picture(PPX - i, PPY, main.getPokemon(0).getName() + ".png");
             StdDraw.show(5);
-            StdDraw.clear(StdDraw.GRAY);
+            StdDraw.picture(0, 0, background, 2, 2);
         }
         mainPokeStats = true;
         mainPoke = true;
@@ -507,6 +520,7 @@ public class Display {
                 int spot = getBattleCursorLocation();
                 Move toUse = main.getPokemon(mainPokeOut).getMove(spot);
                 currentMenu = 4;
+                cursor = 0;
                 if (Math.random() * 100 < toUse.getAccuracy()) {
 
                     if (toUse.getTarget() >= 0)
@@ -516,19 +530,21 @@ public class Display {
                         toUse.makeMove(main.getPokemon(mainPokeOut));
 
                     Message.makeMove(main.getPokemon(mainPokeOut), toUse);
+                    showMessage();
+                    fightAnimation(toUse.getTarget(), main);
                 }
-                else Message.miss(main.getPokemon(mainPokeOut));
+                else {
+                    Message.miss(main.getPokemon(mainPokeOut));
+                    showMessage();
+                }
+                
                 if (enemy.getPokemon(enPokeOut).isFaint())
                     enemyFaintSequence();
                 else if(main.getPokemon(mainPokeOut).isFaint())
                     playerFaintSequence();
                 else enemyAction();
-            } 
-            update();
-            timeDelay();
-            StdDraw.show();
+            }
             break;
-
             case 1: break;
             case 2: break;
             case 3: break;
@@ -546,17 +562,19 @@ public class Display {
 
     public static void enemyAction() {
         currentMenu = 4;
-        int move = (int) Math.random() * 4;
+        int move = (int) (Math.random() * 4);
         Move toUse = enemy.getPokemon(enPokeOut).getMove(move);
         if (Math.random() * 100 < toUse.getAccuracy()) {
-            if (toUse.getTarget() >= 0)
+            if (toUse.getTarget() >= 0) 
                 toUse.makeMove(main.getPokemon(mainPokeOut));
 
             else if (toUse.getTarget() < 0)
                 toUse.makeMove(enemy.getPokemon(enPokeOut));
 
             Message.makeMove(enemy.getPokemon(enPokeOut), toUse);
-            update();
+            showMessage();
+            timeDelay();
+            fightAnimation(toUse.getTarget(), enemy);
             StdDraw.show();
             timeDelay();
         }
@@ -581,6 +599,54 @@ public class Display {
     private static void enterBagMenu() {
         currentMenu = 2;
         return;
+    }
+
+    private static void showMessage() {
+        currentMenu = 4;
+        messageUpdate();
+        StdDraw.show();
+        timeDelay();
+    }
+
+    private static void fightAnimation(int type, Player initiator) {
+        update();
+        if (type <  0) {
+            StdDraw.setPenColor(StdDraw.GREEN);
+            for(double i = 0; i < 1; i += 0.04) {
+                update();
+                if (initiator == main)
+                    StdDraw.filledCircle(PPX + i, PPY + i, 0.04);
+                else if (initiator == enemy)
+                    StdDraw.filledCircle(EPX - i, EPY - i, 0.04);
+                StdDraw.show(5); 
+            }
+            update();
+            StdDraw.show();
+            StdDraw.setPenColor(StdDraw.BLUE);
+            for (double i = 1; i > 0; i -= 0.04) {
+                update();
+                if (initiator == main)
+                    StdDraw.filledCircle(PPX + i, PPY + i, 0.04);
+                else if (initiator == enemy)
+                    StdDraw.filledCircle(EPX - i, EPY - i, 0.04);
+                StdDraw.show(5);
+            }
+            StdDraw.setPenColor();
+            update();
+            StdDraw.show();
+        }
+        else if (type > 0) {
+            StdDraw.setPenColor(StdDraw.GREEN);
+            for(double i = 0; i < 2; i += 0.04) {
+                update();
+                if (initiator == main)
+                    StdDraw.filledCircle(PPX + i, PPY + i, 0.04);
+                else if (initiator == enemy)
+                    StdDraw.filledCircle(EPX - i, EPY - i, 0.04);
+                StdDraw.show(5);
+            }
+            StdDraw.setPenColor();
+        }
     }
 
     public static void main(String[] args) throws IOException {

@@ -46,7 +46,7 @@ public class HappyBirthdayAlana {
         
         Scanner s = new Scanner(battle);
         // find the battle file and set up the scanner
-        Display.setBackground("shield.png");
+        Display.setBackground("background.png");
         String battleBackground = s.next();
         Display.update();
         StdAudio.loop(s.next());
@@ -66,30 +66,30 @@ public class HappyBirthdayAlana {
             if (StdDraw.isKeyPressed(UP)) {
                 Display.upCursor();
                 Display.update();
-                Display.timeDelay();
+                Display.interval();
             }                
             else if (StdDraw.isKeyPressed(DOWN)) {
                 Display.downCursor();
-                if (!(win || lose))
                 Display.update();
-                Display.timeDelay();
+                StdDraw.show();
+                Display.interval();
             }                
             else if (StdDraw.isKeyPressed(LEFT)) { 
                 Display.leftCursor();
-                if (!(win || lose))
-                    Display.update();
-                Display.timeDelay();
+                Display.update();
+                StdDraw.show();
+                Display.interval();
             }                
             else if (StdDraw.isKeyPressed(RIGHT)) {
                 Display.rightCursor();
-                if (!(win || lose))
-                    Display.update();
-                Display.timeDelay();
+                Display.update();
+                Display.interval();
             }                
             else if (StdDraw.isKeyPressed(ENTER)) {
                 Display.battleMenuAction();
                 Display.update();
-                Display.timeDelay();
+                StdDraw.show();
+                Display.interval();
             }
         }
         System.out.println("im free");
