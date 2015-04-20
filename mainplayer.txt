@@ -1,6 +1,6 @@
 pipe
 6
-sams
+sam
 100
 15
 Cut

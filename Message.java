@@ -72,6 +72,10 @@ public class Message {
         else currentState = poke.getName() + "has fainted! You cant sent it out";
     }
 
+    public static void decide(Pokemon poke) {
+        currentState = "What will " + poke.getName() + " do?";
+    }
+
     public static void thatsEnough(Pokemon poke) {
         currentState = "That's enough " + poke.getName() + "!";
     }

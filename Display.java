@@ -42,13 +42,11 @@ public class Display {
     private static final double PWID = .225;
     private static final double PHI = .45;
     
-    private static String decide;
-    
     private static boolean battle;
     private static boolean menu;
     private static boolean world;
     private static boolean message;
-    private static boolean roster;
+    private static boolean mustChoose;
     
     private static boolean players;
     
@@ -305,7 +303,7 @@ public class Display {
         return;
     }
     
-    public static void swapPokemon(int toWhich) {
+    private static void swapPokemon(int toWhich) {
         currentMenu = 4;
         menu = true;
         mainPoke = false;
@@ -347,16 +345,15 @@ public class Display {
         myTurn = true;
         cursor = 0;
         currentMenu = 4;
-        Message.customSet(decide);
+        Message.decide(main.getPokemon(mainPokeOut));
         update();
     }
     
     public static void mainPokeSequence() {
-        if (mainPokeOut == main.getTeamSize()) {
-            mainPoke = false;
-            mainPokeStats = false;
-            return;
-        }
+        currentMenu = 4;
+        menu = true;
+        mainPoke = false;
+        mainPokeStats = false;
         String mainOut = "You're up, " + main.getPokemon(mainPokeOut).getName() + "!";
         Message.customSet(mainOut);
         messageUpdate();
@@ -375,7 +372,7 @@ public class Display {
         myTurn = true;
         cursor = 0;
         currentMenu = 4;
-        Message.customSet(decide);
+        Message.decide(main.getPokemon(mainPokeOut));
         update();
     }
     
@@ -410,7 +407,8 @@ public class Display {
         myTurn = false;
         timeDelay();
         Message.fainted(main, main.getPokemon(mainPokeOut));
-        showMessage();
+        messageUpdate();
+        StdDraw.show(5);
         for (double i = 0; i < 0.1; i += 0.04) {
             update();
             StdDraw.picture(PPX, PPY + i, main.getPokemon(mainPokeOut).getName() + ".png");
@@ -419,13 +417,15 @@ public class Display {
         for (double i = 0; i < 0.2; i += 0.04) {
             update();
             StdDraw.picture(PPX, PPY - i, main.getPokemon(mainPokeOut).getName() + ".png");
+            messageUpdate();
             StdDraw.show(40);
         }
         timeDelay();
         StdDraw.show(5);
-        
-        mainPokeOut++;
-        mainPokeSequence();
+        mustChoose = true;
+        Message.pokeMenu();
+        depth = 0;
+        currentMenu = 1;
     }
     
     public static void timeDelay() {
@@ -455,7 +455,6 @@ public class Display {
     }
     
     private static void showPlayers(String newBackground) {
-        decide = "What will " + main.getPokemon(mainPokeOut).getName() + " do?";
         StdDraw.picture(0, 0, background, 2, 2);
         StdDraw.picture(EPX, EPY, enemy.getImage(), ENWID, ENHI);
         StdDraw.picture(PPX, PPY, main.getImage(), PWID, PHI);
@@ -474,6 +473,7 @@ public class Display {
             update();
             StdDraw.picture(EPX + i, EPY, enemy.getImage(), ENWID, ENHI);
             StdDraw.picture(PPX - i, PPY, main.getImage(), PWID, PHI);
+            messageUpdate();
             StdDraw.show(5);
             StdDraw.picture(0, 0, background, 2, 2);
         }
@@ -493,7 +493,7 @@ public class Display {
         mainPokeStats = true;
         mainPoke = true;
         mainPokeOut = 0;
-        Message.customSet(decide);
+        Message.decide(main.getPokemon(mainPokeOut));
         update();
     }
     
@@ -642,15 +642,15 @@ public class Display {
                 cursor = 0;
                 if (Math.random() * 100 < toUse.getAccuracy()) {
                     
+                    Message.makeMove(main.getPokemon(mainPokeOut), toUse);
+                    showMessage();
+                    fightAnimation(toUse.getTarget(), main);
+
                     if (toUse.getTarget() >= 0)
                         toUse.makeMove(enemy.getPokemon(enPokeOut));
                     
                     else if (toUse.getTarget() < 0)
                         toUse.makeMove(main.getPokemon(mainPokeOut));
-                    
-                    Message.makeMove(main.getPokemon(mainPokeOut), toUse);
-                    showMessage();
-                    fightAnimation(toUse.getTarget(), main);
                 }
                 else {
                     Message.miss(main.getPokemon(mainPokeOut));
@@ -659,9 +659,10 @@ public class Display {
                 
                 if (enemy.getPokemon(enPokeOut).isFaint())
                     enemyFaintSequence();
-                else if(main.getPokemon(mainPokeOut).isFaint())
+                else if(main.getPokemon(mainPokeOut).isFaint()) {
                     playerFaintSequence();
-                else enemyAction();
+                }
+                else { timeDelay(); enemyAction(); }
             }
             break;
             case 1: { 
@@ -669,19 +670,23 @@ public class Display {
                     switch(cursor) {
                         case 0: {
                             Message.alreadyOut(main.getPokemon(mainPokeOut)); 
-                            showMessage(); 
                             update();   
                         }                                                           break;
                         default: {
                             Message.pickPokemon(main.getPokemon(cursor)); 
-                            showMessage(); 
                         }                                                           break;
                     }
                 }
                 else if (depth == 1) {
-                    swapPokemon(cursor);
                     depth = 0;
-                    enemyAction();
+                    if (mustChoose) {
+                        mainPokeOut = cursor;
+                        mainPokeSequence();
+                    }
+                    else {
+                        swapPokemon(cursor);
+                        enemyAction();
+                    }
                 }
             } break;
             case 2: break;
@@ -710,6 +715,19 @@ public class Display {
     
     public static void backFunction() {
         switch(currentMenu) {
+            case 1: {
+                if (depth == 1) {
+                    depth = 0;
+                    Message.pokeMenu();
+                    update();
+                }
+                else if (!mustChoose) {
+                    currentMenu = 4;
+                    cursor = 0;
+                    Message.decide(main.getPokemon(mainPokeOut));
+                    menu = true;
+                }
+            }   break;
             case 4: break;
             default: currentMenu = 4; cursor = 0; menu = true; break;
         }
@@ -720,25 +738,29 @@ public class Display {
         int move = (int) (Math.random() * 4);
         Move toUse = enemy.getPokemon(enPokeOut).getMove(move);
         if (Math.random() * 100 < toUse.getAccuracy()) {
+            Message.makeMove(enemy.getPokemon(enPokeOut), toUse);
+            showMessage();
+
+            fightAnimation(toUse.getTarget(), enemy);
+
             if (toUse.getTarget() >= 0) 
                 toUse.makeMove(main.getPokemon(mainPokeOut));
             
             else if (toUse.getTarget() < 0)
                 toUse.makeMove(enemy.getPokemon(enPokeOut));
             
-            Message.makeMove(enemy.getPokemon(enPokeOut), toUse);
-            showMessage();
-            timeDelay();
-            fightAnimation(toUse.getTarget(), enemy);
             StdDraw.show(5);
             timeDelay();
-            Message.customSet(decide);
+            Message.decide(main.getPokemon(mainPokeOut));
             update();
         }
     } 
     
     private static void runText() {
         Message.run();
+        update();
+        timeDelay();
+        Message.decide(main.getPokemon(mainPokeOut));
     }
 
     private static void bagMenu() {

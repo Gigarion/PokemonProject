@@ -1,23 +1,24 @@
 import java.awt.*;
 public class PokeBlock {
-	public static final double LENGTH    = 0.78;
-	public static final double HEIGHT    = 0.36;
-	public static final double PICX      = 0.05;
-	public static final double PICY      = 0.25;
-	public static final double BIGPICX   = 0.10;
-	public static final double BIGPICY   = 0.40;
-	public static final double BIGHEIGHT = 0.58;
-	public static final Color  KICKING   = new Color(51, 153, 153);
-	public static final Color  FAINT     = new Color(209, 117, 117);
-	public static final Color  KSELECT   = new Color(50, 200, 200);
-	public static final Color  FSELECT   = new Color(209, 200, 200);
+	private static final double LENGTH    = 0.78;
+	private static final double HEIGHT    = 0.36;
+	private static final double PICX      = 0.05;
+	private static final double PICY      = 0.25;
+	private static final double BIGPICX   = 0.10;
+	private static final double BIGPICY   = 0.40;
+	private static final double BIGHEIGHT = 0.58;
+	private static final Color  KICKING   = new Color(51, 153, 153);
+	private static final Color  FAINT     = new Color(209, 117, 117);
+	private static final Color  KSELECT   = new Color(50, 200, 200);
+	private static final Color  FSELECT   = new Color(209, 200, 200);
+	private static final double BORDER = 0.004;
 	
-	public String name;
-	public String image;
-	public boolean faint;
-	public double tempHealth;
-	public double health;
-	public double percent;
+	private String name;
+	private String image;
+	private boolean faint;
+	private double tempHealth;
+	private double health;
+	private double percent;
 
 	public PokeBlock (Pokemon poke) {
 		name = poke.getName();
@@ -50,6 +51,7 @@ public class PokeBlock {
 					else StdDraw.setPenColor(FAINT);
 					
 					StdDraw.filledPolygon(xBounds, yBounds);
+					StdDraw.setPenColor();
 					StdDraw.text(halfSpot, qHeight, "FAINT");
 				}
 				else {
@@ -71,7 +73,7 @@ public class PokeBlock {
 					StdDraw.text(halfSpot, qHeight + (BIGHEIGHT / 4), name);
 					StdDraw.text(halfSpot + (LENGTH / 4), qHeight + (BIGHEIGHT / 4), tempHealth + " / " + health);
 				}
-				
+				StdDraw.setPenRadius(BORDER);
 				if (isCursor) StdDraw.setPenColor(Color.RED);
 				else StdDraw.setPenColor(Color.BLACK);
 				StdDraw.polygon(xBounds, yBounds);
@@ -91,6 +93,7 @@ public class PokeBlock {
 				
 				if (isCursor)   StdDraw.setPenColor(Color.RED);
 				else 		    StdDraw.setPenColor(Color.BLACK);
+				StdDraw.setPenRadius(BORDER);
 				StdDraw.polygon(xBounds, yBounds);
 				StdDraw.picture(x + PICX, y + PICY, image);
 
@@ -114,6 +117,7 @@ public class PokeBlock {
 			double[] yBounds = {y, y + HEIGHT, y + HEIGHT, y};
 			StdDraw.filledPolygon(xBounds, yBounds);
 			
+			StdDraw.setPenRadius(BORDER);
 			StdDraw.setPenColor(Color.BLACK);
 			StdDraw.polygon(xBounds, yBounds);
 		}
