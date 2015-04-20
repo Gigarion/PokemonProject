@@ -12,6 +12,7 @@ public class HappyBirthdayAlana {
     private static final int LEFT = 65;
     private static final int RIGHT = 68;
     public static final int ENTER = 32;
+    public static final int BACK = 66;
 
     private static boolean win;
     private static boolean lose;
@@ -64,29 +65,34 @@ public class HappyBirthdayAlana {
         while (!(win || lose)) {
             
             if (StdDraw.isKeyPressed(UP)) {
-                Display.upCursor();
+                Display.mainVertCursor();
                 Display.update();
                 Display.interval();
             }                
             else if (StdDraw.isKeyPressed(DOWN)) {
-                Display.downCursor();
+                Display.mainVertCursor();
                 Display.update();
-                StdDraw.show();
                 Display.interval();
             }                
             else if (StdDraw.isKeyPressed(LEFT)) { 
-                Display.leftCursor();
+                Display.mainSideCursor();
                 Display.update();
-                StdDraw.show();
                 Display.interval();
             }                
             else if (StdDraw.isKeyPressed(RIGHT)) {
-                Display.rightCursor();
+                Display.mainSideCursor();
                 Display.update();
                 Display.interval();
             }                
             else if (StdDraw.isKeyPressed(ENTER)) {
                 Display.battleMenuAction();
+                Display.update();
+                StdDraw.show();
+                Display.interval();
+            }
+            
+            else if (StdDraw.isKeyPressed(BACK)) {
+                Display.backFunction();
                 Display.update();
                 StdDraw.show();
                 Display.interval();
