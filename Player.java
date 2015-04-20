@@ -37,6 +37,10 @@ public class Player {
     public Pokemon getPokemon(int number) {
         return team[number];
     }
+    
+    public Pokemon[] getTeam() {
+        return team;
+    }
 
     public void makeMove(int poke, int move, Pokemon target) {
         team[poke].getMove(move).makeMove(target);

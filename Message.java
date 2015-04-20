@@ -30,6 +30,10 @@ public class Message {
     public static void fainted(Player play, Pokemon faint) {
         currentState = play.getName() + " 's " + faint.getName() + FAINT;
     }
+    
+    public static void pokeMenu() {
+        currentState = "Choose a Pokemon";
+    }
 
     public static void challenge(Player enemy, Player main) {
         currentState = enemy.getName() + " has challenged " + main.getName()

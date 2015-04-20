@@ -20,13 +20,11 @@ public class Pokemon {
     private Move[] moves;
     private boolean faint;
     private String status;
-    private String sprite;
 
     private static final String[] STATS = {"no", "plyz", "psn", "slp"};
     
     public Pokemon (String name, int maxHealth, int speed, Move[] moveSet) {
         this.name = name;
-        this.sprite = name + ".txt";
         this.maxHealth = maxHealth;
         this.tempHealth = maxHealth;
         this.speed = speed;
