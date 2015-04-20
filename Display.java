@@ -232,7 +232,7 @@ public class Display {
         
         if (currentMenu == 1) {
             cursor = 0;
-            PokeDraw.draw(cursor);
+            PokeDraw.draw(main);
         }
         
         StdDraw.show(5);
