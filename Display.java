@@ -230,10 +230,8 @@ public class Display {
             }
         }
         
-        if (currentMenu == 1) {
-            cursor = 0;
-            PokeDraw.draw(main);
-        }
+        if (currentMenu == 1)
+            PokeDraw.draw(main, cursor);
         
         StdDraw.show(5);
     }
