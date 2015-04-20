@@ -8,11 +8,11 @@ public class Display {
     private static final String mainBack = "shield.png";
     private static final String pImage = "pBackground.png";
     
-    private static final double[] MESSX = {-1, -1,  .5, .5};
-    private static final double[] MESSY = {-1,-.8, -.8, -1};
+    private static final double[] MESSX = {-.97, -.97,  .5, .5};
+    private static final double[] MESSY = {-.97,-.8, -.8, -.97};
     
-    private static final double[] MENUX = {.5,  1,   1,  .5};
-    private static final double[] MENUY = {-1, -1, -.8, -.8};
+    private static final double[] MENUX = {.5,  .97,   .97,  .5};
+    private static final double[] MENUY = {-.97, -.97, -.8, -.8};
     
     private static final double[] ESBX = {-.95, -.35, -.35, -.95};
     private static final double[] ESBY = { .98, .98, .78, .78};
@@ -65,7 +65,8 @@ public class Display {
     private static int mainPokeOut;
     
     private static int cursor;
-    
+    private static int depth;
+
     private static boolean myTurn;
     
     
@@ -98,16 +99,16 @@ public class Display {
             switch(currentMenu) {
                 case 0: {
                     StdDraw.textLeft(-.9,  -.84, main.getMove(mainPokeOut, 0));
-                    StdDraw.textLeft(-.9,  -.95, main.getMove(mainPokeOut, 1));
+                    StdDraw.textLeft(-.9,  -.92, main.getMove(mainPokeOut, 1));
                     StdDraw.textLeft(-.35, -.84, main.getMove(mainPokeOut, 2));
-                    StdDraw.textLeft(-.35, -.95, main.getMove(mainPokeOut, 3));   
+                    StdDraw.textLeft(-.35, -.92, main.getMove(mainPokeOut, 3));   
                     break;
                 }
                 case 1: StdDraw.textLeft(-.9, -.875, Message.getMessage());  break;
                 case 2: StdDraw.textLeft(-.9, -.875, "bagmenu");             break;
-                case 3:                                                      break;
+                case 3: StdDraw.textLeft(-.95, -.875, Message.getMessage()); break;
                 case 4: StdDraw.textLeft(-.95, -.875, Message.getMessage()); break;
-            }
+            } 
         }
         else StdDraw.textLeft(-.95, -.875, Message.getMessage());
     }
@@ -119,10 +120,10 @@ public class Display {
         StdDraw.setPenRadius(BORDER);
         StdDraw.polygon(MENUX, MENUY);
         
-        StdDraw.text(0.6, -0.88, BMENU[0]);
-        StdDraw.text(0.63, -0.95, BMENU[1]);
-        StdDraw.text(0.8, -0.88, BMENU[2]);
-        StdDraw.text(0.8, -0.95, BMENU[3]);
+        StdDraw.text(0.6, -0.85, BMENU[0]);
+        StdDraw.text(0.63, -0.92, BMENU[1]);
+        StdDraw.text(0.8, -0.85, BMENU[2]);
+        StdDraw.text(0.8, -0.92, BMENU[3]);
         
         switch(currentMenu) {
             case 0: {
@@ -130,9 +131,9 @@ public class Display {
                 if (myTurn) {
                     switch(spot) {
                         case 0: StdDraw.picture(-.95, -0.84, cImage); break;
-                        case 1: StdDraw.picture(-.95, -0.95, cImage); break;
+                        case 1: StdDraw.picture(-.95, -0.92, cImage); break;
                         case 2: StdDraw.picture( -.4, -0.84, cImage); break;
-                        case 3: StdDraw.picture( -.4, -0.95, cImage); break;
+                        case 3: StdDraw.picture( -.4, -0.92, cImage); break;
                     }
                 } 
                 
@@ -145,10 +146,10 @@ public class Display {
             case 4: {
                 int spot = getBattleCursorLocation();
                 switch(spot) {
-                    case 0: StdDraw.picture(0.55, -0.88, cImage); break;
-                    case 1: StdDraw.picture(0.55, -0.95, cImage); break;
-                    case 2: StdDraw.picture(0.75, -0.88, cImage); break;
-                    case 3: StdDraw.picture(0.75, -0.95, cImage); break;
+                    case 0: StdDraw.picture(0.55, -0.84, cImage); break;
+                    case 1: StdDraw.picture(0.55, -0.92, cImage); break;
+                    case 2: StdDraw.picture(0.75, -0.84, cImage); break;
+                    case 3: StdDraw.picture(0.75, -0.92, cImage); break;
                 }
             }
         } 
@@ -260,6 +261,7 @@ public class Display {
         menu = true;
         myTurn = true;
         currentMenu = 4;
+        depth = 0;
         showPlayers(newBackground);
     }
     
@@ -303,6 +305,26 @@ public class Display {
         return;
     }
     
+    public static void swapPokemon(int toWhich) {
+        currentMenu = 4;
+        menu = true;
+        mainPoke = false;
+        mainPokeStats = false;
+        Message.thatsEnough(main.getPokemon(mainPokeOut));
+        showMessage();
+        for (double i = 0; i < 2; i += 0.04) {
+            update();
+            StdDraw.picture(PPX - i, PPY, main.getPokemon(mainPokeOut).getName() + ".png");
+            StdDraw.show(5);
+            StdDraw.picture(0, 0, background, 2, 2);
+        }
+
+        mainPokeOut = toWhich;
+        mainPokeSequence();
+        mainPoke = true;
+        mainPokeStats = true;
+    }
+
     public static void enPokeSequence() {
         if (enPokeOut == enemy.getTeamSize()) {
             enPoke = false;
@@ -480,25 +502,123 @@ public class Display {
         StdDraw.setXscale(-1, 1);
         StdDraw.setYscale(-1, 1);
     }
-    
-    public static void mainVertCursor() {
-        switch(cursor) {
-            case 0: cursor++; break;
-            case 1: cursor--; break;
-            case 2: cursor++; break;
-            case 3: cursor--; break;
+
+    public static void upCursor() {
+        switch(currentMenu) {
+            case 0: {
+                switch(cursor) {
+                    case 0: cursor++;    break;
+                    case 1: cursor--;    break;
+                    case 2: cursor++;    break;
+                    case 3: cursor--;    break;
+                }
+            }                            break;
+            case 1: {
+                switch(cursor) {
+                    case 0:  cursor = 5; break;
+                    default: cursor--;   break;
+                }
+            }                            break;
+            case 2:                      break;
+            case 3:                      break;
+            case 4: {
+                switch(cursor) {
+                    case 0: cursor++;    break;
+                    case 1: cursor--;    break;
+                    case 2: cursor++;    break;
+                    case 3: cursor--;    break;    
+                }
+            }                            break;
         }
     }
-    
-    public static void mainSideCursor() {
-        switch(cursor) {
-            case 0: cursor += 2; break;
-            case 1: cursor += 2; break;
-            case 2: cursor -= 2; break;
-            case 3: cursor -= 2; break;
+
+    public static void downCursor() {
+        switch(currentMenu) {
+            case 0: {
+                switch(cursor) {
+                    case 0: cursor++;    break;
+                    case 1: cursor--;    break;
+                    case 2: cursor++;    break;
+                    case 3: cursor--;    break;
+                }
+            }                            break;
+            case 1: {
+                switch(cursor) {
+                    case 5:  cursor = 0; break;
+                    default: cursor++;   break;
+                }
+            }                            break;
+            case 2:                      break;
+            case 3:                      break;
+            case 4: {
+                switch(cursor) {
+                    case 0: cursor++;    break;
+                    case 1: cursor--;    break;
+                    case 2: cursor++;    break;
+                    case 3: cursor--;    break;
+                }
+            }                            break;
         }
     }
-    
+
+    public static void leftCursor() {
+        switch(currentMenu) {
+            case 0: {
+                switch(cursor) {
+                    case 0: cursor += 2; break;
+                    case 1: cursor += 2; break;
+                    case 2: cursor -= 2; break;
+                    case 3: cursor -= 2; break;
+                }
+            }                            break;
+            case 1: {
+                switch(cursor) {
+                    case 0:  cursor = 1; break;
+                    default: cursor = 0; break;
+                }
+            }                            break;
+            case 2:                      break;
+            case 3:                      break;
+            case 4: {
+                switch(cursor) {
+                    case 0: cursor += 2; break;
+                    case 1: cursor += 2; break;
+                    case 2: cursor -= 2; break;
+                    case 3: cursor -= 2; break;
+                }
+            }                            break;
+        }
+    }
+
+    public static void rightCursor() {
+        switch(currentMenu) {
+            case 0: {
+                switch(cursor) {
+                    case 0: cursor += 2; break;
+                    case 1: cursor += 2; break;
+                    case 2: cursor -= 2; break;
+                    case 3: cursor -= 2; break;
+                }
+            }                            break;
+            case 1: {
+                switch(cursor) {
+                    case 0:  cursor = 1; break;
+                    default: cursor = 0; break;
+                }
+            }                            break;
+            case 2:                      break;
+            case 3:                      break;
+            case 4: {
+                switch(cursor) {
+                    case 0: cursor += 2; break;
+                    case 1: cursor += 2; break;
+                    case 2: cursor -= 2; break;
+                    case 3: cursor -= 2; break;
+                }
+            }                            break;
+        }
+    }
+
     public static void enterBattle() {
         battle = true;
         world = false;
@@ -544,7 +664,26 @@ public class Display {
                 else enemyAction();
             }
             break;
-            case 1: break;
+            case 1: { 
+                if (depth == 0) {
+                    switch(cursor) {
+                        case 0: {
+                            Message.alreadyOut(main.getPokemon(mainPokeOut)); 
+                            showMessage(); 
+                            update();   
+                        }                                                           break;
+                        default: {
+                            Message.pickPokemon(main.getPokemon(cursor)); 
+                            showMessage(); 
+                        }                                                           break;
+                    }
+                }
+                else if (depth == 1) {
+                    swapPokemon(cursor);
+                    depth = 0;
+                    enemyAction();
+                }
+            } break;
             case 2: break;
             case 3: break;
             case 4: {
@@ -553,17 +692,21 @@ public class Display {
                     case 0: break;
                     case 1: {
                         menu = false;
+                        cursor = 0;
                         Message.pokeMenu();
                         update();
                     } break;
                     case 2: break;
-                    case 3: runText(); showMessage(); break;
+                    case 3: runText(); showMessage(); currentMenu = 4; break;
                 }
                 break;
             }
         }
     }
-    
+
+    public static void addDepth() {
+        depth++;
+    }
     
     public static void backFunction() {
         switch(currentMenu) {
@@ -589,15 +732,20 @@ public class Display {
             fightAnimation(toUse.getTarget(), enemy);
             StdDraw.show(5);
             timeDelay();
+            Message.customSet(decide);
+            update();
         }
     } 
     
     private static void runText() {
         Message.run();
     }
+
+    private static void bagMenu() {
+        return;
+    }
     
     private static void showMessage() {
-        currentMenu = 4;
         messageUpdate();
         StdDraw.show(5);
         timeDelay();

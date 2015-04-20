@@ -65,36 +65,34 @@ public class HappyBirthdayAlana {
         while (!(win || lose)) {
             
             if (StdDraw.isKeyPressed(UP)) {
-                Display.mainVertCursor();
+                Display.upCursor();
                 Display.update();
                 Display.interval();
             }                
             else if (StdDraw.isKeyPressed(DOWN)) {
-                Display.mainVertCursor();
+                Display.downCursor();
                 Display.update();
                 Display.interval();
             }                
             else if (StdDraw.isKeyPressed(LEFT)) { 
-                Display.mainSideCursor();
+                Display.leftCursor();
                 Display.update();
                 Display.interval();
             }                
             else if (StdDraw.isKeyPressed(RIGHT)) {
-                Display.mainSideCursor();
+                Display.rightCursor();
                 Display.update();
                 Display.interval();
             }                
             else if (StdDraw.isKeyPressed(ENTER)) {
                 Display.battleMenuAction();
                 Display.update();
-                StdDraw.show();
                 Display.interval();
             }
             
             else if (StdDraw.isKeyPressed(BACK)) {
                 Display.backFunction();
                 Display.update();
-                StdDraw.show();
                 Display.interval();
             }
         }

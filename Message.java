@@ -59,4 +59,20 @@ public class Message {
     public static String getMessage() {
         return currentState;
     }
+
+    public static void alreadyOut(Pokemon poke) {
+        currentState = poke.getName() + " is already out!";
+    }
+
+    public static void pickPokemon(Pokemon poke) {
+        if (!poke.isFaint()) {
+            currentState = "Send out " + poke.getName() + "?";
+            Display.addDepth();
+        }
+        else currentState = poke.getName() + "has fainted! You cant sent it out";
+    }
+
+    public static void thatsEnough(Pokemon poke) {
+        currentState = "That's enough " + poke.getName() + "!";
+    }
 }

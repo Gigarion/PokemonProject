@@ -17,29 +17,34 @@ public class PokeDraw {
         StdDraw.setPenRadius(BORDER);
         StdDraw.setPenColor(StdDraw.BLACK);
         StdDraw.polygon(MESSX, MESSY);
-        StdDraw.setPenRadius();
+        StdDraw.setPenRadius();    
 
         StdDraw.textLeft(-.95, -.875, Message.getMessage());
 
         PokeBlock[] toDraw = new PokeBlock[6];
-        Pokemon[] team = main.getTeam();
         int teamSize = main.getTeamSize();
-        for (int i = 0; i < teamSize; i++) {
+        Pokemon[] team = new Pokemon[teamSize];
+
+        team[0] = main.getPokemon(Display.getPokeOut());
+        
+        for (int i = 1; i <= Display.getPokeOut(); i++)
+            team[i] = main.getPokemon(i - 1);
+
+        for (int i = Display.getPokeOut() + 1; i < teamSize; i++)
+            team[i] = main.getPokemon(i);
+
+        for (int i = 0; i < teamSize; i++)
             toDraw[i] = new PokeBlock(team[i]);
-        }
-        for (int i = teamSize; i < 6; i++) {
+
+        for (int i = teamSize; i < 6; i++)
             toDraw[i] = new PokeBlock();
-        }
 
-        int numOne = Display.getPokeOut();
-        if (numOne == cursor)   toDraw[numOne].draw(true, true, XS[0], BIGY);
-        else                    toDraw[numOne].draw(true, false, XS[0], BIGY);
+        if (cursor == 0)  toDraw[0].draw(true,  true, XS[0], BIGY);
+        else              toDraw[0].draw(true, false, XS[0], BIGY);
 
-        for (int i = 0; i < 5; i++) {
-            if (i >= numOne && i == cursor) toDraw[i + 1].draw(false, true, XS[1], YS[i]);
-            else if (i >= numOne)           toDraw[i + 1].draw(false, false, XS[1], YS[i]);
-            else if (i == cursor)           toDraw[i].draw(false, true, XS[1], YS[i]);
-            else                            toDraw[i].draw(false, false, XS[1], YS[i]);
+        for (int i = 1; i <= 5; i++) {
+            if (i == cursor) toDraw[i].draw(false,  true, XS[1], YS[i - 1]);
+            else             toDraw[i].draw(false, false, XS[1], YS[i - 1]);
         }
     }
     
