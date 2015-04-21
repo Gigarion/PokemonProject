@@ -1,5 +1,6 @@
 pipe
 6
+mainitems.txt
 sam
 100
 15

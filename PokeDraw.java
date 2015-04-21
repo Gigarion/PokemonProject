@@ -5,8 +5,8 @@ public class PokeDraw {
     private static final double[] XS = {-0.88, .2};
     private static final double[] YS = { 0.61, 0.22, -0.17, -0.56, -0.95};
 
-    private static final double[] MESSX = {-.97, -.97,  0, 0};
-    private static final double[] MESSY = {-.95,-.8, -.8, -.95};
+    private static final double[] MESSX = {-.97, -.97,  0.05, 0.05};
+    private static final double[] MESSY = {-.95,-.7, -.7, -.95};
     private static final double BORDER = 0.004;
     
     public static void draw(Player main, int cursor) {
@@ -19,7 +19,7 @@ public class PokeDraw {
         StdDraw.polygon(MESSX, MESSY);
         StdDraw.setPenRadius();    
 
-        StdDraw.textLeft(-.95, -.875, Message.getMessage());
+        StdDraw.textLeft(-.95, -.8, Message.getMessage());
 
         PokeBlock[] toDraw = new PokeBlock[6];
         int teamSize = main.getTeamSize();

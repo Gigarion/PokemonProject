@@ -2,6 +2,7 @@ background.png
 battle.mid
 shield
 2
+enemyitems.txt
 Caleb
 100
 15

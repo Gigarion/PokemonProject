@@ -1,0 +1,11 @@
+2
+Potion
+2
+20
+no
+HealsPokemon
+SuperPotion
+2
+50
+no
+HealsPokemon
