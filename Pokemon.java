@@ -59,6 +59,12 @@ public class Pokemon {
             faint = true;
     }
     
+    public void heal(int health) {
+        tempHealth += health;
+        if (tempHealth > maxHealth)
+            tempHealth = maxHealth;
+    }
+
     public void reset() {
         faint = false;
         tempHealth = maxHealth;

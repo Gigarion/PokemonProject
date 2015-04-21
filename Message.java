@@ -45,6 +45,10 @@ public class Message {
         currentState = poke.getName() + MISS;
     }
 
+    public static void miss(Player enemy, Pokemon out) {
+        currentState = enemy.getName() + "'s " + out.getName() + " missed!";
+    }
+
     public static void endBattle(Player winner, Player loser) {
         currentState = winner.getName() + " has defeated " + loser.getName() + "!";
     }
@@ -58,5 +62,41 @@ public class Message {
     }
     public static String getMessage() {
         return currentState;
+    }
+
+    public static void alreadyOut(Pokemon poke) {
+        currentState = poke.getName() + " is already out!";
+    }
+
+    public static void pickPokemon(Pokemon poke) {
+        if (!poke.isFaint()) {
+            currentState = "Send out " + poke.getName() + "?";
+            Display.addDepth();
+        }
+        else currentState = poke.getName() + "has fainted! You cant sent it out";
+    }
+
+    public static void decide(Pokemon poke) {
+        currentState = "What will " + poke.getName() + " do?";
+    }
+
+    public static void item() {
+        currentState = "Use on which Pokemon?";
+    }
+
+    public static void useItem(Item toUse, Pokemon poke) {
+        currentState = "Use " + toUse.getName() + " on " + poke.getName() + "?";
+    }
+
+    public static void usedItem(Item toUse, Pokemon poke) {
+        currentState = Display.getPlayer().getName() + " used a " + toUse.getName() + " on " + poke.getName();
+    }
+
+    public static void outOfItem(Item toUse) {
+        currentState = "Out of " + toUse.getName() + ".";
+    } 
+
+    public static void thatsEnough(Pokemon poke) {
+        currentState = "That's enough " + poke.getName() + "!";
     }
 }

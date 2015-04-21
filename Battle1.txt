@@ -2,6 +2,7 @@ background.png
 battle.mid
 shield
 2
+enemyitems.txt
 Caleb
 100
 15
@@ -43,7 +44,7 @@ Top
 no
 15
 90
-Bottom
+pipe
 1
 no
 15
