@@ -22,7 +22,7 @@ public class Player {
         String itemFile = s.next();
         File imp = new File(itemFile);
         Scanner itemRead = new Scanner(imp);
-        int unique = Integer.parseInt(itemRead.next());
+        int unique = Integer.parseInt(itemRead.nextLine());
         items = new Item[unique];
         for (int i = 0; i < unique; i++)
             items[i] = Item.fromFile(itemRead);

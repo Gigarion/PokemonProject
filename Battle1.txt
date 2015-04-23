@@ -1,10 +1,10 @@
 background.png
 battle.mid
 shield
-2
+1
 enemyitems.txt
 Caleb
-100
+1
 15
 Cut
 1
