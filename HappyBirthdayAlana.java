@@ -7,12 +7,13 @@ import java.io.*;
 import java.util.*;
 
 public class HappyBirthdayAlana {
+    // ascii keycode constants
     private static final int UP = 87;
     private static final int DOWN = 83;
     private static final int LEFT = 65;
     private static final int RIGHT = 68;
-    public static final int ENTER = 32;
-    public static final int BACK = 66;
+    private static final int ENTER = 32;
+    private static final int BACK = 66;
 
     private static boolean win;
     private static boolean lose;
