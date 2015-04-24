@@ -6,7 +6,7 @@
 import java.io.*;
 import java.util.*;
 
-public class HappyBirthdayAlana {
+public class HBA {
     // ascii keycode constants
     private static final int UP = 87;
     private static final int DOWN = 83;
