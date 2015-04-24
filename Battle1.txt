@@ -1,7 +1,7 @@
 background.png
 battle.mid
 shield
-1
+2
 enemyitems.txt
 Caleb
 1
@@ -27,7 +27,7 @@ no
 15
 90
 Squirrel
-100
+1
 15
 Cut
 1

@@ -236,10 +236,10 @@ public class Display {
         
         if (battle) {
             if (enPokeOut == enemy.getTeamSize()) {
-                HappyBirthdayAlana.winBattle();
+                HBA.winBattle();
             }
             if (mainPokeOut == main.getTeamSize()) {
-                HappyBirthdayAlana.loseBattle();
+                HBA.loseBattle();
             }
         }
         
@@ -922,6 +922,6 @@ public class Display {
     }
     
     public static void main(String[] args) throws IOException {
-        HappyBirthdayAlana.main(args);
+        HBA.main(args);
     }
 }
