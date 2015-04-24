@@ -4,9 +4,11 @@ public class Display {
     private static final String[] BMENU = {"fight", "pokemon", "bag", "run", "main"};
     private static final String[] WORLDMENU = {"null"};
     private static int currentMenu;
+
+    private static int ENTER = 32;
     
     private static final String cImage  = "cursor.gif";
-    private static final String mainBack = "shield.png";
+    private static final String mainBack = "grid.png";
     private static final String pImage = "pBackground.png";
     
     private static final double[] MESSX = {-.97, -.97,  .5, .5};
@@ -165,7 +167,10 @@ public class Display {
     public static void update() {
         
         StdDraw.picture(0, 0, background, 2, 2);
-                
+        
+        if (world) {
+            
+        }      
         if (players) {
             StdDraw.picture(EPX, EPY, enemy.getImage(), ENWID, ENHI);
             StdDraw.picture(PPX, PPY, main.getImage(), PWID, PHI);
@@ -259,7 +264,7 @@ public class Display {
             StdDraw.filledCircle(0, 0, i);
             StdDraw.show(5);
         }
-        StdDraw.picture(0, 0, background);
+        StdDraw.picture(0, 0, background, 2, 2);
         StdDraw.show(5);
     }
     
@@ -289,12 +294,12 @@ public class Display {
         Message.endBattle(main, enemy);
         update();
         endPlayers();
-        do {} while (!StdDraw.isKeyPressed(HappyBirthdayAlana.ENTER));
+        do {} while (!StdDraw.isKeyPressed(ENTER));
         Message.retort(enemy);
         showMessage();
         world = true;
         players = false;
-        do {} while (!StdDraw.isKeyPressed(HappyBirthdayAlana.ENTER));
+        do {} while (!StdDraw.isKeyPressed(ENTER));
         fadeOut(mainBack);
         return;
     }
@@ -309,12 +314,12 @@ public class Display {
         Message.endBattle(enemy, main);
         update();
         endPlayers();
-        do {} while (!StdDraw.isKeyPressed(HappyBirthdayAlana.ENTER));
+        do {} while (!StdDraw.isKeyPressed(ENTER));
         Message.smirk(enemy);
         showMessage();
         world = true;
         players = false;
-        do {} while (!StdDraw.isKeyPressed(HappyBirthdayAlana.ENTER));
+        do {} while (!StdDraw.isKeyPressed(ENTER));
         fadeOut(mainBack);
         return;
     }
@@ -755,6 +760,7 @@ public class Display {
                           swapPokemon(cursor);
                             enemyAction();
                         }
+                        lock = false;
                     }
                 }
             } break;

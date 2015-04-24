@@ -3,9 +3,9 @@ Potion
 2
 20
 no
-HealsPokemon
-SuperPotion
+Heals Pokemon
+Super Potion
 2
 50
 no
-HealsPokemon
+More powerful potion, heals pokemon

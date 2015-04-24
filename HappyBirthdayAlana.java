@@ -48,7 +48,7 @@ public class HappyBirthdayAlana {
         
         Scanner s = new Scanner(battle);
         // find the battle file and set up the scanner
-        Display.setBackground("background.png");
+        Display.setBackground("grid.png");
         String battleBackground = s.next();
         Display.update();
         StdAudio.loop(s.next());
@@ -106,9 +106,14 @@ public class HappyBirthdayAlana {
             System.out.println("ya lost sucker");
             Display.loseSequence(enemy, player);
         }
+        Display.update();
     }
+
     public static void main(String[] args)throws IOException {
         Display.setBounds();
+        WorldScreen mainWorld = new WorldScreen("grid.png", "caleb.png", 0, 0);
+        mainWorld.draw();
+        Display.timeDelay();
         File readMain = new File("mainplayer.txt");
         Scanner read = new Scanner(readMain);
         Player player = new Player(read);
