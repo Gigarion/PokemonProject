@@ -47,15 +47,23 @@ public class WorldScreen {
 		private void shift(boolean vert, boolean down) {
 			if (vert) {
 				if (down) {
-					ys -= SHIFT;
+					ys[0] -= SHIFT;
+					ys[1] -= SHIFT;
 				}
-				else ys += SHIFT;
+				else {
+					ys[0] += SHIFT;
+					ys[1] += SHIFT;
+				}
 			}
 			else {
 				if (down) {
-					xs -= SHIFT;
+					xs[0] -= SHIFT;
+					xs[1] -= SHIFT;
 				}
-				else xs += SHIFT;
+				else {
+					xs[0] += SHIFT;
+					xs[1] -= SHIFT;
+				}
 			}
 		}
 
