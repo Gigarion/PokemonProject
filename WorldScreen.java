@@ -94,13 +94,17 @@ public class WorldScreen {
 			for (int i = 0; i < lines; i++) {
 				message = true;
 				if (toPrint[i].contains(".txt")) {
-					HBA.battle(toPrint[i]);
+					StdDraw.save("tempBack.png");
+					Display.setBackground("tempBack.png");
+					Display.setMain(main);
+					HBA.battle(toPrint[i], main);
 				}
 				else {
 					Message.customSet(toPrint[i]);
+					System.out.println("HEYO");
 					message();
 					StdDraw.show();
-					do {} while(!StdDraw.isKeyPressed(ENTER));
+					//do {} while(!StdDraw.isKeyPressed(ENTER));
 				}
 			}
 		}
@@ -111,7 +115,8 @@ public class WorldScreen {
 			StdDraw.setPenColor();
 			StdDraw.setPenRadius(BORDER);
 			StdDraw.polygon(MESSX, MESSY);
-			StdDraw.textRight(-.9, -.8, Message.getMessage());
+			StdDraw.textLeft(-.9, -.8, Message.getMessage());
+			StdDraw.show();
 		}
 	}
 
@@ -276,7 +281,7 @@ public class WorldScreen {
 		readWorld.close();
 	}
 	
-	public void run() {
+	public void run() throws IOException {
 		while(true) {
         	if (StdDraw.isKeyPressed(UP)) {
         		up();
@@ -448,7 +453,7 @@ public class WorldScreen {
 		draw();
 	}
 
-	public void act() {
+	public void act() throws IOException {
 		boolean actable = false;
 		int which = 0;
 		for (int i = 0; i < actors.length; i++) {
@@ -461,10 +466,5 @@ public class WorldScreen {
 	}
 
 	public static void main(String[] args) throws IOException {
-		Display.setBounds();
-		WorldScreen mainWorld = new WorldScreen();
-        mainWorld.draw();
-
-        mainWorld.run();
 	}
 }

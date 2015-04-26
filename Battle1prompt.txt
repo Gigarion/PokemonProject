@@ -1,4 +1,4 @@
-1
+4
 This is a string test
 yo yo yo
 Battle1.txt

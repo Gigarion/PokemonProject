@@ -48,7 +48,6 @@ public class HBA {
         
         Scanner s = new Scanner(battle);
         // find the battle file and set up the scanner
-        Display.setBackground("grid.png");
         String battleBackground = s.next();
         Display.update();
         StdAudio.loop(s.next());
@@ -117,5 +116,6 @@ public class HBA {
         Display.setBounds();
         WorldScreen mainWorld = new WorldScreen(player);
         mainWorld.run();
+        System.out.println("im done");
     }
 }
