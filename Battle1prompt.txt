@@ -1,0 +1,5 @@
+1
+This is a string test
+yo yo yo
+Battle1.txt
+and then the end
