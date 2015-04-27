@@ -1,8 +1,8 @@
-background.png
-trainer-battle.mid
+images\\background.png
+music\\trainer-battle.mid
 shield
 2
-enemyitems.txt
+build\\enemyitems.txt
 Caleb
 1
 15

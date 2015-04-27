@@ -49,7 +49,7 @@ public class HBA {
         Scanner s = new Scanner(battle);
         // find the battle file and set up the scanner
         String battleBackground = s.next();
-        Display.update();
+        Display.setFightBackground(battleBackground);
         StdAudio.loop(s.next());
         // set this battle's background and audio
        
@@ -60,7 +60,6 @@ public class HBA {
         
         win = false;
         lose = false;
-        
         Display.openSequence(battleBackground);
         while (!(win || lose)) {
             
@@ -98,7 +97,7 @@ public class HBA {
         }
         System.out.println("im free");
         if (win) {
-            StdAudio.play("win.mid");
+            StdAudio.play("music\\win.mid");
             Display.winSequence(enemy, player);
         }
         else if (lose) {
@@ -109,7 +108,7 @@ public class HBA {
     }
 
     public static void main(String[] args)throws IOException {
-        File readMain = new File("mainplayer.txt");
+        File readMain = new File("players\\mainplayer.txt");
         Scanner read = new Scanner(readMain);
         Player player = new Player(read);
         read.close();

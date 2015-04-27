@@ -15,7 +15,7 @@ public class Player {
     
     public Player(Scanner s) throws IOException {
         name = s.next();
-        image = name + ".png";
+        image = "images\\" + name + ".png";
         teamSize = Integer.parseInt(s.next());
         team = new Pokemon[teamSize];
         
@@ -71,8 +71,8 @@ public class Player {
         }
 
         else if (teamSize == 6) {
-            File pc = new File("storage.txt");
-            File output = new File("output.txt");
+            File pc = new File("players\\storage.txt");
+            File output = new File("players\\output.txt");
             output.createNewFile();
             PrintWriter putData = new PrintWriter(output);
             if (!pc.createNewFile()) {

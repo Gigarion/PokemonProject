@@ -1,0 +1,13 @@
+images\\hall.png
+0.0
+0.0
+sprite\\caleb.png
+sprite\\electron.png
+sprite\\jupiter.png
+sprite\\squirrel.png
+sprite\\caleb.png
+sprite\\electron.png
+sprite\\jupiter.png
+sprite\\squirrel.png
+build\\walls.txt
+build\\actors.txt

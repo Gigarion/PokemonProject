@@ -2,8 +2,8 @@ import java.awt.*;
 import java.io.*;
 import java.util.*;
 public class Bag {
-	private static final String BACKGROUND = "pbackground.png";
-	private static final String CURSOR   = "cursor.gif";
+	private static final String BACKGROUND = "images\\pbackground.png";
+	private static final String CURSOR   = "images\\cursor.gif";
 	private static final double[] MESSX  = {-0.97, -0.97,     0,     0};
 	private static final double[] MESSY  = {-0.97, -0.40, -0.40, -0.97};
 	private static final double[] TITLEX = {-0.97, -0.97,     0,     0};
@@ -33,7 +33,7 @@ public class Bag {
 		}
 
 		StdDraw.picture(0, 0, BACKGROUND, 4, 4);
-		StdDraw.picture(BAGX, BAGY, "bag.png", .6, .7);
+		StdDraw.picture(BAGX, BAGY, "images\\bag.png", .6, .7);
 		
 		StdDraw.setPenColor(StdDraw.WHITE);
         StdDraw.filledPolygon(MESSX, MESSY);

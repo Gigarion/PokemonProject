@@ -1,10 +1,10 @@
 import java.io.*;
 import java.util.*;
 public class WorldScreen {
-	private static final double[] MESSX  = {-0.97, -0.97,     0,     0};
-	private static final double[] MESSY  = {-0.97, -0.40, -0.40, -0.97};
+	private static final double[] MESSX = {-.97, -.97,  .97, .97};
+    private static final double[] MESSY = {-.97,-.7, -.7, -.97};
 	private static final double BORDER   = 0.004;
-	private static final String WORLDSONG = "fortree-city.mid";
+	private static final String WORLDSONG = "music\\fortree-city.mid";
 	private boolean message;
 	private Player main;
 	private int direction;
@@ -29,6 +29,7 @@ public class WorldScreen {
 		private double bx;
 		private double by;
 		private String image;
+		private boolean hasInteracted;
 		private String file;
 		
 		private Actor (double x, double y, String pic, String fName) {
@@ -36,6 +37,7 @@ public class WorldScreen {
 			this.by = y;
 			this.image = pic;
 			this.file = fName;
+			hasInteracted = false;
 			if (file.equals("null")) file = null;
 		}
 
@@ -85,6 +87,7 @@ public class WorldScreen {
 		}
 
 		private void act() throws IOException {
+			boolean lock = false;
 			File toRead = new File(file);
 			Scanner read = new Scanner(toRead);
 			int lines = Integer.parseInt(read.nextLine());
@@ -94,23 +97,46 @@ public class WorldScreen {
 			}
 			for (int i = 0; i < lines; i++) {
 				message = true;
-				if (toPrint[i].contains(".txt")) {
+				File temp = new File("tempBack.png");
+				if (StdDraw.isKeyPressed(BACK) && lock == false) {
+					message = false;
+					return;
+				}
+				else if (toPrint[i].contains(".txt") && !hasInteracted) {
+					temp.delete();
+					lock = true;
 					StdDraw.save("tempBack.png");
-					Display.setBackground("tempBack.png");
+					Display.interval();
+					Display.setMainBackground("tempBack.png");
 					Display.setMain(main);
 					HBA.battle(toPrint[i], main);
+					StdAudio.play(WORLDSONG);
+					hasInteracted = true;
+					lock = false;
 				}
-				else if (toPrint[i].contains(".mid")) {
+				else if (toPrint[i].contains(".mid") && !hasInteracted) {
 					StdAudio.loop(toPrint[i]);
+					temp.delete();
 				}
-				else {
+				else if ((hasInteracted && i != 0) || !hasInteracted && i < lines) {
 					Message.customSet(toPrint[i]);
+					if (temp.exists()) StdDraw.picture(0, 0, "tempBack.png");
 					message();
 					StdDraw.show();
-					Display.timeDelay();
+					Display.interval();
 					do {} while(!StdDraw.isKeyPressed(ENTER));
 				}
+				else {
+					temp.delete();
+					i = lines;
+					Message.customSet(toPrint[lines - 1]);
+					message();
+					StdDraw.show();
+					Display.interval();
+					do {} while (!StdDraw.isKeyPressed(ENTER));
+				}
 			}
+			message = false;
 		}
 
 		private void message() {
@@ -242,7 +268,7 @@ public class WorldScreen {
 		this.main = player;
 		StdAudio.play(WORLDSONG);
 		this.direction = 1;
-		File world = new File("mainWorld.txt");
+		File world = new File("build\\mainWorld.txt");
 		Scanner readWorld = new Scanner(world);
 		this.background = readWorld.next();
 		this.xBack = readWorld.nextDouble();
@@ -469,6 +495,7 @@ public class WorldScreen {
 			}
 		}
 		if (actable) actors[which].act();
+		draw();
 	}
 
 	private static void song() {

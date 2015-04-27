@@ -7,9 +7,8 @@ public class Display {
 
     private static int ENTER = 32;
     
-    private static final String cImage  = "cursor.gif";
-    private static final String mainBack = "grid.png";
-    private static final String pImage = "pBackground.png";
+    private static final String cImage  = "images\\cursor.gif";
+    private static final String pImage = "images\\pBackground.png";
     
     private static final double[] MESSX = {-.97, -.97,  .5, .5};
     private static final double[] MESSY = {-.97,-.7, -.7, -.97};
@@ -32,7 +31,8 @@ public class Display {
     private static final int SCREENH = 768;
     private static final int SCREENW = 1024;
     
-    private static String background;
+    private static String worldBack;
+    private static String fightBack;
     
     private static final double EPX = 0.75;
     private static final double EPY = 0.75;
@@ -89,12 +89,12 @@ public class Display {
         main = m;
     }
     
-    public static void setBackground(String s) {
-        background = s;
+    public static void setFightBackground(String s) {
+        fightBack = s;
     }
-    
-    public static String getBackground() {
-        return background;
+
+    public static void setMainBackground(String s) {
+        worldBack = s;
     }
     
     public static void messageUpdate() {
@@ -166,10 +166,10 @@ public class Display {
     
     public static void update() {
         
-        StdDraw.picture(0, 0, background, 2, 2);
+        StdDraw.picture(0, 0, fightBack, 2, 2);
         
         if (world) {
-            
+            return;  
         }      
         if (players) {
             StdDraw.picture(EPX, EPY, enemy.getImage(), ENWID, ENHI);
@@ -177,11 +177,11 @@ public class Display {
         }
         
         if (enPoke) {
-            StdDraw.picture(EPX, EPY, enemy.getPokemon(enPokeOut).getName() + ".png");
+            StdDraw.picture(EPX, EPY, enemy.getPokemon(enPokeOut).getImage());
         } 
         
         if (mainPoke) 
-            StdDraw.picture(PPX, PPY, main.getPokemon(mainPokeOut).getName() + ".png");
+            StdDraw.picture(PPX, PPY, main.getPokemon(mainPokeOut).getImage());
         
         if (message) {
             messageUpdate();
@@ -254,17 +254,17 @@ public class Display {
     private static void fadeOut(String newBackground) {
         StdDraw.setPenColor();
         for (double i = 0; i < 2; i += 0.05) {
-            StdDraw.picture(0, 0, background);
+            StdDraw.picture(0, 0, fightBack);
             StdDraw.filledCircle(0, 0, i);
             StdDraw.show(5);
         }
-        background = newBackground;
+
         for (double i = 2; i >= 0; i -= 0.05) {
-            StdDraw.picture(0, 0, background);
+            StdDraw.picture(0, 0, fightBack);
             StdDraw.filledCircle(0, 0, i);
             StdDraw.show(5);
         }
-        StdDraw.picture(0, 0, background, 2, 2);
+        StdDraw.picture(0, 0, newBackground, 2, 2);
         StdDraw.show(5);
     }
     
@@ -290,6 +290,12 @@ public class Display {
         mainPokeStats = false;
         enPokeStats = false;
         battle = false;
+        for (double i = 0; i < 2; i += 0.04) {
+            update();
+            StdDraw.picture(PPX - i, PPY, main.getPokemon(mainPokeOut).getImage());
+            StdDraw.show(5);
+            StdDraw.picture(0, 0, fightBack, 2, 2);
+        }        
         StdDraw.clear();
         Message.endBattle(main, enemy);
         update();
@@ -300,7 +306,7 @@ public class Display {
         world = true;
         players = false;
         do {} while (!StdDraw.isKeyPressed(ENTER));
-        fadeOut(mainBack);
+        fadeOut(worldBack);
         return;
     }
     
@@ -310,6 +316,12 @@ public class Display {
         mainPokeStats = false;
         enPokeStats = false;
         battle = false;
+        for (double i = 2; i > 0; i -= 0.04) {
+            update();
+            StdDraw.picture(EPX + i, EPY, enemy.getImage(), ENWID, ENHI);
+            StdDraw.show(5);
+            StdDraw.picture(0, 0, fightBack, 2, 2);
+        }
         StdDraw.clear();
         Message.endBattle(enemy, main);
         update();
@@ -320,7 +332,7 @@ public class Display {
         world = true;
         players = false;
         do {} while (!StdDraw.isKeyPressed(ENTER));
-        fadeOut(mainBack);
+        fadeOut(worldBack);
         return;
     }
     
@@ -332,9 +344,9 @@ public class Display {
         Message.thatsEnough(main.getPokemon(mainPokeOut));
         for (double i = 0; i < 2; i += 0.04) {
             update();
-            StdDraw.picture(PPX - i, PPY, main.getPokemon(mainPokeOut).getName() + ".png");
+            StdDraw.picture(PPX - i, PPY, main.getPokemon(mainPokeOut).getImage());
             StdDraw.show(5);
-            StdDraw.picture(0, 0, background, 2, 2);
+            StdDraw.picture(0, 0, fightBack, 2, 2);
         }
 
         mainPokeOut = toWhich;
@@ -354,9 +366,9 @@ public class Display {
         messageUpdate();
         for (double i = 2; i > 0; i -= 0.04) {
             update();
-            StdDraw.picture(EPX + i, EPY, enemy.getPokemon(enPokeOut).getName() + ".png");
+            StdDraw.picture(EPX + i, EPY, enemy.getPokemon(enPokeOut).getImage());
             StdDraw.show(5);
-            StdDraw.picture(0, 0, background, 2, 2);
+            StdDraw.picture(0, 0, fightBack, 2, 2);
         }
         enPokeStats = true;
         enPoke = true;
@@ -380,9 +392,9 @@ public class Display {
         update();
         for (double i = 2; i > 0; i -= 0.04) {
             update();
-            StdDraw.picture(PPX - i, PPY, main.getPokemon(mainPokeOut).getName() + ".png");
+            StdDraw.picture(PPX - i, PPY, main.getPokemon(mainPokeOut).getImage());
             StdDraw.show(5);
-            StdDraw.picture(0, 0, background, 2, 2);
+            StdDraw.picture(0, 0, fightBack, 2, 2);
         }
         mainPokeStats = true;
         mainPoke = true;
@@ -404,17 +416,17 @@ public class Display {
         showMessage();
         for (double i = 0; i < 0.1; i += 0.04) {
             update();
-            StdDraw.picture(EPX, EPY + i, enemy.getPokemon(enPokeOut).getName() + ".png");
+            StdDraw.picture(EPX, EPY + i, enemy.getPokemon(enPokeOut).getImage());
             StdDraw.show(10);
-            StdDraw.picture(0, 0, background, 2, 2);
+            StdDraw.picture(0, 0, fightBack, 2, 2);
         }
         for (double i = 0; i < 0.3; i += 0.04) {
             update();
-            StdDraw.picture(EPX, EPY - i, enemy.getPokemon(enPokeOut).getName() + ".png");
+            StdDraw.picture(EPX, EPY - i, enemy.getPokemon(enPokeOut).getImage());
             StdDraw.show(10);
-            StdDraw.picture(0, 0, background, 2, 2);
+            StdDraw.picture(0, 0, fightBack, 2, 2);
         }
-        StdDraw.picture(0, 0, background, 2, 2);
+        StdDraw.picture(0, 0, fightBack, 2, 2);
         timeDelay();
         StdDraw.show(5);
         
@@ -431,12 +443,12 @@ public class Display {
         StdDraw.show(5);
         for (double i = 0; i < 0.1; i += 0.04) {
             update();
-            StdDraw.picture(PPX, PPY + i, main.getPokemon(mainPokeOut).getName() + ".png");
+            StdDraw.picture(PPX, PPY + i, main.getPokemon(mainPokeOut).getImage());
             StdDraw.show(40);
         }
         for (double i = 0; i < 0.2; i += 0.04) {
             update();
-            StdDraw.picture(PPX, PPY - i, main.getPokemon(mainPokeOut).getName() + ".png");
+            StdDraw.picture(PPX, PPY - i, main.getPokemon(mainPokeOut).getImage());
             messageUpdate();
             StdDraw.show(40);
         }
@@ -466,7 +478,7 @@ public class Display {
             StdDraw.picture(EPX + i, EPY, enemy.getImage(), ENWID, ENHI);
             StdDraw.picture(PPX - i, PPY, main.getImage(), PWID, PHI);
             StdDraw.show(5);
-            StdDraw.picture(0, 0, background, 2, 2);
+            StdDraw.picture(0, 0, fightBack, 2, 2);
         }
         players = true;
         messageUpdate();
@@ -475,7 +487,7 @@ public class Display {
     }
     
     private static void showPlayers(String newBackground) {
-        StdDraw.picture(0, 0, background, 2, 2);
+        StdDraw.picture(0, 0, fightBack, 2, 2);
         StdDraw.picture(EPX, EPY, enemy.getImage(), ENWID, ENHI);
         StdDraw.picture(PPX, PPY, main.getImage(), PWID, PHI);
         StdDraw.show(5);
@@ -497,10 +509,10 @@ public class Display {
             StdDraw.picture(PPX - i, PPY, main.getImage(), PWID, PHI);
             messageUpdate();
             StdDraw.show(5);
-            StdDraw.picture(0, 0, background, 2, 2);
+            StdDraw.picture(0, 0, fightBack, 2, 2);
         }
         
-        StdDraw.picture(0, 0, background);
+        StdDraw.picture(0, 0, fightBack);
         enPokeSequence();
         
         String playerOut = "Go, " + main.getPokemon(0).getName() + "!";
@@ -508,9 +520,9 @@ public class Display {
         messageUpdate(); 
         for (double i = 2; i > 0; i -= 0.04) {
             update();
-            StdDraw.picture(PPX - i, PPY, main.getPokemon(0).getName() + ".png");
+            StdDraw.picture(PPX - i, PPY, main.getPokemon(0).getImage());
             StdDraw.show(5);
-            StdDraw.picture(0, 0, background, 2, 2);
+            StdDraw.picture(0, 0, fightBack, 2, 2);
         }
         mainPokeStats = true;
         mainPoke = true;
@@ -741,25 +753,29 @@ public class Display {
                 } 
                 else {
                     if (depth == 0) {
-                        switch(cursor) {
-                            case 0: {
-                                Message.alreadyOut(main.getPokemon(mainPokeOut)); 
-                                update();   
-                            }                                                           break;
-                            default: {
-                                Message.pickPokemon(main.getPokemon(cursor)); 
-                                lock = true;
-                            }                                                           break;
+                        if (cursor == 0) {
+                            Message.alreadyOut(main.getPokemon(mainPokeOut)); 
+                            update(); 
+                        }
+                        else if (cursor <= mainPokeOut) {
+                            Message.pickPokemon(main.getPokemon(cursor - 1));
+                            update();
+                            lock = true;
+                        }
+                        else {
+                            Message.pickPokemon(main.getPokemon(cursor));
+                            update();               
+                            lock = true;
                         }
                     }
                     else if (depth == 1) {
                         depth = 0;
                         if (mustChoose) {
-                            mainPokeOut = cursor;
+                            mainPokeOut = PokeDraw.getLocator(cursor);
                             mainPokeSequence();
                         }
                         else {
-                          swapPokemon(cursor);
+                            swapPokemon(PokeDraw.getLocator(cursor));
                             enemyAction();
                         }
                         lock = false;
