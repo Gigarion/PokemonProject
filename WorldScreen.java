@@ -4,6 +4,7 @@ public class WorldScreen {
 	private static final double[] MESSX  = {-0.97, -0.97,     0,     0};
 	private static final double[] MESSY  = {-0.97, -0.40, -0.40, -0.97};
 	private static final double BORDER   = 0.004;
+	private static final String WORLDSONG = "fortree-city.mid";
 	private boolean message;
 	private Player main;
 	private int direction;
@@ -99,12 +100,15 @@ public class WorldScreen {
 					Display.setMain(main);
 					HBA.battle(toPrint[i], main);
 				}
+				else if (toPrint[i].contains(".mid")) {
+					StdAudio.loop(toPrint[i]);
+				}
 				else {
 					Message.customSet(toPrint[i]);
-					System.out.println("HEYO");
 					message();
 					StdDraw.show();
-					//do {} while(!StdDraw.isKeyPressed(ENTER));
+					Display.timeDelay();
+					do {} while(!StdDraw.isKeyPressed(ENTER));
 				}
 			}
 		}
@@ -235,6 +239,8 @@ public class WorldScreen {
 	}
 
 	public WorldScreen(Player player) throws IOException {
+		this.main = player;
+		StdAudio.play(WORLDSONG);
 		this.direction = 1;
 		File world = new File("mainWorld.txt");
 		Scanner readWorld = new Scanner(world);
@@ -463,6 +469,11 @@ public class WorldScreen {
 			}
 		}
 		if (actable) actors[which].act();
+	}
+
+	private static void song() {
+		StdAudio.loop(WORLDSONG);
+		Display.interval();
 	}
 
 	public static void main(String[] args) throws IOException {

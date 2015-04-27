@@ -115,6 +115,7 @@ public class HBA {
         read.close();
         Display.setBounds();
         WorldScreen mainWorld = new WorldScreen(player);
+        mainWorld.draw();
         mainWorld.run();
         System.out.println("im done");
     }
