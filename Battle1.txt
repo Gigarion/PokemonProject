@@ -1,5 +1,5 @@
 background.png
-battle.mid
+trainer-battle.mid
 shield
 2
 enemyitems.txt

@@ -485,6 +485,8 @@ public class Display {
         Message.challenge(enemy, main);
         menuUpdate();
         StdDraw.show(5);
+        Display.timeDelay();
+        Display.timeDelay();
         do  {   
         } while (!StdDraw.hasNextKeyTyped());
         message = true;
