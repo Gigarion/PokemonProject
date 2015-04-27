@@ -1,11 +1,15 @@
 import java.io.*;
 import java.util.*;
 public class WorldScreen {
+	private static final Font TEXT = new Font(Font.MONOSPACED, 0, 22);
 	private static final double[] MESSX = {-.97, -.97,  .97, .97};
     private static final double[] MESSY = {-.97,-.7, -.7, -.97};
+    private static final double[] STARTX = {-0.6, -0.6, -0.97, -0.97};
+    private static final double[] STARTY = {-0.67, 0.97, 0.97, -0.67};
 	private static final double BORDER   = 0.004;
 	private static final String WORLDSONG = "music\\fortree-city.mid";
 	private boolean message;
+	private int cursor;
 	private Player main;
 	private int direction;
 	private double xBack;
@@ -23,6 +27,7 @@ public class WorldScreen {
     private static final int RIGHT = 68;
     private static final int ENTER = 32;
     private static final int BACK = 66;
+    private static final int START = 80;
 
 	private class Actor {
 		private static final double RADIUS = 0.06;
@@ -104,7 +109,6 @@ public class WorldScreen {
 				}
 				else if (toPrint[i].contains(".txt") && !hasInteracted) {
 					temp.delete();
-					lock = true;
 					StdDraw.save("tempBack.png");
 					Display.interval();
 					Display.setMainBackground("tempBack.png");
@@ -115,6 +119,7 @@ public class WorldScreen {
 					lock = false;
 				}
 				else if (toPrint[i].contains(".mid") && !hasInteracted) {
+					lock = true;
 					StdAudio.loop(toPrint[i]);
 					temp.delete();
 				}
@@ -265,6 +270,7 @@ public class WorldScreen {
 	}
 
 	public WorldScreen(Player player) throws IOException {
+		StdDraw.setFont(TEXT);
 		this.main = player;
 		StdAudio.play(WORLDSONG);
 		this.direction = 1;
@@ -312,6 +318,15 @@ public class WorldScreen {
 		readAct.close();
 		readWorld.close();
 	}
+
+	private void start() {
+		StdDraw.setPenColor(Color.WHITE);
+		StdDraw.filledPolygon(STARTX, STARTY);
+		StdDraw.setPenColor();
+		StdDraw.setPenRadius(BORDER);
+		StdDraw.polygon(STARTX, STARTY);
+		StdDraw.setPenRadius();
+	}
 	
 	public void run() throws IOException {
 		while(true) {
@@ -330,6 +345,15 @@ public class WorldScreen {
         	else if (StdDraw.isKeyPressed(ENTER)) {
         		act();
         	}
+        	else if (StdDraw.isKeyPressed(START)) {
+        		if (!start) cursor = 0;
+        		start = true;
+        		draw();
+        	}
+        	else if (StdDraw.isKeyPressed(BACK)) {
+        		start = false;
+        		draw();
+        	}
         	Display.interval();
         }
 	}
@@ -341,6 +365,9 @@ public class WorldScreen {
 			walls[i].draw();
 		for (int i = 0; i < actors.length; i++)
 			actors[i].draw();
+		if (start) {
+			start();
+		}
 		StdDraw.show();
 	}
 
@@ -354,34 +381,43 @@ public class WorldScreen {
 	}
 	
 	public void up() {
-		if (direction != 0)
-			direction = 0;
+		if (!start) {
+			if (direction != 0)
+				direction = 0;
+			else {
+				boolean stop = false;
+				for (int i = 0; i < walls.length; i++) {
+					if (walls[i].runsInto(0))
+						stop = true;
+				}
+				for (int i = 0; i < actors.length; i++) {
+					if (actors[i].runsInto(0))
+						stop = true;
+				}
+				if (!stop) {
+					yBack -= SHIFT;
+					for (int i = 0; i < walls.length; i++)
+						walls[i].shift(true, true);
+					for (int i = 0; i < actors.length; i++)
+						actors[i].shift(true, true);
+				}
+				altDraw();
+				Display.interval();
+				if (!stop) {
+					yBack -= SHIFT;
+					for (int i = 0; i < walls.length; i++)
+						walls[i].shift(true, true);
+					for (int i = 0; i < actors.length; i++)
+						actors[i].shift(true, true); 
+				}
+			}
+		}
 		else {
-			boolean stop = false;
-			for (int i = 0; i < walls.length; i++) {
-				if (walls[i].runsInto(0))
-					stop = true;
+			if (cursor == 0) {
+				cursor == ENDMENU;
 			}
-			for (int i = 0; i < actors.length; i++) {
-				if (actors[i].runsInto(0))
-					stop = true;
-			}
-			if (!stop) {
-				yBack -= SHIFT;
-				for (int i = 0; i < walls.length; i++)
-					walls[i].shift(true, true);
-				for (int i = 0; i < actors.length; i++)
-					actors[i].shift(true, true);
-			}
-			altDraw();
-			Display.interval();
-			if (!stop) {
-				yBack -= SHIFT;
-				for (int i = 0; i < walls.length; i++)
-					walls[i].shift(true, true);
-				for (int i = 0; i < actors.length; i++)
-					actors[i].shift(true, true); 
-			}
+			else if (cursor == ENDMENU) cursor = 0;
+			else cursor--;
 		}
 		draw();
 	}
