@@ -26,7 +26,7 @@ public class HBA {
         lose = true;
     }
     
-    private static void battle(String fileName, Player player) throws IOException {
+    public static void battle(String fileName, Player player) throws IOException {
          /****************************************************\
          * Notes on the battle function:
          * 
@@ -48,7 +48,6 @@ public class HBA {
         
         Scanner s = new Scanner(battle);
         // find the battle file and set up the scanner
-        Display.setBackground("grid.png");
         String battleBackground = s.next();
         Display.update();
         StdAudio.loop(s.next());
@@ -110,13 +109,13 @@ public class HBA {
     }
 
     public static void main(String[] args)throws IOException {
-        Display.setBounds();
-        WorldScreen mainWorld = new WorldScreen("grid.png", "caleb.png", 0, 0);
-        mainWorld.draw();
-        Display.timeDelay();
         File readMain = new File("mainplayer.txt");
         Scanner read = new Scanner(readMain);
         Player player = new Player(read);
-        battle("Battle1.txt", player);
+        read.close();
+        Display.setBounds();
+        WorldScreen mainWorld = new WorldScreen(player);
+        mainWorld.run();
+        System.out.println("im done");
     }
 }
