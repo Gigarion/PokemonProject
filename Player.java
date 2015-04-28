@@ -47,6 +47,13 @@ public class Player {
     public Pokemon getPokemon(int number) {
         return team[number];
     }
+
+    public void swapPokemon(int one, int two) {
+        if (one == two) return;
+        Pokemon holder = getPokemon(one);
+        team[one] = team[two];
+        team[two] = holder;
+    }
     
     public Pokemon[] getTeam() {
         return team;

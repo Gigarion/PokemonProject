@@ -113,8 +113,8 @@ public class Display {
                     StdDraw.textLeft(-.35, -.88, main.getMove(mainPokeOut, 3));   
                     break;
                 }
-                case 1: StdDraw.textLeft(-.9, -.8, Message.getMessage());  break;
-                case 2: StdDraw.textLeft(-.9, -.8, "bagmenu");             break;
+                case 1: StdDraw.textLeft(-.9, -.8, Message.getMessage()); break;
+                case 2: StdDraw.textLeft(-.9, -.8, "bagmenu");            break;
                 case 3: StdDraw.textLeft(-.9, -.8, Message.getMessage()); break;
                 case 4: StdDraw.textLeft(-.9, -.8, Message.getMessage()); break;
             } 
@@ -246,7 +246,7 @@ public class Display {
         if (currentMenu == 1)
             PokeDraw.draw(main, cursor);
         if (currentMenu == 2) 
-            Bag.draw(cursor);
+            Bag.draw(main, cursor);
         
         StdDraw.show(5);
     }

@@ -25,7 +25,7 @@ public class Bag {
 	private static final Color  LORANGE  = new Color(255, 200, 50);
 	private static final Font   BIGFONT  = new Font(Font.MONOSPACED, 1, 25);
 	  
-	public static void draw(int cursor) {
+	public static void draw(Player p, int cursor) {
 		int count = 0;
 		for (double i = 0.83; i > -0.88; i -= 0.08) {
 			ITEMY[count] = i;
@@ -58,7 +58,7 @@ public class Bag {
         StdDraw.picture(-.15, 0.88, CURSOR, .05, .05);
         StdDraw.picture(-.82, 0.88, CURSOR, .05, .05, 180);
 
-        Item[] toShow = Display.getPlayer().getItems();
+        Item[] toShow = p.getItems();
 
         for (int i = 0; i < toShow.length; i++) {
         	if (cursor == i) 	toShow[i].draw(true, ITEMY[i]);
@@ -68,6 +68,5 @@ public class Bag {
 
 	public static void main(String[] args) throws IOException {
 		Display.setBounds();
-		draw(0);
 	}
 }

@@ -1,11 +1,11 @@
 import java.io.*;
 import java.util.*;
+import java.awt.*;
 public class WorldScreen {
 	private static final Font TEXT = new Font(Font.MONOSPACED, 0, 22);
 	private static final double[] MESSX = {-.97, -.97,  .97, .97};
     private static final double[] MESSY = {-.97,-.7, -.7, -.97};
-    private static final double[] STARTX = {-0.6, -0.6, -0.97, -0.97};
-    private static final double[] STARTY = {-0.67, 0.97, 0.97, -0.67};
+    
 	private static final double BORDER   = 0.004;
 	private static final String WORLDSONG = "music\\fortree-city.mid";
 	private boolean message;
@@ -19,6 +19,14 @@ public class WorldScreen {
 	private String[] wImage;
 	private Actor[] actors;
 	private Wall[] walls;
+	private int depth;
+	private int holdCursor;
+	private boolean fromItem;
+	private boolean start;
+	private boolean inBag;
+	private boolean inParty;
+	private boolean lock;
+	private int currentMenu;
 	private final double SHIFT = 0.05;
 
 	private static final int UP = 87;
@@ -114,7 +122,7 @@ public class WorldScreen {
 					Display.setMainBackground("tempBack.png");
 					Display.setMain(main);
 					HBA.battle(toPrint[i], main);
-					StdAudio.play(WORLDSONG);
+					StdAudio.loop(WORLDSONG);
 					hasInteracted = true;
 					lock = false;
 				}
@@ -254,25 +262,13 @@ public class WorldScreen {
 			StdDraw.setPenRadius(0.02);
 			StdDraw.line(xs[0], ys[0], xs[1], ys[1]);
 			StdDraw.setPenRadius();
-			if (message) {
-				message();
-			}
 		}
-	}
-
-	private void message() {
-			StdDraw.setPenColor(StdDraw.WHITE);
-			StdDraw.filledPolygon(MESSX, MESSY);
-			StdDraw.setPenColor();
-			StdDraw.setPenRadius(BORDER);
-			StdDraw.polygon(MESSX, MESSY);
-			StdDraw.textRight(-.9, -.8, Message.getMessage());
 	}
 
 	public WorldScreen(Player player) throws IOException {
 		StdDraw.setFont(TEXT);
 		this.main = player;
-		StdAudio.play(WORLDSONG);
+		StdAudio.loop(WORLDSONG);
 		this.direction = 1;
 		File world = new File("build\\mainWorld.txt");
 		Scanner readWorld = new Scanner(world);
@@ -315,17 +311,24 @@ public class WorldScreen {
 			String fName = readAct.next();
 			actors[i] = new Actor(x, y, img, fName);
 		}
+		this.depth = 0;
+		this.holdCursor = 0;
+		this.currentMenu = 3;
+		this.lock = false;
+		this.fromItem = false;
+		this.inBag = false;
+		this.inParty = false;
 		readAct.close();
 		readWorld.close();
 	}
 
 	private void start() {
-		StdDraw.setPenColor(Color.WHITE);
-		StdDraw.filledPolygon(STARTX, STARTY);
-		StdDraw.setPenColor();
-		StdDraw.setPenRadius(BORDER);
-		StdDraw.polygon(STARTX, STARTY);
-		StdDraw.setPenRadius();
+		Menu.draw(main, cursor);
+	}
+
+	public void closeStart() {
+		start = false;
+		drawWorld();
 	}
 	
 	public void run() throws IOException {
@@ -347,26 +350,33 @@ public class WorldScreen {
         	}
         	else if (StdDraw.isKeyPressed(START)) {
         		if (!start) cursor = 0;
-        		start = true;
-        		draw();
+        		Message.customSet("Menu");
+        		currentMenu = 0;
+        		drawWorld();
         	}
         	else if (StdDraw.isKeyPressed(BACK)) {
-        		start = false;
-        		draw();
-        	}
+        		back();
         	Display.interval();
+        	}
         }
 	}
 
-	public void draw() {
+	public void drawWorld() {
+		
 		StdDraw.picture(xBack, yBack, background, 4, 4);
 		StdDraw.picture(0, 0, pImage[direction]);
 		for (int i = 0; i < walls.length; i++)
 			walls[i].draw();
 		for (int i = 0; i < actors.length; i++)
 			actors[i].draw();
-		if (start) {
-			start();
+		switch(currentMenu) {
+			case 0: {
+				start();
+				message();
+			} break;
+			case 1: PokeDraw.draw(main, cursor); break;
+			case 2: Bag.draw(main, cursor); break;
+			case 3: break;
 		}
 		StdDraw.show();
 	}
@@ -413,130 +423,194 @@ public class WorldScreen {
 			}
 		}
 		else {
-			if (cursor == 0) {
-				cursor == ENDMENU;
-			}
-			else if (cursor == ENDMENU) cursor = 0;
-			else cursor--;
+			if (cursor != 0) cursor --;
 		}
-		draw();
+		drawWorld();
 	}
 
 	public void down() {
-		if (direction != 1)
-			direction = 1;
-		else {
-			boolean stop = false;
-			for (int i = 0; i < walls.length; i++) {
-				if (walls[i].runsInto(1))
-					stop = true;
-			}
-			for (int i = 0; i < actors.length; i++) {
-				if (actors[i].runsInto(1))
-					stop = true;
-			}
-			if (!stop) {
-				yBack += SHIFT;
-				for (int i = 0; i < walls.length; i++)
-					walls[i].shift(true, false);
-				for (int i = 0; i < actors.length; i++)
-					actors[i].shift(true, false);
-			}
-			altDraw();
-			Display.interval();
-			if (!stop) {
-				yBack += SHIFT;
-				for (int i = 0; i < walls.length; i++)
-					walls[i].shift(true, false);
-				for (int i = 0; i < actors.length; i++)
-					actors[i].shift(true, false);
+		if (!start) {
+			if (direction != 1)
+				direction = 1;
+			else {
+				boolean stop = false;
+				for (int i = 0; i < walls.length; i++) {
+					if (walls[i].runsInto(1))
+						stop = true;
+				}
+				for (int i = 0; i < actors.length; i++) {
+					if (actors[i].runsInto(1))
+						stop = true;
+				}
+				if (!stop) {
+					yBack += SHIFT;
+					for (int i = 0; i < walls.length; i++)
+						walls[i].shift(true, false);
+					for (int i = 0; i < actors.length; i++)
+						actors[i].shift(true, false);
+				}
+				altDraw();
+				Display.interval();
+				if (!stop) {
+					yBack += SHIFT;
+					for (int i = 0; i < walls.length; i++)
+						walls[i].shift(true, false);
+					for (int i = 0; i < actors.length; i++)
+						actors[i].shift(true, false);
+				}
 			}
 		}
-		draw();
+		else {
+			if(cursor != -1) cursor++;
+		}
+		drawWorld();
 	}
 
 	public void right() {
-		if (direction != 2)
-			direction = 2;
-		else {
-			boolean stop = false;
-			for (int i = 0; i < walls.length; i++) {
-				if (walls[i].runsInto(2))
-					stop = true;
-			}
-			for (int i = 0; i < actors.length; i++) {
-				if (actors[i].runsInto(2))
-					stop = true;
-			}
-			if (!stop) {
-				xBack -= SHIFT;
-				for (int i = 0; i < walls.length; i++)
-					walls[i].shift(false, true);
-				for (int i = 0; i < actors.length; i++)
-					actors[i].shift(false, true);
-			}
-			altDraw();
-			Display.interval();
-			if (!stop) {
-				xBack -= SHIFT;
-				for (int i = 0; i < walls.length; i++)
-					walls[i].shift(false, true);
-				for (int i = 0; i < actors.length; i++)
-					actors[i].shift(false, true);
+		if (!start) {
+			if (direction != 2)
+				direction = 2;
+			else {
+				boolean stop = false;
+				for (int i = 0; i < walls.length; i++) {
+					if (walls[i].runsInto(2))
+						stop = true;
+				}
+				for (int i = 0; i < actors.length; i++) {
+					if (actors[i].runsInto(2))
+						stop = true;
+				}
+				if (!stop) {
+					xBack -= SHIFT;
+					for (int i = 0; i < walls.length; i++)
+						walls[i].shift(false, true);
+					for (int i = 0; i < actors.length; i++)
+						actors[i].shift(false, true);
+				}
+				altDraw();
+				Display.interval();
+				if (!stop) {
+					xBack -= SHIFT;
+					for (int i = 0; i < walls.length; i++)
+						walls[i].shift(false, true);
+					for (int i = 0; i < actors.length; i++)
+						actors[i].shift(false, true);
+				}
 			}
 		}
-		draw();
+		drawWorld();
 	}
 
 	public void left() {
-		if (direction != 3)
-			direction = 3;
-		else {
-			boolean stop = false;
-			for (int i = 0; i < walls.length; i++) {
-				if (walls[i].runsInto(3))
-					stop = true;
-			}
-			for (int i = 0; i < actors.length; i++) {
-				if (actors[i].runsInto(3))
-					stop = true;
-			}
-			if (!stop) {
-				xBack += SHIFT;
-				for (int i = 0; i < walls.length; i++)
-					walls[i].shift(false, false);
-				for (int i = 0; i < actors.length; i++)
-					actors[i].shift(false, false);
-			}
-			altDraw();
-			Display.interval();
-			if (!stop) {
-				xBack += SHIFT;
-				for (int i = 0; i < walls.length; i++)
-					walls[i].shift(false, false);
-				for (int i = 0; i < actors.length; i++)
-					actors[i].shift(false, false);
+		if (!start) {
+			if (direction != 3)
+				direction = 3;
+			else {
+				boolean stop = false;
+				for (int i = 0; i < walls.length; i++) {
+					if (walls[i].runsInto(3))
+						stop = true;
+				}
+				for (int i = 0; i < actors.length; i++) {
+					if (actors[i].runsInto(3))
+						stop = true;
+				}
+				if (!stop) {
+					xBack += SHIFT;
+					for (int i = 0; i < walls.length; i++)
+						walls[i].shift(false, false);
+					for (int i = 0; i < actors.length; i++)
+						actors[i].shift(false, false);
+				}
+				altDraw();
+				Display.interval();
+				if (!stop) {
+					xBack += SHIFT;
+					for (int i = 0; i < walls.length; i++)
+						walls[i].shift(false, false);
+					for (int i = 0; i < actors.length; i++)
+						actors[i].shift(false, false);
+				}
 			}
 		}
-		draw();
+		drawWorld();
+	}
+
+	public void back() {
+		switch(currentMenu) {
+			case 0: currentMenu = 4; break;
+       		case 1: {
+       			if(fromItem && depth == 1) { depth = 0; lock = false;}
+       			else if (fromItem)  currentMenu = 2;
+       			else if (depth == 1)      { depth = 0; lock = false;}
+       			else 				currentMenu = 0;
+       		} break;
+        	case 2: {
+        		if (depth == 1) {
+        			depth = 0;
+        			lock = false;
+        		}
+       			else currentMenu = 0;
+      		} break;
+   			case 3: break;
+        }
 	}
 
 	public void act() throws IOException {
-		boolean actable = false;
-		int which = 0;
-		for (int i = 0; i < actors.length; i++) {
-			if (actors[i].runsInto(direction)) { 
-				if(actors[i].file != null) actable = true;
-				which = i;
+		switch(currentMenu) {
+			case 0: { // Start menu
+				message = true;
+				switch(cursor) {
+					case 1: currentMenu = 1; cursor = 0; break;
+					case 2: currentMenu = 2; cursor = 0; break;
+					default: Message.customSet("I wish it was that functional too :(");
+				}
 			}
+			case 1: { // Pokemon menu
+				if (depth == 0) { 
+					Message.flip();
+					holdCursor = cursor;
+					lock = true;
+					depth++;
+				}
+				else if (depth == 1) {
+					main.swapPokemon(holdCursor, cursor);
+					lock = false;
+					depth = 0;
+				}
+			} break;
+
+			case 2: { // Bag menu
+
+			} break;
+			case 3: { // No menu
+				boolean actable = false;
+				int which = 0;
+				for (int i = 0; i < actors.length; i++) {
+					if (actors[i].runsInto(direction)) { 
+						if(actors[i].file != null) actable = true;
+						which = i;
+					}
+				}
+				if (actable) { actors[which].act(); System.out.println("HEYO");}
+			} break;
 		}
-		if (actable) actors[which].act();
-		draw();
+		drawWorld();
 	}
 
 	private static void song() {
 		StdAudio.loop(WORLDSONG);
 		Display.interval();
+	}
+
+	private void message() {
+			StdDraw.setPenColor(StdDraw.WHITE);
+			StdDraw.filledPolygon(MESSX, MESSY);
+			StdDraw.setPenColor();
+			StdDraw.setPenRadius(BORDER);
+			StdDraw.polygon(MESSX, MESSY);
+			StdDraw.textRight(-.9, -.8, Message.getMessage());
+			StdDraw.show();
 	}
 
 	public static void main(String[] args) throws IOException {
