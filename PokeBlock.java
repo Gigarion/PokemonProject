@@ -70,7 +70,7 @@ public class PokeBlock {
                     StdDraw.line(halfSpot, qHeight, halfSpot + length , qHeight);
                     
                     StdDraw.setPenColor();
-                    StdDraw.text(halfSpot, qHeight + (BIGHEIGHT / 4), name);
+                    StdDraw.text(halfSpot, qHeight + (BIGHEIGHT / 2), name);
                     StdDraw.text(halfSpot + (LENGTH / 4), qHeight + (BIGHEIGHT / 4), tempHealth + " / " + health);
                 }
                 StdDraw.setPenRadius(BORDER);
