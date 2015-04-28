@@ -3,7 +3,7 @@ import java.awt.*;
 public class Display {
     private static final String[] BMENU = {"fight", "pokemon", "bag", "run", "main"};
     private static int currentMenu;
-
+    
     private static int ENTER = 32;
     
     private static final String cImage  = "images\\cursor.gif";
@@ -42,7 +42,7 @@ public class Display {
     
     private static final double PWID = .225;
     private static final double PHI = .45;
-
+    
     private static final Font ITEM = new Font(Font.MONOSPACED, 0, 22);
     
     private static boolean battle;
@@ -69,10 +69,10 @@ public class Display {
     
     private static int cursor;
     private static int depth;
-
+    
     private static Item[] usable;
     private static Item toUse;
-
+    
     private static boolean myTurn;
     
     
@@ -89,7 +89,7 @@ public class Display {
     public static void setFightBackground(String s) {
         fightBack = s;
     }
-
+    
     public static void setMainBackground(String s) {
         worldBack = s;
     }
@@ -255,7 +255,7 @@ public class Display {
             StdDraw.filledCircle(0, 0, i);
             StdDraw.show(5);
         }
-
+        
         for (double i = 2; i >= 0; i -= 0.05) {
             //StdDraw.picture(0, 0, fightBack);
             StdDraw.filledCircle(0, 0, i);
@@ -345,13 +345,13 @@ public class Display {
             StdDraw.show(5);
             StdDraw.picture(0, 0, fightBack, 2, 2);
         }
-
+        
         mainPokeOut = toWhich;
         mainPokeSequence();
         mainPoke = true;
         mainPokeStats = true;
     }
-
+    
     public static void enPokeSequence() {
         if (enPokeOut == enemy.getTeamSize()) {
             enPoke = false;
@@ -533,7 +533,7 @@ public class Display {
         StdDraw.setXscale(-1, 1);
         StdDraw.setYscale(-1, 1);
     }
-
+    
     public static void upCursor() {
         if (!lock) {
             switch(currentMenu) {
@@ -568,7 +568,7 @@ public class Display {
             }
         }
     }
-
+    
     public static void downCursor() {
         if (!lock) {
             switch(currentMenu) {
@@ -603,7 +603,7 @@ public class Display {
             }
         }
     }
-
+    
     public static void leftCursor() {
         if (!lock) {
             switch(currentMenu) {
@@ -634,7 +634,7 @@ public class Display {
             }
         }
     }
-
+    
     public static void rightCursor() {
         if (!lock) {
             switch(currentMenu) {
@@ -665,7 +665,7 @@ public class Display {
             }
         }
     }
-
+    
     public static void enterBattle() {
         battle = true;
         world = false;
@@ -692,7 +692,7 @@ public class Display {
                     Message.makeMove(main.getPokemon(mainPokeOut), toUse);
                     showMessage();
                     fightAnimation(toUse.getTarget(), main);
-
+                    
                     if (toUse.getTarget() >= 0)
                         toUse.makeMove(enemy.getPokemon(enPokeOut));
                     
@@ -737,7 +737,7 @@ public class Display {
                             toUse.use(main.getPokemon(cursor));
                             Message.usedItem(toUse, main.getPokemon(cursor));
                         }
-
+                        
                         toUse.reduce();
                         currentMenu = 4;
                         fromItem = false;
@@ -809,7 +809,7 @@ public class Display {
             }
         }
     }
-
+    
     public static void addDepth() {
         depth++;
     }
@@ -847,9 +847,9 @@ public class Display {
         if (Math.random() * 100 < toUse.getAccuracy()) {
             Message.makeMove(enemy.getPokemon(enPokeOut), toUse);
             showMessage();
-
+            
             fightAnimation(toUse.getTarget(), enemy);
-
+            
             if (toUse.getTarget() >= 0) 
                 toUse.makeMove(main.getPokemon(mainPokeOut));
             
@@ -860,9 +860,9 @@ public class Display {
             timeDelay();
             Message.decide(main.getPokemon(mainPokeOut));
             update();
-
+            
             if (enemy.getPokemon(enPokeOut).isFaint())
-                    enemyFaintSequence();
+                enemyFaintSequence();
             else if(main.getPokemon(mainPokeOut).isFaint()) {
                 playerFaintSequence();
             }
