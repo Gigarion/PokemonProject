@@ -281,7 +281,7 @@ public class Display {
     }
     
     public static void winSequence(Player enemy, Player main) {
-        StdAudio.play("music\\win.mid");
+        StdAudio.play("win.mid");
         mainPoke = false;
         enPoke = false;
         mainPokeStats = false;

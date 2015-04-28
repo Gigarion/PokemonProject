@@ -97,7 +97,7 @@ public class HBA {
                 Display.interval();
             }
         }
-        StdAudio.close();
+        //StdAudio.close();
         System.out.println("im free");
         if (win) {
             Display.winSequence(enemy, player);
