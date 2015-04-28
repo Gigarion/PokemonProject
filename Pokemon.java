@@ -53,6 +53,10 @@ public class Pokemon {
         return moves[number];
     }
 
+    public String getImage() {
+        return "Pokemon\\" + name + ".png";
+    }
+
     public void receive(int dam) {
         tempHealth -= dam;
         if (tempHealth <= 0)

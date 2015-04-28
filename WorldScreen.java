@@ -1,11 +1,15 @@
 import java.io.*;
 import java.util.*;
 public class WorldScreen {
-	private static final double[] MESSX  = {-0.97, -0.97,     0,     0};
-	private static final double[] MESSY  = {-0.97, -0.40, -0.40, -0.97};
+	private static final Font TEXT = new Font(Font.MONOSPACED, 0, 22);
+	private static final double[] MESSX = {-.97, -.97,  .97, .97};
+    private static final double[] MESSY = {-.97,-.7, -.7, -.97};
+    private static final double[] STARTX = {-0.6, -0.6, -0.97, -0.97};
+    private static final double[] STARTY = {-0.67, 0.97, 0.97, -0.67};
 	private static final double BORDER   = 0.004;
-	private static final String WORLDSONG = "fortree-city.mid";
+	private static final String WORLDSONG = "music\\fortree-city.mid";
 	private boolean message;
+	private int cursor;
 	private Player main;
 	private int direction;
 	private double xBack;
@@ -23,12 +27,14 @@ public class WorldScreen {
     private static final int RIGHT = 68;
     private static final int ENTER = 32;
     private static final int BACK = 66;
+    private static final int START = 80;
 
 	private class Actor {
 		private static final double RADIUS = 0.06;
 		private double bx;
 		private double by;
 		private String image;
+		private boolean hasInteracted;
 		private String file;
 		
 		private Actor (double x, double y, String pic, String fName) {
@@ -36,6 +42,7 @@ public class WorldScreen {
 			this.by = y;
 			this.image = pic;
 			this.file = fName;
+			hasInteracted = false;
 			if (file.equals("null")) file = null;
 		}
 
@@ -85,6 +92,7 @@ public class WorldScreen {
 		}
 
 		private void act() throws IOException {
+			boolean lock = false;
 			File toRead = new File(file);
 			Scanner read = new Scanner(toRead);
 			int lines = Integer.parseInt(read.nextLine());
@@ -94,23 +102,46 @@ public class WorldScreen {
 			}
 			for (int i = 0; i < lines; i++) {
 				message = true;
-				if (toPrint[i].contains(".txt")) {
+				File temp = new File("tempBack.png");
+				if (StdDraw.isKeyPressed(BACK) && lock == false) {
+					message = false;
+					return;
+				}
+				else if (toPrint[i].contains(".txt") && !hasInteracted) {
+					temp.delete();
 					StdDraw.save("tempBack.png");
-					Display.setBackground("tempBack.png");
+					Display.interval();
+					Display.setMainBackground("tempBack.png");
 					Display.setMain(main);
 					HBA.battle(toPrint[i], main);
+					StdAudio.play(WORLDSONG);
+					hasInteracted = true;
+					lock = false;
 				}
-				else if (toPrint[i].contains(".mid")) {
+				else if (toPrint[i].contains(".mid") && !hasInteracted) {
+					lock = true;
 					StdAudio.loop(toPrint[i]);
+					temp.delete();
 				}
-				else {
+				else if ((hasInteracted && i != 0) || !hasInteracted && i < lines) {
 					Message.customSet(toPrint[i]);
+					if (temp.exists()) StdDraw.picture(0, 0, "tempBack.png");
 					message();
 					StdDraw.show();
-					Display.timeDelay();
+					Display.interval();
 					do {} while(!StdDraw.isKeyPressed(ENTER));
 				}
+				else {
+					temp.delete();
+					i = lines;
+					Message.customSet(toPrint[lines - 1]);
+					message();
+					StdDraw.show();
+					Display.interval();
+					do {} while (!StdDraw.isKeyPressed(ENTER));
+				}
 			}
+			message = false;
 		}
 
 		private void message() {
@@ -239,10 +270,11 @@ public class WorldScreen {
 	}
 
 	public WorldScreen(Player player) throws IOException {
+		StdDraw.setFont(TEXT);
 		this.main = player;
 		StdAudio.play(WORLDSONG);
 		this.direction = 1;
-		File world = new File("mainWorld.txt");
+		File world = new File("build\\mainWorld.txt");
 		Scanner readWorld = new Scanner(world);
 		this.background = readWorld.next();
 		this.xBack = readWorld.nextDouble();
@@ -286,6 +318,15 @@ public class WorldScreen {
 		readAct.close();
 		readWorld.close();
 	}
+
+	private void start() {
+		StdDraw.setPenColor(Color.WHITE);
+		StdDraw.filledPolygon(STARTX, STARTY);
+		StdDraw.setPenColor();
+		StdDraw.setPenRadius(BORDER);
+		StdDraw.polygon(STARTX, STARTY);
+		StdDraw.setPenRadius();
+	}
 	
 	public void run() throws IOException {
 		while(true) {
@@ -304,6 +345,15 @@ public class WorldScreen {
         	else if (StdDraw.isKeyPressed(ENTER)) {
         		act();
         	}
+        	else if (StdDraw.isKeyPressed(START)) {
+        		if (!start) cursor = 0;
+        		start = true;
+        		draw();
+        	}
+        	else if (StdDraw.isKeyPressed(BACK)) {
+        		start = false;
+        		draw();
+        	}
         	Display.interval();
         }
 	}
@@ -315,6 +365,9 @@ public class WorldScreen {
 			walls[i].draw();
 		for (int i = 0; i < actors.length; i++)
 			actors[i].draw();
+		if (start) {
+			start();
+		}
 		StdDraw.show();
 	}
 
@@ -328,34 +381,43 @@ public class WorldScreen {
 	}
 	
 	public void up() {
-		if (direction != 0)
-			direction = 0;
+		if (!start) {
+			if (direction != 0)
+				direction = 0;
+			else {
+				boolean stop = false;
+				for (int i = 0; i < walls.length; i++) {
+					if (walls[i].runsInto(0))
+						stop = true;
+				}
+				for (int i = 0; i < actors.length; i++) {
+					if (actors[i].runsInto(0))
+						stop = true;
+				}
+				if (!stop) {
+					yBack -= SHIFT;
+					for (int i = 0; i < walls.length; i++)
+						walls[i].shift(true, true);
+					for (int i = 0; i < actors.length; i++)
+						actors[i].shift(true, true);
+				}
+				altDraw();
+				Display.interval();
+				if (!stop) {
+					yBack -= SHIFT;
+					for (int i = 0; i < walls.length; i++)
+						walls[i].shift(true, true);
+					for (int i = 0; i < actors.length; i++)
+						actors[i].shift(true, true); 
+				}
+			}
+		}
 		else {
-			boolean stop = false;
-			for (int i = 0; i < walls.length; i++) {
-				if (walls[i].runsInto(0))
-					stop = true;
+			if (cursor == 0) {
+				cursor == ENDMENU;
 			}
-			for (int i = 0; i < actors.length; i++) {
-				if (actors[i].runsInto(0))
-					stop = true;
-			}
-			if (!stop) {
-				yBack -= SHIFT;
-				for (int i = 0; i < walls.length; i++)
-					walls[i].shift(true, true);
-				for (int i = 0; i < actors.length; i++)
-					actors[i].shift(true, true);
-			}
-			altDraw();
-			Display.interval();
-			if (!stop) {
-				yBack -= SHIFT;
-				for (int i = 0; i < walls.length; i++)
-					walls[i].shift(true, true);
-				for (int i = 0; i < actors.length; i++)
-					actors[i].shift(true, true); 
-			}
+			else if (cursor == ENDMENU) cursor = 0;
+			else cursor--;
 		}
 		draw();
 	}
@@ -469,6 +531,7 @@ public class WorldScreen {
 			}
 		}
 		if (actable) actors[which].act();
+		draw();
 	}
 
 	private static void song() {

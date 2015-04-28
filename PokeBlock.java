@@ -22,7 +22,7 @@ public class PokeBlock {
 
 	public PokeBlock (Pokemon poke) {
 		name = poke.getName();
-		image = name + ".png";
+		image = "Pokemon\\" + name + ".png";
 		health = poke.getMaxHealth();
 		tempHealth = poke.getTempHealth();
 		percent = (double) tempHealth / health;

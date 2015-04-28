@@ -1,6 +1,6 @@
 pipe
 6
-mainitems.txt
+players//mainitems.txt
 sam
 100
 15

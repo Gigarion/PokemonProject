@@ -1,0 +1,5 @@
+4
+music\\battle.mid
+Imma gonna fight you!
+battles\\Battle1.txt
+I fought ya!
