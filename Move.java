@@ -14,7 +14,6 @@ public class Move {
     private String status; // detail what status effect if any occurs
     private int damage; // how much damage the move does
     private int accuracy; //  likelihood of hit
-    private static final int SPER = 20;
     private static final int PLYZ = 45;
     
     public Move (String name, int targetable, String stat, int dam, int acc) {
@@ -73,6 +72,6 @@ public class Move {
     }
 
     public void makeMove(Pokemon t) {
-        t.receive(damage);
+        t.receive(damage, status);
     }
 }

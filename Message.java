@@ -99,4 +99,8 @@ public class Message {
     public static void thatsEnough(Pokemon poke) {
         currentState = "That's enough " + poke.getName() + "!";
     }
+
+    public static void flip() {
+        currentState = "Switch Pokemon?";
+    }
 }

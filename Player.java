@@ -5,6 +5,7 @@ public class Player {
     private String image;
     private int teamSize;
     private Pokemon[] team;
+    private int numItems;
     private Item[] items;
     
     public Player(String n) {
@@ -22,9 +23,9 @@ public class Player {
         String itemFile = s.next();
         File imp = new File(itemFile);
         Scanner itemRead = new Scanner(imp);
-        int unique = Integer.parseInt(itemRead.nextLine());
-        items = new Item[unique];
-        for (int i = 0; i < unique; i++)
+        numItems = Integer.parseInt(itemRead.nextLine());
+        items = new Item[numItems];
+        for (int i = 0; i < numItems; i++)
             items[i] = Item.fromFile(itemRead);
         itemRead.close();
         
@@ -40,12 +41,23 @@ public class Player {
         return image;
     }
 
+    public int getNumItems() {
+        return numItems;
+    }
+
     public int getTeamSize() {
         return teamSize;
     }
 
     public Pokemon getPokemon(int number) {
         return team[number];
+    }
+
+    public void swapPokemon(int one, int two) {
+        if (one == two) return;
+        Pokemon holder = getPokemon(one);
+        team[one] = team[two];
+        team[two] = holder;
     }
     
     public Pokemon[] getTeam() {
