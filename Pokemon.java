@@ -21,7 +21,7 @@ public class Pokemon {
     private boolean faint;
     private String status;
 
-    private static final String[] STATS = {"no", "plyz", "psn", "slp"};
+    private static final String[] STATS = {"no", "plyz", "psn", "slp", "burn"};
     
     public Pokemon (String name, int maxHealth, int speed, Move[] moveSet) {
         this.name = name;
@@ -57,11 +57,17 @@ public class Pokemon {
         return "Pokemon\\" + name + ".png";
     }
 
-    public void receive(int dam) {
+    public void receive(int dam, String stat) {
         tempHealth -= dam;
         if (tempHealth <= 0)
             faint = true;
-    }
+        if (stat.equals(STATS[1))
+            status = STATS[1];
+        else if (stat.equals(STATS[2]))
+            status = STATS[2];
+        else if (stat.equals(STATS[3]))
+            status = STATS[4];
+   }
     
     public void heal(int health) {
         tempHealth += health;
@@ -75,6 +81,8 @@ public class Pokemon {
     }
 
     public boolean isFaint() {
+        if (tempHealth > 0) faint = false;
+        else faint = true;
         return faint;
     }
 

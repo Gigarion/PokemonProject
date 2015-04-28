@@ -8,6 +8,7 @@ public class WorldScreen {
     
 	private static final double BORDER   = 0.004;
 	private static final String WORLDSONG = "music\\fortree-city.mid";
+	private static final String SONG = "music\\faint.mid";
 	private boolean message;
 	private int cursor;
 	private Player main;
@@ -121,14 +122,15 @@ public class WorldScreen {
 					Display.interval();
 					Display.setMainBackground("tempBack.png");
 					Display.setMain(main);
-					HBA.battle(toPrint[i], main);
+					HBA.battle(toPrint[i],  main);
 					StdAudio.loop(WORLDSONG);
 					hasInteracted = true;
 					lock = false;
 				}
 				else if (toPrint[i].contains(".mid") && !hasInteracted) {
 					lock = true;
-					StdAudio.loop(toPrint[i]);
+					StdAudio.play(toPrint[i]);
+					Display.interval();
 					temp.delete();
 				}
 				else if ((hasInteracted && i != 0) || !hasInteracted && i < lines) {
@@ -269,6 +271,7 @@ public class WorldScreen {
 		StdDraw.setFont(TEXT);
 		this.main = player;
 		StdAudio.loop(WORLDSONG);
+		Display.interval();
 		this.direction = 1;
 		File world = new File("build\\mainWorld.txt");
 		Scanner readWorld = new Scanner(world);
@@ -592,15 +595,10 @@ public class WorldScreen {
 						which = i;
 					}
 				}
-				if (actable) { actors[which].act(); System.out.println("HEYO");}
+				if (actable) actors[which].act(); 
 			} break;
 		}
 		drawWorld();
-	}
-
-	private static void song() {
-		StdAudio.loop(WORLDSONG);
-		Display.interval();
 	}
 
 	private void message() {

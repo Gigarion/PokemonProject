@@ -254,13 +254,13 @@ public class Display {
     private static void fadeOut(String newBackground) {
         StdDraw.setPenColor();
         for (double i = 0; i < 2; i += 0.05) {
-            StdDraw.picture(0, 0, fightBack);
+            //StdDraw.picture(0, 0, fightBack);
             StdDraw.filledCircle(0, 0, i);
             StdDraw.show(5);
         }
 
         for (double i = 2; i >= 0; i -= 0.05) {
-            StdDraw.picture(0, 0, fightBack);
+            //StdDraw.picture(0, 0, fightBack);
             StdDraw.filledCircle(0, 0, i);
             StdDraw.show(5);
         }
@@ -285,6 +285,7 @@ public class Display {
     }
     
     public static void winSequence(Player enemy, Player main) {
+        StdAudio.play("music\\win.mid");
         mainPoke = false;
         enPoke = false;
         mainPokeStats = false;
@@ -773,6 +774,7 @@ public class Display {
                         if (mustChoose) {
                             mainPokeOut = PokeDraw.getLocator(cursor);
                             mainPokeSequence();
+                            mustChoose = false;
                         }
                         else {
                             swapPokemon(PokeDraw.getLocator(cursor));
