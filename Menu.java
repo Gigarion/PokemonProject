@@ -7,7 +7,7 @@ public class Menu {
 	private static final double[] STARTX = { 0.6,  0.6,  0.97,  0.97};
     private static final double[] STARTY = {-0.67, 0.97, 0.97, -0.67};
     private static final double   LISTX  = 0.63;
-    private static final double   LISTY  = 0.93;
+    private static final double   LISTY  = 0.90;
     private static final double   SHIFT  = 0.12;
     private static final double   WIDTH  = 0.05;
     private static final double[] BORDERX = {0.61,  0.61,  0.96,  0.96};

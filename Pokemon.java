@@ -61,7 +61,7 @@ public class Pokemon {
         tempHealth -= dam;
         if (tempHealth <= 0)
             faint = true;
-        if (stat.equals(STATS[1))
+        if (stat.equals(STATS[1]))
             status = STATS[1];
         else if (stat.equals(STATS[2]))
             status = STATS[2];

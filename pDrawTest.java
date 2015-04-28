@@ -28,5 +28,4 @@ public class pDrawTest {
         StdDraw.setFont(toWrite);
         StdDraw.textLeft(-.6, .55, "SHIELD");
     }
-    
 }

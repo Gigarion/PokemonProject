@@ -2,13 +2,11 @@ import java.io.*;
 import java.awt.*;
 public class Display {
     private static final String[] BMENU = {"fight", "pokemon", "bag", "run", "main"};
-    private static final String[] WORLDMENU = {"null"};
     private static int currentMenu;
 
     private static int ENTER = 32;
     
     private static final String cImage  = "images\\cursor.gif";
-    private static final String pImage = "images\\pBackground.png";
     
     private static final double[] MESSX = {-.97, -.97,  .5, .5};
     private static final double[] MESSY = {-.97,-.7, -.7, -.97};
@@ -71,7 +69,6 @@ public class Display {
     
     private static int cursor;
     private static int depth;
-    private static int shelf;
 
     private static Item[] usable;
     private static Item toUse;
@@ -280,7 +277,6 @@ public class Display {
         usable = main.getItems();
         currentMenu = 4;
         depth = 0;
-        shelf = 0;
         showPlayers(newBackground);
     }
     
@@ -882,10 +878,6 @@ public class Display {
         update();
         timeDelay();
         Message.decide(main.getPokemon(mainPokeOut));
-    }
-
-    private static void bagMenu() {
-        return;
     }
     
     private static void showMessage() {
