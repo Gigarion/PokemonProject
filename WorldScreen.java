@@ -18,6 +18,7 @@ public class WorldScreen {
     private String[] wImage;
     private Actor[] actors;
     private Wall[] walls;
+    private Item toUse;
     private int depth;
     private int holdCursor;
     private boolean fromItem;
@@ -382,65 +383,82 @@ public class WorldScreen {
     }
     
     public void up() {
-        System.out.println(lock);
-        System.out.println(depth);
-        System.out.println(cursor);
         if (!lock) {
-            if (!start) {
-                if (direction != 0)
-                    direction = 0;
-                else {
-                    boolean stop = false;
-                    for (int i = 0; i < walls.length; i++) {
-                        if (walls[i].runsInto(0))
-                            stop = true;
-                    }
-                    for (int i = 0; i < actors.length; i++) {
-                        if (actors[i].runsInto(0))
-                            stop = true;
-                    }
-                    if (!stop) {
-                        yBack -= SHIFT;
-                        for (int i = 0; i < walls.length; i++)
-                            walls[i].shift(true, true);
-                        for (int i = 0; i < actors.length; i++)
-                            actors[i].shift(true, true);
-                    }
-                    altDraw();
-                    Display.interval();
-                    if (!stop) {
-                        yBack -= SHIFT;
-                        for (int i = 0; i < walls.length; i++)
-                            walls[i].shift(true, true);
-                        for (int i = 0; i < actors.length; i++)
-                            actors[i].shift(true, true); 
+            switch(currentMenu) {
+                case 0: {
+                    if (cursor == 0) cursor = Menu.getSize() - 1;
+                    else cursor--;
+                } break;
+                
+                case 1: {
+                    if (cursor == 0) cursor = main.getTeamSize() - 1;
+                    else cursor--;
+                } break;
+                
+                case 2: { 
+                    if (cursor == 0) cursor = main.getNumItems() - 1;
+                    else cursor--;
+                } break;
+                
+                case 3: {
+                    if (direction != 0)
+                        direction = 0;
+                    else {
+                        boolean stop = false;
+                        for (int i = 0; i < walls.length; i++) {
+                            if (walls[i].runsInto(0))
+                                stop = true;
+                        }
+                        for (int i = 0; i < actors.length; i++) {
+                            if (actors[i].runsInto(0))
+                                stop = true;
+                        }
+                        if (!stop) {
+                            yBack -= SHIFT;
+                            for (int i = 0; i < walls.length; i++)
+                                walls[i].shift(true, true);
+                            for (int i = 0; i < actors.length; i++)
+                                actors[i].shift(true, true);
+                        }
+                        altDraw();
+                        Display.interval();
+                        if (!stop) {
+                            yBack -= SHIFT;
+                            for (int i = 0; i < walls.length; i++)
+                                walls[i].shift(true, true);
+                            for (int i = 0; i < actors.length; i++)
+                                actors[i].shift(true, true); 
+                        }
                     }
                 }
             }
-            else {
-                if (cursor != 0) cursor --;
-            }
+            System.out.println("locked: " + lock);
+            System.out.println("CurrentMenu: " + currentMenu);
+            System.out.println("depth: " + depth);
+            System.out.println("cursor: " + cursor);
+            System.out.println();
             drawWorld();
         }
     }
     
     public void down() {
-        System.out.println(lock);
-        System.out.println(depth);
         if (!lock) {
             switch(currentMenu) {
                 case 0: {
                     if (cursor == Menu.getSize() - 1) cursor = 0;
                     else cursor++;
                 } break;
+                
                 case 1: {
                     if (cursor == main.getTeamSize() - 1) cursor = 0;
                     else cursor++;
                 } break;
+                
                 case 2: { 
                     if (cursor == main.getNumItems() - 1) cursor = 0;
                     else cursor++;
-                }
+                } break;
+                
                 case 3: {
                     if (direction != 1)
                         direction = 1;
@@ -473,99 +491,139 @@ public class WorldScreen {
                     }
                 } break;
             }
-            System.out.println(cursor);
+            System.out.println("locked: " + lock);
+            System.out.println("CurrentMenu: " + currentMenu);
+            System.out.println("depth: " + depth);
+            System.out.println("cursor: " + cursor);
+            System.out.println();
             drawWorld();
         }
     }
     
     public void right() {
-        System.out.println(lock);
-        System.out.println(depth);
-        System.out.println(cursor);
         if (!lock) {
-            if (!start) {
-                if (direction != 2)
-                    direction = 2;
-                else {
-                    boolean stop = false;
-                    for (int i = 0; i < walls.length; i++) {
-                        if (walls[i].runsInto(2))
-                            stop = true;
+            switch(currentMenu) {
+                case 0: break;
+                
+                case 1: {
+                    if (cursor == 0) cursor = 1;
+                    else cursor = 0;
+                } break;
+                case 2: break;
+                case 3: {
+                    if (direction != 2)
+                        direction = 2;
+                    else {
+                        boolean stop = false;
+                        for (int i = 0; i < walls.length; i++) {
+                            if (walls[i].runsInto(2))
+                                stop = true;
+                        }
+                        for (int i = 0; i < actors.length; i++) {
+                            if (actors[i].runsInto(2))
+                                stop = true;
+                        }
+                        if (!stop) {
+                            xBack -= SHIFT;
+                            for (int i = 0; i < walls.length; i++)
+                                walls[i].shift(false, true);
+                            for (int i = 0; i < actors.length; i++)
+                                actors[i].shift(false, true);
+                        }
+                        altDraw();
+                        Display.interval();
+                        if (!stop) {
+                            xBack -= SHIFT;
+                            for (int i = 0; i < walls.length; i++)
+                                walls[i].shift(false, true);
+                            for (int i = 0; i < actors.length; i++)
+                                actors[i].shift(false, true);
+                        }
                     }
-                    for (int i = 0; i < actors.length; i++) {
-                        if (actors[i].runsInto(2))
-                            stop = true;
-                    }
-                    if (!stop) {
-                        xBack -= SHIFT;
-                        for (int i = 0; i < walls.length; i++)
-                            walls[i].shift(false, true);
-                        for (int i = 0; i < actors.length; i++)
-                            actors[i].shift(false, true);
-                    }
-                    altDraw();
-                    Display.interval();
-                    if (!stop) {
-                        xBack -= SHIFT;
-                        for (int i = 0; i < walls.length; i++)
-                            walls[i].shift(false, true);
-                        for (int i = 0; i < actors.length; i++)
-                            actors[i].shift(false, true);
-                    }
-                }
+                }  break;
             }
             drawWorld();
+            System.out.println("locked: " + lock);
+            System.out.println("CurrentMenu: " + currentMenu);
+            System.out.println("depth: " + depth);
+            System.out.println("cursor: " + cursor);
+            System.out.println();
         }
     }
     
     public void left() {
-        System.out.println(lock);
-        System.out.println(depth);
-        System.out.println(cursor);
         if (!lock) {
-            if (!start) {
-                if (direction != 3)
-                    direction = 3;
-                else {
-                    boolean stop = false;
-                    for (int i = 0; i < walls.length; i++) {
-                        if (walls[i].runsInto(3))
-                            stop = true;
+            switch(currentMenu) {
+                case 0: break;
+                
+                case 1: {
+                    if (cursor == 0) cursor = 1;
+                    else cursor = 0;
+                } break;
+                case 2: break;
+                case 3: {
+                    if (direction != 3)
+                        direction = 3;
+                    else {
+                        boolean stop = false;
+                        for (int i = 0; i < walls.length; i++) {
+                            if (walls[i].runsInto(3))
+                                stop = true;
+                        }
+                        for (int i = 0; i < actors.length; i++) {
+                            if (actors[i].runsInto(3))
+                                stop = true;
+                        }
+                        if (!stop) {
+                            xBack += SHIFT;
+                            for (int i = 0; i < walls.length; i++)
+                                walls[i].shift(false, false);
+                            for (int i = 0; i < actors.length; i++)
+                                actors[i].shift(false, false);
+                        }
+                        altDraw();
+                        Display.interval();
+                        if (!stop) {
+                            xBack += SHIFT;
+                            for (int i = 0; i < walls.length; i++)
+                                walls[i].shift(false, false);
+                            for (int i = 0; i < actors.length; i++)
+                                actors[i].shift(false, false);
+                        }
                     }
-                    for (int i = 0; i < actors.length; i++) {
-                        if (actors[i].runsInto(3))
-                            stop = true;
-                    }
-                    if (!stop) {
-                        xBack += SHIFT;
-                        for (int i = 0; i < walls.length; i++)
-                            walls[i].shift(false, false);
-                        for (int i = 0; i < actors.length; i++)
-                            actors[i].shift(false, false);
-                    }
-                    altDraw();
-                    Display.interval();
-                    if (!stop) {
-                        xBack += SHIFT;
-                        for (int i = 0; i < walls.length; i++)
-                            walls[i].shift(false, false);
-                        for (int i = 0; i < actors.length; i++)
-                            actors[i].shift(false, false);
-                    }
-                }
+                } break;
             }
             drawWorld();
+            System.out.println("locked: " + lock);
+            System.out.println("CurrentMenu: " + currentMenu);
+            System.out.println("depth: " + depth);
+            System.out.println("cursor: " + cursor);
+            System.out.println();
         }
     }
     
     public void back() {
         switch(currentMenu) {
-            case 0: currentMenu = 4; break;
+            case 0: currentMenu = 3; break;
             case 1: {
-                if(fromItem && depth == 1) { depth = 0; lock = false;}
-                else if (fromItem)  currentMenu = 2;
-                else if (depth == 1)      { depth = 0; lock = false;}
-                else     currentMenu = 0;
+                if(fromItem && depth == 1) {
+                    depth = 0; 
+                    lock = false;
+                    Message.item();
+                }
+                else if (fromItem)  {
+                    currentMenu = 2;
+                    fromItem = false;
+                }
+                else if (depth == 1) {
+                    depth = 0; 
+                    Message.customSet("Pokemon"); 
+                    lock = false;
+                }
+                else {
+                    currentMenu = 0;
+                    Message.customSet("Menu");
+                }
             } break;
             case 2: {
                 if (depth == 1) {
@@ -576,33 +634,91 @@ public class WorldScreen {
             } break;
             case 3: break;
         }
+        drawWorld();
+        System.out.println("locked: " + lock);
+        System.out.println("CurrentMenu: " + currentMenu);
+        System.out.println("depth: " + depth);
+        System.out.println("cursor: " + cursor); 
+        System.out.println();
     }
     
     public void act() throws IOException {
         switch(currentMenu) {
             case 0: { // Start menu
                 switch(cursor) {
-                    case 1: currentMenu = 1; cursor = 0; break;
+                    case 1: {
+                        Message.customSet("Pokemon");
+                        currentMenu = 1; 
+                        cursor = 0;
+                    } break;
                     case 2: currentMenu = 2; cursor = 0; break;
-                    default: Message.customSet("I wish it was that functional too :(");
+                    default: {
+                        Message.customSet("I wish it was that functional too :(");
+                        drawWorld();
+                        Display.timeDelay();
+                        Message.customSet("Menu");
+                    } break;
                 }
-            }
+            } break;
+
             case 1: { // Pokemon menu
-                if (depth == 0) { 
-                    Message.flip();
-                    holdCursor = cursor;
-                    lock = true;
-                    depth++;
+                if (fromItem) {
+                    switch(depth) {
+                        case 0: {
+                            Message.useItem(toUse, main.getPokemon(cursor));
+                            lock = true;
+                            depth++;
+                        } break;
+                        case 1: {
+                            toUse.use(main.getPokemon(cursor));
+                            toUse.reduce();
+                            currentMenu = 2;
+                            fromItem = false;
+                            lock = false;
+                        } break;
+                    }
                 }
-                else if (depth == 1) {
-                    main.swapPokemon(holdCursor, cursor);
-                    lock = false;
-                    depth = 0;
+                else { 
+                    switch(depth) {
+                        case 0: { 
+                            Message.flip();
+                            lock = true;
+                            depth++;
+                        } break;
+                        case 1: {
+                            Message.customSet("Switch with which Pokemon?");
+                            holdCursor = cursor;
+                            lock = false;
+                            depth++;
+                        } break;
+                        case 2: {
+                            Message.customSet("Pokemon");
+                            main.swapPokemon(holdCursor, cursor);
+                            lock = false;
+                            depth = 0;
+                        } break;
+                    }
                 }
             } break;
             
             case 2: { // Bag menu
-                
+                Item[] usable = main.getItems();
+                switch(depth) {
+                    case 0: {
+                        if (usable[cursor].getNumber() > 0) {
+                            Message.item();
+                            fromItem = true;
+                            currentMenu = 1;
+                            cursor = 0;
+                            depth = 0;
+                            toUse = usable[cursor];
+                        }
+                        else Message.outOfItem(usable[cursor]);
+                    } break;
+                    case 1: {
+
+                    } break;
+                }
             } break;
             case 3: { // No menu
                 boolean actable = false;
@@ -616,6 +732,11 @@ public class WorldScreen {
                 if (actable) actors[which].act(); 
             } break;
         }
+        System.out.println("locked: " + lock);
+        System.out.println("CurrentMenu: " + currentMenu);
+        System.out.println("depth: " + depth);
+        System.out.println("cursor: " + cursor); 
+        System.out.println();
         drawWorld();
     }
     
