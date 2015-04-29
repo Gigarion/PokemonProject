@@ -14,14 +14,15 @@ public class Move {
     private String status; // detail what status effect if any occurs
     private int damage; // how much damage the move does
     private int accuracy; //  likelihood of hit
-    private static final int PLYZ = 45;
+    private int statAcc;
     
-    public Move (String name, int targetable, String stat, int dam, int acc) {
+    public Move (String name, int targetable, String stat, int dam, int acc, int sAcc) {
         this.name = name;
         this.whoHit = targetable;
         this.status = stat;
         this.damage = dam;
         this.accuracy = acc;
+        this.statAcc = sAcc;
     }
     
     public static Move setMove(Scanner s) throws IOException {
@@ -33,6 +34,7 @@ public class Move {
         * if status, what status?
         * damage of move (negative if healing)
         * accuracy of move 
+        * adjusted accuracy of any status effect of the move
         ****************************************/
         File toRead = new File("moves\\" + s.next() + ".txt");
         Scanner move = new Scanner(toRead);
@@ -41,8 +43,9 @@ public class Move {
         String st = move.next();
         int d = Integer.parseInt(move.next());
         int a = Integer.parseInt(move.next());
+        int sa = Integer.parseInt(move.next());
         move.close();
-        Move toReturn = new Move(n, t, st, d, a);
+        Move toReturn = new Move(n, t, st, d, a, sa);
         return toReturn;
     }
 
@@ -52,6 +55,7 @@ public class Move {
         p.println(status);
         p.println(damage);
         p.println(accuracy);
+        p.println(statAcc);
     }
     
     public String getName() {
@@ -75,6 +79,10 @@ public class Move {
     }
 
     public void makeMove(Pokemon t) {
-        t.receive(damage, status);
+        if (Math.random() * 100.0 < statAcc)  {
+            t.receive(damage, status);
+            System.out.println("working");
+        }
+        else t.receive(damage, "no");
     }
 }

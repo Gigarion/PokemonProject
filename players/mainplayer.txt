@@ -1,5 +1,9 @@
 pipe
-2
+6
 players//mainitems.txt
 pokemon//SAM.txt
+pokemon//JUPITER.txt
+pokemon//JUPITER.txt
+pokemon//JUPITER.txt
+pokemon//JUPITER.txt
 pokemon//JUPITER.txt

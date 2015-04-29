@@ -21,7 +21,7 @@ public class Pokemon {
     private boolean faint;
     private String status;
 
-    private static final String[] STATS = {"no", "plyz", "psn", "slp", "burn"};
+    private static final String[] STATS = {"no", "PAR", "PSN", "SLP", "BRN"};
     
     public Pokemon (String name, int maxHealth, int speed, Move[] moveSet) {
         this.name = name;
@@ -53,21 +53,13 @@ public class Pokemon {
         return moves[number];
     }
 
+    public String getStatus() {
+        return status;
+    }
+
     public String getImage() {
         return "Pokemon\\" + name + ".png";
     }
-
-    public void receive(int dam, String stat) {
-        tempHealth -= dam;
-        if (tempHealth <= 0)
-            faint = true;
-        if (stat.equals(STATS[1]))
-            status = STATS[1];
-        else if (stat.equals(STATS[2]))
-            status = STATS[2];
-        else if (stat.equals(STATS[3]))
-            status = STATS[4];
-   }
     
     public void heal(int health) {
         tempHealth += health;
@@ -119,6 +111,13 @@ public class Pokemon {
         for (int i = 0; i < MOVES; i++)
             moves[i].toFile(p);
     }
+
+    public void receive(int dam, String stat) {
+        tempHealth -= dam;
+        if (tempHealth <= 0)
+            faint = true;
+        status = stat;
+   }
 
     public static void main(String[] args) throws IOException {
         File test = new File("pokemon.txt");
