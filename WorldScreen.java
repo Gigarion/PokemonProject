@@ -377,7 +377,7 @@ public class WorldScreen {
         StdDraw.picture(0, 0, wImage[direction], .05, .05);
         for (int i = 0; i < walls.length; i++)
             walls[i].draw();
-        for (int i = 0; i < walls.length; i++)
+        for (int i = 0; i < actors.length; i++)
             actors[i].draw();
         StdDraw.show(5);
     }
@@ -432,11 +432,6 @@ public class WorldScreen {
                     }
                 }
             }
-            System.out.println("locked: " + lock);
-            System.out.println("CurrentMenu: " + currentMenu);
-            System.out.println("depth: " + depth);
-            System.out.println("cursor: " + cursor);
-            System.out.println();
             drawWorld();
         }
     }
@@ -491,11 +486,6 @@ public class WorldScreen {
                     }
                 } break;
             }
-            System.out.println("locked: " + lock);
-            System.out.println("CurrentMenu: " + currentMenu);
-            System.out.println("depth: " + depth);
-            System.out.println("cursor: " + cursor);
-            System.out.println();
             drawWorld();
         }
     }
@@ -543,11 +533,6 @@ public class WorldScreen {
                 }  break;
             }
             drawWorld();
-            System.out.println("locked: " + lock);
-            System.out.println("CurrentMenu: " + currentMenu);
-            System.out.println("depth: " + depth);
-            System.out.println("cursor: " + cursor);
-            System.out.println();
         }
     }
     
@@ -594,11 +579,6 @@ public class WorldScreen {
                 } break;
             }
             drawWorld();
-            System.out.println("locked: " + lock);
-            System.out.println("CurrentMenu: " + currentMenu);
-            System.out.println("depth: " + depth);
-            System.out.println("cursor: " + cursor);
-            System.out.println();
         }
     }
     
@@ -635,11 +615,6 @@ public class WorldScreen {
             case 3: break;
         }
         drawWorld();
-        System.out.println("locked: " + lock);
-        System.out.println("CurrentMenu: " + currentMenu);
-        System.out.println("depth: " + depth);
-        System.out.println("cursor: " + cursor); 
-        System.out.println();
     }
     
     public void act() throws IOException {
@@ -732,11 +707,6 @@ public class WorldScreen {
                 if (actable) actors[which].act(); 
             } break;
         }
-        System.out.println("locked: " + lock);
-        System.out.println("CurrentMenu: " + currentMenu);
-        System.out.println("depth: " + depth);
-        System.out.println("cursor: " + cursor); 
-        System.out.println();
         drawWorld();
     }
     

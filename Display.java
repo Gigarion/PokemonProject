@@ -205,6 +205,10 @@ public class Display {
             StdDraw.setPenRadius(0.006);
             if (length > 0)
                 StdDraw.line(EHBX[0], EHBY, EHBX[0] + length, EHBY);
+            String stat = enemy.getPokemon(enPokeOut).getStatus();
+            System.out.println(stat);
+            if (!stat.equals("no"))
+                StdDraw.picture(EHBX[0] - 0.06, EHBY, "images\\" + stat + ".png");
         }
         
         if (mainPokeStats) {

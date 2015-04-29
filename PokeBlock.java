@@ -19,6 +19,7 @@ public class PokeBlock {
     private double tempHealth;
     private double health;
     private double percent;
+    private String status;
     
     public PokeBlock (Pokemon poke) {
         name = poke.getName();
@@ -27,6 +28,7 @@ public class PokeBlock {
         tempHealth = poke.getTempHealth();
         percent = (double) tempHealth / health;
         faint = poke.isFaint();
+        status = poke.getStatus();
     }
     
     public PokeBlock() {
@@ -79,6 +81,9 @@ public class PokeBlock {
                 StdDraw.polygon(xBounds, yBounds);
                 
                 StdDraw.picture(x + BIGPICX, y + BIGPICY, image, .25, .25);
+                
+                if (!status.equals("no"))
+                    StdDraw.picture(x + BIGPICX, y + (BIGPICY / 2), "images\\" + status + ".png");
             }
             else {
                 
@@ -96,6 +101,8 @@ public class PokeBlock {
                 StdDraw.setPenRadius(BORDER);
                 StdDraw.polygon(xBounds, yBounds);
                 StdDraw.picture(x + PICX, y + PICY, image);
+                if (!status.equals("no"))
+                    StdDraw.picture(x + PICX, y + (PICY / 2), "images\\" + status + ".png");
                 
                 StdDraw.setPenColor();
                 StdDraw.setPenRadius(0.016);
