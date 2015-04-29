@@ -97,16 +97,18 @@ public class Pokemon {
         *********************************************************/
         
         String n = s.next();
-        int m = Integer.parseInt(s.next());
-        int sp = Integer.parseInt(s.next());
+        File poke = new File(n);
+        Scanner readPoke = new Scanner(poke);
+        String name = readPoke.next();
+        int m = Integer.parseInt(readPoke.next());
+        int sp = Integer.parseInt(readPoke.next());
         
         Move[] myMoves = new Move[MOVES];
         for (int i = 0; i < MOVES; i++) {
-            myMoves[i] = Move.setMove(s);
+            myMoves[i] = Move.setMove(readPoke);
         }
-        
-        Pokemon toReturn = new Pokemon(n, m, sp, myMoves);
-        //System.out.println(n);
+        readPoke.close();
+        Pokemon toReturn = new Pokemon(name, m, sp, myMoves);
         return toReturn;
     }
 

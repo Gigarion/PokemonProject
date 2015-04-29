@@ -24,7 +24,7 @@ public class Move {
         this.accuracy = acc;
     }
     
-    public static Move setMove(Scanner s) {
+    public static Move setMove(Scanner s) throws IOException {
         /***************************************
         * setMove requires the following format:
         * 
@@ -34,11 +34,14 @@ public class Move {
         * damage of move (negative if healing)
         * accuracy of move 
         ****************************************/
-        String n = s.next();
-        int t = Integer.parseInt(s.next());
-        String st = s.next();
-        int d = Integer.parseInt(s.next());
-        int a = Integer.parseInt(s.next());
+        File toRead = new File("moves\\" + s.next() + ".txt");
+        Scanner move = new Scanner(toRead);
+        String n = move.next();
+        int t = Integer.parseInt(move.next());
+        String st = move.next();
+        int d = Integer.parseInt(move.next());
+        int a = Integer.parseInt(move.next());
+        move.close();
         Move toReturn = new Move(n, t, st, d, a);
         return toReturn;
     }
