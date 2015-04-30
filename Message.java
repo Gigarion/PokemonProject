@@ -103,4 +103,18 @@ public class Message {
     public static void flip() {
         currentState = "Switch Pokemon?";
     }
+
+    public static void poison(Pokemon poke) {
+        currentState = poke.getName() + " is hurt by poison!";
+    }
+
+    public static void status(Pokemon target, String stat) {
+        String expand = "";
+        switch(stat) {
+            case "PAR": expand = "PARALYZED"; break;
+            case "PSN": expand = "POISONED"; break;
+            case "BRN": expand = "BURNED"; break;
+        }
+        currentState = target.getName() + " has been " + expand;
+    }
 }

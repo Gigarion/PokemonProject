@@ -205,8 +205,8 @@ public class Display {
             StdDraw.setPenRadius(0.006);
             if (length > 0)
                 StdDraw.line(EHBX[0], EHBY, EHBX[0] + length, EHBY);
+            
             String stat = enemy.getPokemon(enPokeOut).getStatus();
-            System.out.println(stat);
             if (!stat.equals("no"))
                 StdDraw.picture(EHBX[0] - 0.06, EHBY, "images\\" + stat + ".png");
         }
@@ -233,6 +233,10 @@ public class Display {
             StdDraw.setPenRadius();
             StdDraw.setPenColor();
             StdDraw.textRight(PHBX[1], -.55, "HP: " + mp.getTempHealth() + "/" + mp.getMaxHealth());
+
+            String stat = enemy.getPokemon(enPokeOut).getStatus();
+            if (!stat.equals("no"))
+                StdDraw.picture(EHBX[0] - 0.06, EHBY, "images\\" + stat + ".png");
         }
         
         if (battle) {
@@ -670,9 +674,17 @@ public class Display {
         }
     }
     
-    public static void enterBattle() {
+    /*public static void enterBattle() {
         battle = true;
         world = false;
+    }*/
+
+    public static void poisonSequence(Pokemon poke) {
+        Message.poison(poke);
+        update();
+        timeDelay();
+        int poison = (poke.getMaxHealth() / 8);
+        poke.receive(0, "no");
     }
     
     public static int getBattleCursorLocation() {
@@ -874,6 +886,13 @@ public class Display {
         else {
             Message.miss(enemy, enemy.getPokemon(enPokeOut));
             showMessage();
+        }
+
+        if (main.getPokemon(mainPokeOut).getStatus().equals("PSN")) {
+            poisonSequence(main.getPokemon(mainPokeOut));
+        }
+        if (enemy.getPokemon(enPokeOut).getStatus().equals("PSN")) {
+            poisonSequence(enemy.getPokemon(enPokeOut));
         }
     } 
     
