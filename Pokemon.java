@@ -116,7 +116,8 @@ public class Pokemon {
         tempHealth -= dam;
         if (tempHealth <= 0)
             faint = true;
-        status = stat;
+        if (status.equals("no"))
+            status = stat;
    }
 
     public static void main(String[] args) throws IOException {

@@ -79,9 +79,9 @@ public class Move {
     }
 
     public void makeMove(Pokemon t) {
-        if (Math.random() * 100.0 < statAcc)  {
+        if (Math.random() * 100.0 < statAcc && !status.equals("no"))  {
             t.receive(damage, status);
-            System.out.println("working");
+            Message.status(t, status);
         }
         else t.receive(damage, "no");
     }
