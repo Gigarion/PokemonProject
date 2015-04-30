@@ -14,18 +14,18 @@ public class Move {
     private String status; // detail what status effect if any occurs
     private int damage; // how much damage the move does
     private int accuracy; //  likelihood of hit
-    private static final int SPER = 20;
-    private static final int PLYZ = 45;
+    private int statAcc;
     
-    public Move (String name, int targetable, String stat, int dam, int acc) {
+    public Move (String name, int targetable, String stat, int dam, int acc, int sAcc) {
         this.name = name;
         this.whoHit = targetable;
         this.status = stat;
         this.damage = dam;
         this.accuracy = acc;
+        this.statAcc = sAcc;
     }
     
-    public static Move setMove(Scanner s) {
+    public static Move setMove(Scanner s) throws IOException {
         /***************************************
         * setMove requires the following format:
         * 
@@ -34,13 +34,18 @@ public class Move {
         * if status, what status?
         * damage of move (negative if healing)
         * accuracy of move 
+        * adjusted accuracy of any status effect of the move
         ****************************************/
-        String n = s.next();
-        int t = Integer.parseInt(s.next());
-        String st = s.next();
-        int d = Integer.parseInt(s.next());
-        int a = Integer.parseInt(s.next());
-        Move toReturn = new Move(n, t, st, d, a);
+        File toRead = new File("moves\\" + s.next() + ".txt");
+        Scanner move = new Scanner(toRead);
+        String n = move.next();
+        int t = Integer.parseInt(move.next());
+        String st = move.next();
+        int d = Integer.parseInt(move.next());
+        int a = Integer.parseInt(move.next());
+        int sa = Integer.parseInt(move.next());
+        move.close();
+        Move toReturn = new Move(n, t, st, d, a, sa);
         return toReturn;
     }
 
@@ -50,6 +55,7 @@ public class Move {
         p.println(status);
         p.println(damage);
         p.println(accuracy);
+        p.println(statAcc);
     }
     
     public String getName() {
@@ -73,6 +79,10 @@ public class Move {
     }
 
     public void makeMove(Pokemon t) {
-        t.receive(damage);
+        if (Math.random() * 100.0 < statAcc && !status.equals("no"))  {
+            t.receive(damage, status);
+            Message.status(t, status);
+        }
+        else t.receive(damage, "no");
     }
 }

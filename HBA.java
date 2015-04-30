@@ -31,7 +31,7 @@ public class HBA {
          * Notes on the battle function:
          * 
          * the battle file must be laid out in the
-         * following format:
+         * following format:  
          * 
          * background.extension
          * audiofile.extension
@@ -50,7 +50,9 @@ public class HBA {
         // find the battle file and set up the scanner
         String battleBackground = s.next();
         Display.setFightBackground(battleBackground);
-        StdAudio.loop(s.next());
+        String fightSong = s.next();
+        StdAudio.loop(fightSong);
+        Display.interval();
         // set this battle's background and audio
        
         Player enemy = new Player(s);
@@ -95,9 +97,10 @@ public class HBA {
                 Display.interval();
             }
         }
+        StdAudio.close();
+        Display.interval(); 
         System.out.println("im free");
         if (win) {
-            StdAudio.play("music\\win.mid");
             Display.winSequence(enemy, player);
         }
         else if (lose) {
@@ -114,7 +117,7 @@ public class HBA {
         read.close();
         Display.setBounds();
         WorldScreen mainWorld = new WorldScreen(player);
-        mainWorld.draw();
+        mainWorld.drawWorld();
         mainWorld.run();
         System.out.println("im done");
     }
