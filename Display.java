@@ -234,9 +234,9 @@ public class Display {
             StdDraw.setPenColor();
             StdDraw.textRight(PHBX[1], -.55, "HP: " + mp.getTempHealth() + "/" + mp.getMaxHealth());
 
-            String stat = enemy.getPokemon(enPokeOut).getStatus();
+            String stat = main.getPokemon(mainPokeOut).getStatus();
             if (!stat.equals("no"))
-                StdDraw.picture(EHBX[0] - 0.06, EHBY, "images\\" + stat + ".png");
+                StdDraw.picture(PHBX[0] - 0.06, PHBY, "images\\" + stat + ".png");
         }
         
         if (battle) {
@@ -437,6 +437,13 @@ public class Display {
         
         enPokeOut++;
         enPokeSequence();
+
+        if (main.getPokemon(mainPokeOut).getStatus().equals("PSN")) {
+            poisonSequence(main.getPokemon(mainPokeOut));
+        }
+        if (main.getPokemon(mainPokeOut).getStatus().equals("BRN")) {
+            burnSequence(main.getPokemon(mainPokeOut));
+        }
     }
     
     public static void playerFaintSequence() {
@@ -463,6 +470,13 @@ public class Display {
         Message.pokeMenu();
         depth = 0;
         currentMenu = 1;
+
+        if (enemy.getPokemon(enPokeOut).getStatus().equals("PSN")) {
+            poisonSequence(enemy.getPokemon(enPokeOut));
+        }
+        if (enemy.getPokemon(enPokeOut).getStatus().equals("BRN")) {
+            burnSequence(enemy.getPokemon(enPokeOut));
+        }
     }
     
     public static void timeDelay() {
@@ -674,17 +688,22 @@ public class Display {
         }
     }
     
-    /*public static void enterBattle() {
-        battle = true;
-        world = false;
-    }*/
-
     public static void poisonSequence(Pokemon poke) {
         Message.poison(poke);
         update();
         timeDelay();
+        timeDelay();
         int poison = (poke.getMaxHealth() / 8);
-        poke.receive(0, "no");
+        poke.receive(poison, "no");
+    }
+
+    public static void burnSequence(Pokemon poke) {
+        Message.burn(poke);
+        update();
+        timeDelay();
+        timeDelay();
+        int burn = (poke.getMaxHealth() / 12);
+        poke.receive(burn, "no");
     }
     
     public static int getBattleCursorLocation() {
@@ -703,14 +722,22 @@ public class Display {
                 Move toUse = main.getPokemon(mainPokeOut).getMove(spot);
                 currentMenu = 4;
                 cursor = 0;
-                if (Math.random() * 100 < toUse.getAccuracy()) {
+                if (main.getPokemon(mainPokeOut).getStatus().equals("PAR") && Math.random() < 0.25) {
+                    Message.paralyze(main.getPokemon(mainPokeOut));                    
+                    update();
+                    timeDelay();
+                    timeDelay();
+                }
+
+                else if (Math.random() * 100 < toUse.getAccuracy()) {
                     
                     Message.makeMove(main.getPokemon(mainPokeOut), toUse);
                     showMessage();
                     fightAnimation(toUse.getTarget(), main);
                     
-                    if (toUse.getTarget() >= 0)
+                    if (toUse.getTarget() >= 0) {
                         toUse.makeMove(enemy.getPokemon(enPokeOut));
+                    }
                     
                     else if (toUse.getTarget() < 0)
                         toUse.makeMove(main.getPokemon(mainPokeOut));
@@ -726,7 +753,10 @@ public class Display {
                 else if(main.getPokemon(mainPokeOut).isFaint()) {
                     playerFaintSequence();
                 }
-                else { timeDelay(); enemyAction(); }
+                else { 
+                    timeDelay(); 
+                    enemyAction(); 
+                }
             }
             break;
             case 1: {
@@ -860,7 +890,11 @@ public class Display {
         currentMenu = 4;
         int move = (int) (Math.random() * 4);
         Move toUse = enemy.getPokemon(enPokeOut).getMove(move);
-        if (Math.random() * 100 < toUse.getAccuracy()) {
+
+        if (enemy.getPokemon(enPokeOut).getStatus().equals("PAR") && Math.random() < 0.25)
+                    Message.paralyze(enemy.getPokemon(enPokeOut));
+
+        else if (Math.random() * 100 < toUse.getAccuracy()) {
             Message.makeMove(enemy.getPokemon(enPokeOut), toUse);
             showMessage();
             
@@ -894,6 +928,20 @@ public class Display {
         if (enemy.getPokemon(enPokeOut).getStatus().equals("PSN")) {
             poisonSequence(enemy.getPokemon(enPokeOut));
         }
+        if (main.getPokemon(mainPokeOut).getStatus().equals("BRN")) {
+            burnSequence(main.getPokemon(mainPokeOut));
+        }
+        if (enemy.getPokemon(enPokeOut).getStatus().equals("BRN")) {
+            burnSequence(enemy.getPokemon(enPokeOut));
+        }
+        if (enemy.getPokemon(enPokeOut).isFaint())
+                enemyFaintSequence();
+        if(main.getPokemon(mainPokeOut).isFaint()) {
+            playerFaintSequence();
+        }
+
+        timeDelay();
+        Message.decide(main.getPokemon(mainPokeOut));
     } 
     
     private static void runText() {

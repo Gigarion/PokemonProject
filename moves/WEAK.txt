@@ -1,6 +1,6 @@
-BOTTOM
+WEAK
 1
-BRN
+no
 0
 100
 100

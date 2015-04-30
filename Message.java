@@ -108,6 +108,18 @@ public class Message {
         currentState = poke.getName() + " is hurt by poison!";
     }
 
+    public static void paralyze(Pokemon poke) {
+        currentState = poke.getName() + " is paralyzed! It can't move!";
+    }
+
+    public static void burn(Pokemon poke) {
+        currentState = poke.getName() + " is hurt by its burn!";
+    }
+
+    public static void noEffect() {
+        currentState = "It had no effect!";
+    }
+
     public static void status(Pokemon target, String stat) {
         String expand = "";
         switch(stat) {

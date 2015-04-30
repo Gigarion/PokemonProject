@@ -118,7 +118,7 @@ public class Pokemon {
             faint = true;
         if (status.equals("no"))
             status = stat;
-   }
+    }
 
     public static void main(String[] args) throws IOException {
         File test = new File("pokemon.txt");

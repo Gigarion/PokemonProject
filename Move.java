@@ -1,3 +1,4 @@
+
 /*******************************
   *  ////////Caleb Gum\\\\\\\\\
   * Move class to support the
@@ -80,8 +81,12 @@ public class Move {
 
     public void makeMove(Pokemon t) {
         if (Math.random() * 100.0 < statAcc && !status.equals("no"))  {
+            if (t.getStatus().equals("no"))
+                Message.status(t, status);
+            
+            else if (damage == 0 && !status.equals("no")) Message.noEffect();
             t.receive(damage, status);
-            Message.status(t, status);
+            Display.timeDelay();
         }
         else t.receive(damage, "no");
     }
