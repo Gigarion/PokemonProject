@@ -61,10 +61,15 @@ public class Pokemon {
         return "Pokemon\\" + name + ".png";
     }
     
-    public void heal(int health) {
+    public void heal(int health, String cure) {
         tempHealth += health;
         if (tempHealth > maxHealth)
             tempHealth = maxHealth;
+        if (cure == status)
+            status = "no";
+        if (cure.equals("REVIVE")) {
+            tempHealth = maxHealth / 2;
+        }
     }
 
     public void reset() {
@@ -118,6 +123,24 @@ public class Pokemon {
             faint = true;
         if (status.equals("no"))
             status = stat;
+    }
+
+    public void useMove(int moveNum, Pokemon target) {
+        Move toUse = moves[moveNum];
+        int whoHit = toUse.getTarget();
+        String effect = toUse.getStatus();
+
+        int damage = toUse.getDamage();
+        if (status.equals("BRN"))
+            damage /= 2;
+        if ((Math.random() * 100) < toUse.getStatAccuracy() && !toUse.getStatus().equals("no")) {
+            if (target.getStatus().equals("no"))
+                Message.status(target, effect);
+            else if (damage == 0 && !effect.equals("no")) Message.noEffect();
+            target.receive(damage, effect);
+            Display.timeDelay();
+        }
+        else target.receive(damage, "no");
     }
 
     public static void main(String[] args) throws IOException {

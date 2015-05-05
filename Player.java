@@ -7,6 +7,7 @@ public class Player {
     private Pokemon[] team;
     private int numItems;
     private Item[] items;
+    private Ball[] balls;
     
     public Player(String n) {
         name = n;
@@ -27,8 +28,12 @@ public class Player {
         items = new Item[numItems];
         for (int i = 0; i < numItems; i++)
             items[i] = Item.fromFile(itemRead);
+        int numBalls = Integer.parseInt(itemRead.next());
+        balls = new Ball[numBalls];
+        for (int i = 0; i < numBalls; i++)
+            balls[i] = Ball.fromFile(itemRead);
         itemRead.close();
-        
+
         for (int i = 0; i < teamSize; i++)
             team[i] = Pokemon.fromFile(s);
     }
@@ -66,6 +71,10 @@ public class Player {
 
     public Item[] getItems() {
         return items;
+    }
+
+    public Ball[] getBalls() {
+        return balls;
     }
 
     public void makeMove(int poke, int move, Pokemon target) {

@@ -1,0 +1,4 @@
+REVIVE
+0
+REVIVE
+Revives fainted Pokemon

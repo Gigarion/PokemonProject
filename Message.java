@@ -129,4 +129,20 @@ public class Message {
         }
         currentState = target.getName() + " has been " + expand;
     }
+
+    public static void noItemEffect() {
+        currentState = "It would have no effect!";
+    }
+
+    public static void ball(Ball ball) {
+        currentState = "Throw " + ball.getName() + " ?";
+    }
+
+    public static void notWild() {
+        currentState = "You can't catch another person's Pokemon!";
+    }
+
+    public static void escaped(Pokemon jailbird) {
+        currentState = jailbird.getName() + " broke free!";
+    }
 }

@@ -20,6 +20,7 @@ public class WorldScreen {
     private Wall[] walls;
     private Item toUse;
     private int depth;
+    private int shelf;
     private int holdCursor;
     private boolean fromItem;
     private boolean start;
@@ -118,6 +119,8 @@ public class WorldScreen {
                     Display.interval();
                     Display.setMainBackground("tempBack.png");
                     Display.setMain(main);
+                    if (toPrint[i].contains("wild")) Display.setWild(true);
+                    else Display.setWild(false);
                     HBA.battle(toPrint[i],  main);
                     StdAudio.loop(WORLDSONG);
                     hasInteracted = true;
@@ -309,6 +312,7 @@ public class WorldScreen {
             actors[i] = new Actor(x, y, img, fName);
         }
         this.depth = 0;
+        this.shelf = 0;
         this.holdCursor = 0;
         this.currentMenu = 3;
         this.lock = false;
@@ -366,7 +370,7 @@ public class WorldScreen {
                 message();
             } break;
             case 1: PokeDraw.draw(main, cursor); break;
-            case 2: Bag.draw(main, cursor); break;
+            case 2: Bag.draw(main, cursor, shelf); break;
             case 3: break;
         }
         StdDraw.show(5);
@@ -396,8 +400,14 @@ public class WorldScreen {
                 } break;
                 
                 case 2: { 
-                    if (cursor == 0) cursor = main.getNumItems() - 1;
-                    else cursor--;
+                    if (shelf == 0) {
+                        if (cursor == 0) cursor = main.getNumItems() - 1;
+                        else cursor--;
+                    }
+                    else if (shelf == 1) {
+                        if (cursor == 0) cursor = main.getBalls().length - 1;
+                        else cursor --;
+                    }
                 } break;
                 
                 case 3: {
@@ -450,8 +460,14 @@ public class WorldScreen {
                 } break;
                 
                 case 2: { 
-                    if (cursor == main.getNumItems() - 1) cursor = 0;
-                    else cursor++;
+                    if (shelf == 0) {
+                        if (cursor == main.getNumItems() - 1) cursor = 0;
+                        else cursor++;
+                    }
+                    else if (shelf == 1) {
+                        if (cursor == main.getBalls().length - 1) cursor = 0;
+                        else cursor++;
+                    }
                 } break;
                 
                 case 3: {
@@ -499,7 +515,10 @@ public class WorldScreen {
                     if (cursor == 0) cursor = 1;
                     else cursor = 0;
                 } break;
-                case 2: break;
+                case 2: {
+                    if (shelf == 0) shelf = 1;
+                    else shelf = 0;
+                } break;
                 case 3: {
                     if (direction != 2)
                         direction = 2;
@@ -545,7 +564,10 @@ public class WorldScreen {
                     if (cursor == 0) cursor = 1;
                     else cursor = 0;
                 } break;
-                case 2: break;
+                case 2: {
+                    if (shelf == 0) shelf = 1;
+                    else shelf = 0;
+                } break;
                 case 3: {
                     if (direction != 3)
                         direction = 3;
@@ -677,22 +699,16 @@ public class WorldScreen {
             } break;
             
             case 2: { // Bag menu
-                Item[] usable = main.getItems();
-                switch(depth) {
-                    case 0: {
-                        if (usable[cursor].getNumber() > 0) {
-                            Message.item();
-                            fromItem = true;
-                            currentMenu = 1;
-                            cursor = 0;
-                            depth = 0;
-                            toUse = usable[cursor];
-                        }
-                        else Message.outOfItem(usable[cursor]);
-                    } break;
-                    case 1: {
-
-                    } break;
+                if (shelf == 0) {
+                    Item[] usable = main.getItems();
+                    if (usable[cursor].getNumber() > 0) {
+                        Message.item();
+                        fromItem = true;
+                        currentMenu = 1;
+                        cursor = 0;                                depth = 0;
+                        toUse = usable[cursor];
+                    }
+                    else Message.outOfItem(usable[cursor]);
                 }
             } break;
             case 3: { // No menu

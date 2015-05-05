@@ -1,0 +1,4 @@
+SUPER POTION
+50
+no
+Heals Pokemon, improved healing

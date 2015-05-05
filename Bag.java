@@ -23,7 +23,7 @@ public class Bag {
     private static final Color  LORANGE  = new Color(255, 200, 50);
     private static final Font   BIGFONT  = new Font(Font.MONOSPACED, 1, 25);
     
-    public static void draw(Player p, int cursor) {
+    public static void draw(Player p, int cursor, int shelf) {
         int count = 0;
         for (double i = 0.83; i > -0.88; i -= 0.08) {
             ITEMY[count] = i;
@@ -57,10 +57,18 @@ public class Bag {
         StdDraw.picture(-.82, 0.88, CURSOR, .05, .05, 180);
         
         Item[] toShow = p.getItems();
-        
-        for (int i = 0; i < toShow.length; i++) {
-            if (cursor == i)  toShow[i].draw(true, ITEMY[i]);
-            else     toShow[i].draw(false, ITEMY[i]);
+        Ball[] balls = p.getBalls();
+        if (shelf == 0) {
+            for (int i = 0; i < toShow.length; i++) {
+                if (cursor == i)  toShow[i].draw(true, ITEMY[i]);
+                else     toShow[i].draw(false, ITEMY[i]);
+            }
+        }
+        else if (shelf == 1) {
+            for (int i = 0; i < balls.length; i++) {
+                if (cursor == i)  balls[i].draw(true, ITEMY[i]);
+                else     balls[i].draw(false, ITEMY[i]);
+            }
         }
     }
     

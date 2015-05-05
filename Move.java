@@ -67,8 +67,20 @@ public class Move {
         return whoHit;
     }
 
+    public int getDamage() {
+        return damage;
+    }
+
     public int getAccuracy() {
         return accuracy;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public int getStatAccuracy() {
+        return statAcc;
     }
 
     public void listStats() {
