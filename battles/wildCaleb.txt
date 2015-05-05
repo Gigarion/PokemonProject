@@ -1,0 +1,3 @@
+images\\wildback.png
+music\\trainer-battle.mid
+pokemon\\CALEB.txt

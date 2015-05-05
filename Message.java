@@ -145,4 +145,20 @@ public class Message {
     public static void escaped(Pokemon jailbird) {
         currentState = jailbird.getName() + " broke free!";
     }
+
+    public static void winWild(Player enemy) {
+        currentState = enemy.getName() + " has been defeated!";
+    }
+
+    public static void loseWild(Player enemy, Player main) {
+        currentState = enemy.getName() + " has defeated " + main.getName();
+    }
+
+    public static void wildAppear(Player enemy) {
+        currentState = "A " + enemy.getName() + " has appeared!";
+    }
+
+    public static void capture(Player enemy) {
+        currentState = enemy.getName() + " has been caught!";
+    }
 }

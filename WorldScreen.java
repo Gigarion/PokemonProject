@@ -35,6 +35,7 @@ public class WorldScreen {
     private static final int ENTER = 32;
     private static final int BACK = 66;
     private static final int START = 80;
+    private static final int MUSIC = 77;
     
     private class Actor {
         private static final double RADIUS = 0.06;
@@ -128,6 +129,8 @@ public class WorldScreen {
                 }
                 else if (toPrint[i].contains(".mid") && !hasInteracted) {
                     lock = true;
+                    StdAudio.close();
+                    Display.timeDelay();
                     StdAudio.play(toPrint[i]);
                     Display.interval();
                     temp.delete();
@@ -352,6 +355,10 @@ public class WorldScreen {
             else if (StdDraw.isKeyPressed(BACK)) {
                 back();
             }
+
+            else if (StdDraw.isKeyPressed(MUSIC)) {
+                drain();
+            }
             Display.interval();
         }
     }
@@ -518,6 +525,7 @@ public class WorldScreen {
                 case 2: {
                     if (shelf == 0) shelf = 1;
                     else shelf = 0;
+                    cursor = 0;
                 } break;
                 case 3: {
                     if (direction != 2)
@@ -703,10 +711,11 @@ public class WorldScreen {
                     Item[] usable = main.getItems();
                     if (usable[cursor].getNumber() > 0) {
                         Message.item();
+                        toUse = usable[cursor];
                         fromItem = true;
                         currentMenu = 1;
-                        cursor = 0;                                depth = 0;
-                        toUse = usable[cursor];
+                        depth = 0;
+                        cursor = 0;  
                     }
                     else Message.outOfItem(usable[cursor]);
                 }
@@ -725,7 +734,11 @@ public class WorldScreen {
         }
         drawWorld();
     }
-    
+    private void drain() {
+        StdAudio.close();
+        Display.timeDelay();
+        StdAudio.loop(WORLDSONG);
+    }
     private void message() {
         StdDraw.setPenColor(StdDraw.WHITE);
         StdDraw.filledPolygon(MESSX, MESSY);

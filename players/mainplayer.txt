@@ -1,7 +1,6 @@
 pipe
-6
+5
 players//mainitems.txt
-pokemon//SAM.txt
 pokemon//SAM.txt
 pokemon//SAM.txt
 pokemon//SAM.txt
