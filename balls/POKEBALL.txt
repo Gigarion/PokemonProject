@@ -1,0 +1,3 @@
+POKEBALL
+25
+Standard Pokemon catching ball

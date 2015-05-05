@@ -1,0 +1,4 @@
+POTION
+20
+no
+Heals Pokemon

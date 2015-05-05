@@ -1,11 +1,10 @@
+3
+items\\POTION.txt
 2
-Potion
+items\\SUPERPOTION.txt
 2
-20
-no
-Heals Pokemon
-Super Potion
+items\\REVIVE.txt
 2
-50
-no
-More powerful potion, heals pokemon
+1
+balls\\POKEBALL.txt
+5

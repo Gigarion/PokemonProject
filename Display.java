@@ -46,12 +46,15 @@ public class Display {
     private static final Font ITEM = new Font(Font.MONOSPACED, 0, 22);
     
     private static boolean battle;
+    private static boolean wild;
     private static boolean menu;
     private static boolean world;
     private static boolean message;
     private static boolean mustChoose;
     private static boolean fromItem;
     private static boolean lock;
+
+    private static int shelf;
     
     private static boolean players;
     
@@ -64,6 +67,9 @@ public class Display {
     private static Player main;
     private static Player enemy;
     
+    private static Pokemon mainOut;
+    private static Pokemon enOut;
+
     private static int enPokeOut;
     private static int mainPokeOut;
     
@@ -82,6 +88,10 @@ public class Display {
         enemy = e;
     }
     
+    public static boolean isWild() {
+        return wild;
+    }
+
     public static void setMain(Player m) {
         main = m;
     }
@@ -162,7 +172,8 @@ public class Display {
     }
     
     public static void update() {
-        
+        mainOut = main.getPokemon(mainPokeOut);
+        enOut = enemy.getPokemon(enPokeOut);
         StdDraw.picture(0, 0, fightBack, 2, 2);
         
         if (world) {
@@ -174,11 +185,11 @@ public class Display {
         }
         
         if (enPoke) {
-            StdDraw.picture(EPX, EPY, enemy.getPokemon(enPokeOut).getImage());
+            StdDraw.picture(EPX, EPY, enOut.getImage());
         } 
         
         if (mainPoke) 
-            StdDraw.picture(PPX, PPY, main.getPokemon(mainPokeOut).getImage());
+            StdDraw.picture(PPX, PPY, mainOut.getImage());
         
         if (message) {
             messageUpdate();
@@ -193,11 +204,11 @@ public class Display {
             StdDraw.setPenColor(StdDraw.BLACK);
             StdDraw.setPenRadius(BORDER);
             StdDraw.polygon(ESBX, ESBY);
-            StdDraw.textLeft(-.93, .9, enemy.getPokemon(enPokeOut).getName());
+            StdDraw.textLeft(-.93, .9, enOut.getName());
             StdDraw.setPenRadius(0.012);
             StdDraw.line(EHBX[0], EHBY, EHBX[1], EHBY);
             
-            Pokemon en = enemy.getPokemon(enPokeOut);
+            Pokemon en = enOut;
             double perLine = (double) en.getTempHealth() / en.getMaxHealth();
             double length = (EHBX[1] - EHBX[0]) * perLine;
             
@@ -206,7 +217,7 @@ public class Display {
             if (length > 0)
                 StdDraw.line(EHBX[0], EHBY, EHBX[0] + length, EHBY);
             
-            String stat = enemy.getPokemon(enPokeOut).getStatus();
+            String stat = enOut.getStatus();
             if (!stat.equals("no"))
                 StdDraw.picture(EHBX[0] - 0.06, EHBY, "images\\" + stat + ".png");
         }
@@ -217,12 +228,12 @@ public class Display {
             StdDraw.setPenColor(StdDraw.BLACK);
             StdDraw.setPenRadius(BORDER);
             StdDraw.polygon(PSBX, PSBY);
-            StdDraw.textLeft(.37, -.55, main.getPokemon(mainPokeOut).getName());
+            StdDraw.textLeft(.37, -.55, mainOut.getName());
             StdDraw.setPenRadius(0.012);
             StdDraw.line(PHBX[0], PHBY, PHBX[1], PHBY);
             StdDraw.setPenRadius();
             
-            Pokemon mp = main.getPokemon(mainPokeOut);
+            Pokemon mp = mainOut;
             double perLine = (double) mp.getTempHealth() / mp.getMaxHealth();
             double length = (EHBX[1] - EHBX[0]) * perLine;
             
@@ -234,7 +245,7 @@ public class Display {
             StdDraw.setPenColor();
             StdDraw.textRight(PHBX[1], -.55, "HP: " + mp.getTempHealth() + "/" + mp.getMaxHealth());
 
-            String stat = main.getPokemon(mainPokeOut).getStatus();
+            String stat = mainOut.getStatus();
             if (!stat.equals("no"))
                 StdDraw.picture(PHBX[0] - 0.06, PHBY, "images\\" + stat + ".png");
         }
@@ -251,7 +262,7 @@ public class Display {
         if (currentMenu == 1)
             PokeDraw.draw(main, cursor);
         if (currentMenu == 2) 
-            Bag.draw(main, cursor);
+            Bag.draw(main, cursor, shelf);
         
         StdDraw.show(5);
     }
@@ -285,6 +296,7 @@ public class Display {
         usable = main.getItems();
         currentMenu = 4;
         depth = 0;
+        shelf = 0;
         showPlayers(newBackground);
     }
     
@@ -297,7 +309,7 @@ public class Display {
         battle = false;
         for (double i = 0; i < 2; i += 0.04) {
             update();
-            StdDraw.picture(PPX - i, PPY, main.getPokemon(mainPokeOut).getImage());
+            StdDraw.picture(PPX - i, PPY, mainOut.getImage());
             StdDraw.show(5);
             StdDraw.picture(0, 0, fightBack, 2, 2);
         }        
@@ -346,15 +358,16 @@ public class Display {
         menu = true;
         mainPoke = false;
         mainPokeStats = false;
-        Message.thatsEnough(main.getPokemon(mainPokeOut));
+        Message.thatsEnough(mainOut);
         for (double i = 0; i < 2; i += 0.04) {
             update();
-            StdDraw.picture(PPX - i, PPY, main.getPokemon(mainPokeOut).getImage());
+            StdDraw.picture(PPX - i, PPY, mainOut.getImage());
             StdDraw.show(5);
             StdDraw.picture(0, 0, fightBack, 2, 2);
         }
         
         mainPokeOut = toWhich;
+        mainOut = main.getPokemon(mainPokeOut);
         mainPokeSequence();
         mainPoke = true;
         mainPokeStats = true;
@@ -366,12 +379,12 @@ public class Display {
             enPokeStats = false;
             return;
         }
-        String enemyOut = enemy.getName() + " sent out a " + enemy.getPokemon(enPokeOut).getName() + "!";
+        String enemyOut = enemy.getName() + " sent out a " + enOut.getName() + "!";
         Message.customSet(enemyOut);
         messageUpdate();
         for (double i = 2; i > 0; i -= 0.04) {
             update();
-            StdDraw.picture(EPX + i, EPY, enemy.getPokemon(enPokeOut).getImage());
+            StdDraw.picture(EPX + i, EPY, enOut.getImage());
             StdDraw.show(5);
             StdDraw.picture(0, 0, fightBack, 2, 2);
         }
@@ -382,7 +395,7 @@ public class Display {
         myTurn = true;
         cursor = 0;
         currentMenu = 4;
-        Message.decide(main.getPokemon(mainPokeOut));
+        Message.decide(mainOut);
         update();
     }
     
@@ -391,13 +404,13 @@ public class Display {
         menu = true;
         mainPoke = false;
         mainPokeStats = false;
-        String mainOut = "You're up, " + main.getPokemon(mainPokeOut).getName() + "!";
-        Message.customSet(mainOut);
+        String mess = "You're up, " + mainOut.getName() + "!";
+        Message.customSet(mess);
         messageUpdate();
         update();
         for (double i = 2; i > 0; i -= 0.04) {
             update();
-            StdDraw.picture(PPX - i, PPY, main.getPokemon(mainPokeOut).getImage());
+            StdDraw.picture(PPX - i, PPY, mainOut.getImage());
             StdDraw.show(5);
             StdDraw.picture(0, 0, fightBack, 2, 2);
         }
@@ -409,7 +422,7 @@ public class Display {
         myTurn = true;
         cursor = 0;
         currentMenu = 4;
-        Message.decide(main.getPokemon(mainPokeOut));
+        Message.decide(mainOut);
         update();
     }
     
@@ -417,17 +430,17 @@ public class Display {
         enPoke = false;
         myTurn = false;
         timeDelay();
-        Message.fainted(enemy, enemy.getPokemon(enPokeOut));
+        Message.fainted(enemy, enOut);
         showMessage();
         for (double i = 0; i < 0.1; i += 0.04) {
             update();
-            StdDraw.picture(EPX, EPY + i, enemy.getPokemon(enPokeOut).getImage());
+            StdDraw.picture(EPX, EPY + i, enOut.getImage());
             StdDraw.show(10);
             StdDraw.picture(0, 0, fightBack, 2, 2);
         }
         for (double i = 0; i < 0.3; i += 0.04) {
             update();
-            StdDraw.picture(EPX, EPY - i, enemy.getPokemon(enPokeOut).getImage());
+            StdDraw.picture(EPX, EPY - i, enOut.getImage());
             StdDraw.show(10);
             StdDraw.picture(0, 0, fightBack, 2, 2);
         }
@@ -436,13 +449,14 @@ public class Display {
         StdDraw.show(5);
         
         enPokeOut++;
+        enOut = enemy.getPokemon(enPokeOut);
         enPokeSequence();
 
-        if (main.getPokemon(mainPokeOut).getStatus().equals("PSN")) {
-            poisonSequence(main.getPokemon(mainPokeOut));
+        if (mainOut.getStatus().equals("PSN")) {
+            poisonSequence(mainOut);
         }
-        if (main.getPokemon(mainPokeOut).getStatus().equals("BRN")) {
-            burnSequence(main.getPokemon(mainPokeOut));
+        if (mainOut.getStatus().equals("BRN")) {
+            burnSequence(mainOut);
         }
     }
     
@@ -450,17 +464,17 @@ public class Display {
         mainPoke = false;
         myTurn = false;
         timeDelay();
-        Message.fainted(main, main.getPokemon(mainPokeOut));
+        Message.fainted(main, mainOut);
         messageUpdate();
         StdDraw.show(5);
         for (double i = 0; i < 0.1; i += 0.04) {
             update();
-            StdDraw.picture(PPX, PPY + i, main.getPokemon(mainPokeOut).getImage());
+            StdDraw.picture(PPX, PPY + i, mainOut.getImage());
             StdDraw.show(40);
         }
         for (double i = 0; i < 0.2; i += 0.04) {
             update();
-            StdDraw.picture(PPX, PPY - i, main.getPokemon(mainPokeOut).getImage());
+            StdDraw.picture(PPX, PPY - i, mainOut.getImage());
             messageUpdate();
             StdDraw.show(40);
         }
@@ -470,13 +484,6 @@ public class Display {
         Message.pokeMenu();
         depth = 0;
         currentMenu = 1;
-
-        if (enemy.getPokemon(enPokeOut).getStatus().equals("PSN")) {
-            poisonSequence(enemy.getPokemon(enPokeOut));
-        }
-        if (enemy.getPokemon(enPokeOut).getStatus().equals("BRN")) {
-            burnSequence(enemy.getPokemon(enPokeOut));
-        }
     }
     
     public static void timeDelay() {
@@ -546,7 +553,7 @@ public class Display {
         mainPokeStats = true;
         mainPoke = true;
         mainPokeOut = 0;
-        Message.decide(main.getPokemon(mainPokeOut));
+        Message.decide(mainOut);
         update();
     }
     
@@ -574,9 +581,16 @@ public class Display {
                     }
                 }                            break;
                 case 2: {
-                    if (cursor == 0) 
-                        cursor = main.getItems().length - 1;
-                    else cursor--;
+                    if (shelf == 0) {
+                        if (cursor == 0) 
+                            cursor = main.getItems().length - 1;
+                        else cursor--;
+                    }
+                    else {
+                        if (cursor == 0) 
+                            cursor = main.getBalls().length - 1;
+                        else cursor--;
+                    }
                 }                            break;
                 case 3:                      break;
                 case 4: {
@@ -609,9 +623,16 @@ public class Display {
                     }
                 }                            break;
                 case 2: {
-                    if (cursor == main.getItems().length - 1) 
-                        cursor = 0;
-                    else cursor++;
+                    if (shelf == 0) {
+                        if (cursor == main.getItems().length - 1) 
+                            cursor = 0;
+                        else cursor++;
+                    }
+                    else {
+                        if (cursor == 0) 
+                            cursor = main.getBalls().length - 1;
+                        else cursor++;
+                    }
                 }                            break;
                 case 3:                      break;
                 case 4: {
@@ -643,7 +664,10 @@ public class Display {
                         default: cursor = 0; break;
                     }
                 }                            break;
-                case 2:                      break;
+                case 2: {
+                    if (shelf == 0) shelf = 1;
+                    else shelf = 0;
+                }                            break;
                 case 3:                      break;
                 case 4: {
                     switch(cursor) {
@@ -674,7 +698,10 @@ public class Display {
                         default: cursor = 0; break;
                     }
                 }                            break;
-                case 2:                      break;
+                case 2: {
+                    if (shelf == 0) shelf = 1;
+                    else shelf = 0;
+                }                            break;
                 case 3:                      break;
                 case 4: {
                     switch(cursor) {
@@ -705,6 +732,75 @@ public class Display {
         int burn = (poke.getMaxHealth() / 12);
         poke.receive(burn, "no");
     }
+
+    public static void throwSequence(Ball toThrow) {
+        int chance = (int) (Math.random() * 100);
+        int adjusted = toThrow.getRate();
+        if ((double) enOut.getTempHealth() / enOut.getMaxHealth() < 0.5) adjusted += 10;
+        if ((double) enOut.getTempHealth() / enOut.getMaxHealth() < 0.25) adjusted += 15;
+        if (!enOut.getStatus().equals("no")) adjusted += 15;
+        
+        for (double i = 0; i < 2; i += 0.04) {
+                update();
+                StdDraw.picture(PPX + i + (i / 5), PPY + i, toThrow.getImage());
+                StdDraw.show(5);
+        }
+
+        if (chance < adjusted) {
+            for (int j = 0; j < 3; j++) {
+                StdDraw.picture(EPX, EPY, toThrow.getImage());
+                StdDraw.show(5);
+                interval();
+                for (double i = 0; i < 30; i++) {
+                    update();
+                    StdDraw.picture(EPX, EPY, toThrow.getImage(), i);
+                    StdDraw.show(5);
+
+                }
+                for (double i = 30; i > -30; i--) {
+                    update();
+                    StdDraw.picture(EPX, EPY, toThrow.getImage(), i);
+                    StdDraw.show(5);
+                }
+                for (double i = -30; i < 0; i++) {
+                    update();
+                    StdDraw.picture(EPX, EPY, toThrow.getImage(), i);
+                    StdDraw.show(5);
+                }
+            }
+        }
+        else {
+            enPoke = false;
+            int times =  1 + (int) (Math.random() * 3);
+            for (int j = 0; j < times; j++) {
+                StdDraw.picture(EPX, EPY, toThrow.getImage());
+                StdDraw.show(5);
+                interval();
+                for (double i = 0; i < 30; i++) {
+                    update();
+                    StdDraw.picture(EPX, EPY, toThrow.getImage(), i);
+                    StdDraw.show(5);
+
+                }
+                for (double i = 30; i > -30; i--) {
+                    update();
+                    StdDraw.picture(EPX, EPY, toThrow.getImage(), i);
+                    StdDraw.show(5);
+                }
+                for (double i = -30; i < 0; i++) {
+                    update();
+                    StdDraw.picture(EPX, EPY, toThrow.getImage(), i);
+                    StdDraw.show(5);
+                }
+            }
+            Message.escaped(enOut);
+            enPoke = true;
+            update();
+            timeDelay();
+            timeDelay();
+            Message.decide(mainOut);
+        }
+    }
     
     public static int getBattleCursorLocation() {
         int toReturn = Math.abs(cursor % 4);
@@ -718,62 +814,94 @@ public class Display {
     public static void battleMenuAction() {
         switch(currentMenu) {
             case 0: {
-                int spot = getBattleCursorLocation();
-                Move toUse = main.getPokemon(mainPokeOut).getMove(spot);
+                Move toUse = mainOut.getMove(cursor);
                 currentMenu = 4;
-                cursor = 0;
-                if (main.getPokemon(mainPokeOut).getStatus().equals("PAR") && Math.random() < 0.25) {
-                    Message.paralyze(main.getPokemon(mainPokeOut));                    
+                if (mainOut.getStatus().equals("PAR") && Math.random() < 0.25) {
+                    Message.paralyze(mainOut);                    
                     update();
                     timeDelay();
                     timeDelay();
                 }
 
-                else if (Math.random() * 100 < toUse.getAccuracy()) {
-                    
-                    Message.makeMove(main.getPokemon(mainPokeOut), toUse);
+                else if ((int) (Math.random() * 100) < toUse.getAccuracy()) {
+                    Message.makeMove(mainOut, toUse);
                     showMessage();
                     fightAnimation(toUse.getTarget(), main);
                     
                     if (toUse.getTarget() >= 0) {
-                        toUse.makeMove(enemy.getPokemon(enPokeOut));
+                        mainOut.useMove(cursor, enOut);
                     }
                     
                     else if (toUse.getTarget() < 0)
-                        toUse.makeMove(main.getPokemon(mainPokeOut));
+                        mainOut.useMove(cursor, mainOut);
                     update();
                 }
                 else {
-                    Message.miss(main.getPokemon(mainPokeOut));
+                    Message.miss(mainOut);
                     showMessage();
                 }
                 
-                if (enemy.getPokemon(enPokeOut).isFaint())
+                if (enOut.isFaint())
                     enemyFaintSequence();
-                else if(main.getPokemon(mainPokeOut).isFaint()) {
+                else if(mainOut.isFaint()) {
                     playerFaintSequence();
                 }
                 else { 
                     timeDelay(); 
                     enemyAction(); 
                 }
+            cursor = 0;
             }
             break;
             case 1: {
                 if (fromItem) {
                     if (depth == 0) {
-                        depth++;
-                        if (cursor == 0)
-                            Message.useItem(toUse, main.getPokemon(mainPokeOut));
-                        else if (cursor <= mainPokeOut)
-                            Message.useItem(toUse, main.getPokemon(cursor - 1));
-                        else
-                            Message.useItem(toUse, main.getPokemon(cursor));
-                        lock = true;
+                        if (cursor == 0) {
+                            if (toUse.couldUse(mainOut)) {
+                                Message.useItem(toUse, mainOut);
+                                lock = true;
+                                depth++;
+                            }
+                            else {
+                                Message.noItemEffect();
+                                update();
+                                timeDelay();
+                                timeDelay();
+                                Message.item();
+                            }
+                        }
+                        else if (cursor <= mainPokeOut) {
+                            if (toUse.couldUse(main.getPokemon(cursor - 1))) {
+                                Message.useItem(toUse, main.getPokemon(cursor - 1));
+                                lock = true;
+                                depth++;
+                            }
+                            else {
+                                Message.noItemEffect();
+                                update();
+                                timeDelay();
+                                timeDelay();
+                                Message.item();
+                            }
+                        }
+                        else {
+                            if (toUse.couldUse(main.getPokemon(cursor))) {
+                                Message.useItem(toUse, main.getPokemon(cursor));
+                                lock = true;
+                                depth++;
+                            }
+                            else {
+                                Message.noItemEffect();
+                                update();
+                                timeDelay();
+                                timeDelay();
+                                Message.item();
+                            }
+                        }
                     }
                     else if (depth == 1) {
                         if (cursor == 0) {
-                            toUse.use(main.getPokemon(mainPokeOut));
+                            toUse.use(mainOut);
                         }
                         else if (cursor <= mainPokeOut) {
                             toUse.use(main.getPokemon(cursor - 1));
@@ -797,7 +925,7 @@ public class Display {
                 else {
                     if (depth == 0) {
                         if (cursor == 0) {
-                            Message.alreadyOut(main.getPokemon(mainPokeOut)); 
+                            Message.alreadyOut(mainOut); 
                             update(); 
                         }
                         else if (cursor <= mainPokeOut) {
@@ -827,15 +955,34 @@ public class Display {
                 }
             } break;
             case 2:  {
-                if (usable[cursor].getNumber() > 0) {
-                    Message.item();
-                    toUse = usable[cursor];
-                    fromItem = true;
-                    currentMenu = 1;
-                    cursor = 0;
-                    depth = 0;
+                if (shelf == 0) {
+                    if (usable[cursor].getNumber() > 0) {
+                        Message.item();
+                        toUse = usable[cursor];
+                        fromItem = true;
+                        currentMenu = 1;
+                        cursor = 0;
+                        depth = 0;
+                    }
+                    else Message.outOfItem(usable[cursor]);
                 }
-                else Message.outOfItem(usable[cursor]);
+                else if (shelf == 1) {
+                    Ball[] ballSet = main.getBalls();
+                    Ball toThrow = ballSet[cursor];
+                    if (depth == 0) {
+                        if (wild) {
+                            Message.ball(toThrow);
+                            depth++;
+                        }
+                        else Message.notWild();
+                    }
+                    else if (depth == 1) {
+                        throwSequence(toThrow);
+                        currentMenu = 4;
+                        cursor = 0;
+                        depth = 0;
+                    }
+                }
             } break;
             case 3: break;
             case 4: {
@@ -872,7 +1019,7 @@ public class Display {
                 else if (!mustChoose) {
                     currentMenu = 4;
                     cursor = 0;
-                    Message.decide(main.getPokemon(mainPokeOut));
+                    Message.decide(mainOut);
                     menu = true;
                 }
                 else if (fromItem) {
@@ -889,66 +1036,69 @@ public class Display {
     public static void enemyAction() {
         currentMenu = 4;
         int move = (int) (Math.random() * 4);
-        Move toUse = enemy.getPokemon(enPokeOut).getMove(move);
+        Move toUse = enOut.getMove(move);
 
-        if (enemy.getPokemon(enPokeOut).getStatus().equals("PAR") && Math.random() < 0.25)
-                    Message.paralyze(enemy.getPokemon(enPokeOut));
+        if (enOut.getStatus().equals("PAR") && Math.random() < 0.25) {
+            Message.paralyze(enOut);
+            update();
+            timeDelay();
+        }
 
-        else if (Math.random() * 100 < toUse.getAccuracy()) {
-            Message.makeMove(enemy.getPokemon(enPokeOut), toUse);
+        else if ((int) (Math.random() * 100) < toUse.getAccuracy()) {
+            Message.makeMove(enOut, toUse);
             showMessage();
             
             fightAnimation(toUse.getTarget(), enemy);
             
             if (toUse.getTarget() >= 0) 
-                toUse.makeMove(main.getPokemon(mainPokeOut));
+                enOut.useMove(move, mainOut);
             
             else if (toUse.getTarget() < 0)
-                toUse.makeMove(enemy.getPokemon(enPokeOut));
+                enOut.useMove(move, enOut);
             
             StdDraw.show(5);
             timeDelay();
-            Message.decide(main.getPokemon(mainPokeOut));
+            Message.decide(mainOut);
             update();
             
-            if (enemy.getPokemon(enPokeOut).isFaint())
+            if (enOut.isFaint())
                 enemyFaintSequence();
-            else if(main.getPokemon(mainPokeOut).isFaint()) {
+            else if(mainOut.isFaint()) {
                 playerFaintSequence();
             }
         }
         else {
-            Message.miss(enemy, enemy.getPokemon(enPokeOut));
+            Message.miss(enemy, enOut);
             showMessage();
         }
 
-        if (main.getPokemon(mainPokeOut).getStatus().equals("PSN")) {
-            poisonSequence(main.getPokemon(mainPokeOut));
+        if (mainOut.getStatus().equals("PSN")) {
+            poisonSequence(mainOut);
         }
-        if (enemy.getPokemon(enPokeOut).getStatus().equals("PSN")) {
-            poisonSequence(enemy.getPokemon(enPokeOut));
+        if (enOut.getStatus().equals("PSN")) {
+            poisonSequence(enOut);
         }
-        if (main.getPokemon(mainPokeOut).getStatus().equals("BRN")) {
-            burnSequence(main.getPokemon(mainPokeOut));
+        if (mainOut.getStatus().equals("BRN")) {
+            burnSequence(mainOut);
         }
-        if (enemy.getPokemon(enPokeOut).getStatus().equals("BRN")) {
-            burnSequence(enemy.getPokemon(enPokeOut));
+        if (enOut.getStatus().equals("BRN")) {
+            burnSequence(enOut);
         }
-        if (enemy.getPokemon(enPokeOut).isFaint())
-                enemyFaintSequence();
-        if(main.getPokemon(mainPokeOut).isFaint()) {
+        if (enOut.isFaint())
+            enemyFaintSequence();
+        if(mainOut.isFaint()) {
             playerFaintSequence();
         }
 
         timeDelay();
-        Message.decide(main.getPokemon(mainPokeOut));
+        Message.decide(mainOut);
     } 
     
     private static void runText() {
         Message.run();
         update();
         timeDelay();
-        Message.decide(main.getPokemon(mainPokeOut));
+        Message.decide(mainOut);
     }
     
     private static void showMessage() {
@@ -1002,6 +1152,10 @@ public class Display {
     
     public static int getPokeOut() {
         return mainPokeOut;
+    }
+
+    public static void setWild(boolean truth) {
+        wild = truth;
     }
     
     public static void main(String[] args) throws IOException {

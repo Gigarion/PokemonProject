@@ -1,7 +1,8 @@
 import java.util.*;
-import java.io.*;
 import java.awt.*;
-public class Item {
+import java.io.*;
+public class Ball {
+
     private static final Font ITEM = new Font(Font.MONOSPACED, 0, 22);
     private static final double NUMX  = 0.92;
     private static final double NAMEX = 0.15;
@@ -10,38 +11,47 @@ public class Item {
     private static final double[] CURSEX = {0.14, 0.14, 0.93, 0.93};
     private static final double HEIGHT = 0.04;
     private String name;
+    private String image;
     private int number;
-    private int heal;
-    private String cure;
+    private int percent;
     private String id;
     
-    public Item(String id, int num, int addHealth, String statCure, String purpose) {
+    public Ball(String id, int num, int rate, String purpose) {
         this.name = id;
+        this.image = "images\\" + name + ".png";
         this.number = num;
-        this.heal = addHealth;
-        this.cure = statCure;
-        this.id   = purpose;
+        this.percent = rate;
+        this.id = purpose;
     }
     
-    public static Item fromFile(Scanner s) throws IOException {
+    public static Ball fromFile(Scanner s) throws IOException {
         String fileName = s.next();
         int num = Integer.parseInt(s.next());
-        File itemFile = new File(fileName);
-        Scanner readItem = new Scanner(itemFile);
-        String n   = readItem.nextLine();
-        int ah     = Integer.parseInt(readItem.nextLine());
-        String st  = readItem.nextLine();
-        String pur =readItem.nextLine();
-        readItem.close();
         
-        Item toReturn = new Item(n, num, ah, st, pur);
+        File ballFile = new File(fileName);
+        Scanner readBall = new Scanner(ballFile);
+
+        String n   = readBall.nextLine();
+		int per = Integer.parseInt(readBall.nextLine());
+        String pur = readBall.nextLine();
+        readBall.close();
+        
+        Ball toReturn = new Ball(n, num, per, pur);
         return toReturn;
     }
     
     public String getName() {
         return name;
     }
+
+    public String getImage() {
+    	return image;
+    }
     
+    public int getRate() {
+    	return percent;
+    }
+
     public void reduce() {
         number--;
     }
@@ -62,20 +72,5 @@ public class Item {
             StdDraw.setPenColor();
             StdDraw.textLeft(MESSX, MESSY, id);
         }
-    }
-    public boolean couldUse(Pokemon poke) {
-        if (heal != 0 && cure.equals("no") && poke.getTempHealth() == poke.getMaxHealth()) {
-            return false;
-        }
-        else if (cure.equals("REVIVE") && poke.isFaint()) {
-            return true;
-        }
-        else if (heal == 0 && !cure.equals(poke.getStatus())) {
-            return false;
-        }
-        return true;
-    }
-    public void use(Pokemon poke) {
-        poke.heal(heal, cure);
     }
 }

@@ -1,4 +1,4 @@
-2
+3
 -0.5
 -0.5
 images\\jupiter.png
@@ -7,3 +7,7 @@ null
 0.1
 images\\electron.png
 build\\Battle1Prompt.txt
+0.3
+-0.4
+images\\Caleb.png
+build\\wildCaleb.txt
