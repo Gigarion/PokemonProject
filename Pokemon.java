@@ -41,6 +41,10 @@ public class Pokemon {
         return name;
     }
 
+    public Move[] getMoves() {
+        return moves;
+    }
+
     public int getMaxHealth() {
         return maxHealth;
     }
@@ -78,9 +82,29 @@ public class Pokemon {
     }
 
     public boolean isFaint() {
-        if (tempHealth > 0) faint = false;
-        else faint = true;
+        if (tempHealth > 0)
+            faint = false;
+            
+        else { 
+            faint = true;
+            status = "no";
+        }
         return faint;
+    }
+
+    public static Pokemon fromFile(File f) throws IOException {
+        Scanner readPoke = new Scanner(f);
+        String name = readPoke.next();
+        int m = Integer.parseInt(readPoke.next());
+        int sp = Integer.parseInt(readPoke.next());
+        
+        Move[] myMoves = new Move[MOVES];
+        for (int i = 0; i < MOVES; i++) {
+            myMoves[i] = Move.setMove(readPoke);
+        }
+        readPoke.close();
+        Pokemon toReturn = new Pokemon(name, m, sp, myMoves);
+        return toReturn;
     }
 
     public static Pokemon fromFile(Scanner s) throws IOException {

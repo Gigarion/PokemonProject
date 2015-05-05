@@ -17,6 +17,7 @@ public class HBA {
 
     private static boolean win;
     private static boolean lose;
+    private static boolean capture;
 
     public static void winBattle() {
         win = true;
@@ -24,6 +25,10 @@ public class HBA {
 
     public static void loseBattle() {
         lose = true;
+    }
+
+    public static void capture() {
+        capture = true;
     }
     
     public static void battle(String fileName, Player player) throws IOException {
@@ -45,7 +50,7 @@ public class HBA {
             System.out.println("file does not exist, fix it");
             return;
         }
-        
+
         Scanner s = new Scanner(battle);
         // find the battle file and set up the scanner
         String battleBackground = s.next();
@@ -54,16 +59,29 @@ public class HBA {
         StdAudio.loop(fightSong);
         Display.interval();
         // set this battle's background and audio
-       
-        Player enemy = new Player(s);
-        Display.setEnemy(enemy);
+        Player enemy = null;
+        if (fileName.contains("wild")) {
+            File readPoke = new File(s.next());
+            Pokemon toFight = Pokemon.fromFile(readPoke);
+            enemy = new Player(toFight);
+            Display.setEnemy(enemy);
+            Display.setWild(true);
+        }
+
+        else {
+            enemy = new Player(s);
+            Display.setEnemy(enemy);
+            Display.setWild(false);
+        }
+        
         Display.setMain(player);
         s.close();
         
         win = false;
         lose = false;
+        capture = false;
         Display.openSequence(battleBackground);
-        while (!(win || lose)) {
+        while (!(win || lose || capture)) {
             
             if (StdDraw.isKeyPressed(UP)) {
                 Display.upCursor();
@@ -101,11 +119,15 @@ public class HBA {
         Display.interval(); 
         System.out.println("im free");
         if (win) {
-            Display.winSequence(enemy, player);
+            Display.winSequence();
         }
         else if (lose) {
             System.out.println("ya lost sucker");
-            Display.loseSequence(enemy, player);
+            Display.loseSequence();
+        }
+        else if (capture) {
+            System.out.println("caught ya");
+            Display.captureSequence();
         }
         Display.update();
     }

@@ -14,6 +14,14 @@ public class Player {
         image = name;
         teamSize = 0;
     }
+
+    public Player(Pokemon p) throws IOException {
+        name = "Wild " + p.getName();
+        image = p.getImage();
+        teamSize = 1;
+        team = new Pokemon[1];
+        team[0] = p;
+    }
     
     public Player(Scanner s) throws IOException {
         name = s.next();
@@ -85,6 +93,36 @@ public class Player {
         return team[pokeNum].getMove(moveNum).getName();
     }
 
+    public void addPokemon(Pokemon toAdd) throws IOException {
+        if (teamSize < 6) {
+            Pokemon[] newTeam = new Pokemon[++teamSize];
+            newTeam[teamSize - 1] = toAdd;
+            for (int i = 0; i < teamSize - 1; i++) {
+                newTeam[i] = team[i];
+            }
+            team = newTeam;
+        }
+        else if (teamSize == 6) {
+            File pc = new File("players\\storage.txt");
+            File output = new File("players\\output.txt");
+            output.createNewFile();
+            PrintWriter putData = new PrintWriter(output);
+            if (!pc.createNewFile()) {
+                Scanner keepData = new Scanner(pc);
+                while (keepData.hasNext())
+                    putData.println(keepData.next());
+                keepData.close();
+            }
+            putData.println(toAdd.getName());
+            putData.println(toAdd.getMaxHealth());
+            putData.println(toAdd.getSpeed());
+            Move[] moves = toAdd.getMoves();
+            for (int i = 0; i < moves.length; i++) {
+                putData.println(moves[i].getName());
+            }
+        }
+    }
+
     public void addPokemon(Scanner s) throws IOException {
         if (teamSize < 6) {
             Pokemon[] newTeam = new Pokemon[++teamSize];
@@ -106,6 +144,5 @@ public class Player {
                 putData.println(s.next());
             putData.close();
         }
-
     }
 }
