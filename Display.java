@@ -359,7 +359,7 @@ public class Display {
     }
     
     public static void winSequence() {
-        StdAudio.play("win.mid");
+        StdAudio.play("music\\win.mid");
         mainPoke = false;
         enPoke = false;
         mainPokeStats = false;
@@ -435,7 +435,7 @@ public class Display {
     }
 
     public static void captureSequence() throws IOException {
-        StdAudio.play("win.mid");
+        StdAudio.play("music\\win.mid");
         Message.capture(enemy);
         update();
         do {} while (!StdDraw.isKeyPressed(ENTER));

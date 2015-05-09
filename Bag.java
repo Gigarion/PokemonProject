@@ -11,7 +11,6 @@ public class Bag {
     private static final double[] MENUY  = { 0.97, -0.97, -0.97,  0.97};
     private static final double[] INNERX = { 0.13,  0.13,  0.94,  0.94};
     private static final double[] INNERY = { 0.88, -0.88, -0.88,  0.88};
-    
     private static       double[] ITEMY = new double[22];
     
     

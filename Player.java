@@ -78,6 +78,10 @@ public class Player {
         team[one] = team[two];
         team[two] = holder;
     }
+
+    public void setPokemon(int which, Pokemon poke) {
+        team[which] = poke;
+    }
     
     public Pokemon[] getTeam() {
         return team;
@@ -118,6 +122,14 @@ public class Player {
             }
             putData.println("Pokemon\\" + toAdd.getName() + ".txt");
             putData.close();
+            Scanner transRead = new Scanner(output);
+            PrintWriter transfer = new PrintWriter(pc);
+            while (transRead.hasNext()) {
+                transfer.println(transRead.next());
+            }
+            transRead.close();
+            transfer.close();
+            output.delete();
         }
     }
 }

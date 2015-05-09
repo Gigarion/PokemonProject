@@ -173,4 +173,8 @@ public class Message {
     public static void moveToBox(Pokemon p) {
         currentState = p.getName() + " was moved to the pc.";
     }
+
+    public static void pc() {
+        currentState = "pc";
+    }
 }

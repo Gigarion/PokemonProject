@@ -26,6 +26,8 @@ public class WorldScreen {
     private boolean start;
     private boolean lock;
     private int currentMenu;
+    private Pc pc;
+    private boolean fromPc;
     private final double SHIFT = 0.05;
     
     private static final int UP = 87;
@@ -125,8 +127,12 @@ public class WorldScreen {
                     StdAudio.loop(WORLDSONG);
                 }
                 else if (toPrint[i].equals("pc")) {
+                    Message.pc();
+                    pc = new Pc();
                     currentMenu = 4;
+                    depth = 0;
                     cursor = 0;
+                    return;
                 }
 
                 else if (toPrint[i].contains(".txt") && !hasInteracted) {
@@ -330,14 +336,15 @@ public class WorldScreen {
             String fName = readAct.next();
             actors[i] = new Actor(x, y, img, fName);
         }
+        readAct.close();
+        readWorld.close();
         this.depth = 0;
         this.shelf = 0;
         this.holdCursor = 0;
         this.currentMenu = 3;
         this.lock = false;
         this.fromItem = false;
-        readAct.close();
-        readWorld.close();
+        this.fromPc = false;
     }
     
     private void start() {
@@ -380,7 +387,6 @@ public class WorldScreen {
     }
     
     public void drawWorld() {
-        
         StdDraw.picture(xBack, yBack, background, 4, 4);
         StdDraw.picture(0, 0, pImage[direction]);
         for (int i = 0; i < walls.length; i++)
@@ -395,7 +401,12 @@ public class WorldScreen {
             case 1: PokeDraw.draw(main, cursor); break;
             case 2: Bag.draw(main, cursor, shelf); break;
             case 3: break;
-            case 4: Pc.draw(cursor);
+            case 4: { 
+                pc.draw(main, cursor); 
+                if (depth == 1) {
+                    message();
+                }
+            } break;
         }
         StdDraw.show(5);
     }
@@ -464,7 +475,8 @@ public class WorldScreen {
                                 actors[i].shift(true, true); 
                         }
                     }
-                }
+                } break;
+                case 4: break;
             }
             drawWorld();
         }
@@ -525,6 +537,7 @@ public class WorldScreen {
                         }
                     }
                 } break;
+                case 4: break;
             }
             drawWorld();
         }
@@ -575,6 +588,10 @@ public class WorldScreen {
                         }
                     }
                 }  break;
+                case 4: {
+                    if (cursor < pc.getSize()) cursor++;
+                    else cursor = 0;
+                } break;
             }
             drawWorld();
         }
@@ -624,6 +641,10 @@ public class WorldScreen {
                         }
                     }
                 } break;
+                case 4: {
+                    if (cursor > 0) cursor--;
+                    else cursor = pc.getSize();
+                } break;
             }
             drawWorld();
         }
@@ -641,6 +662,16 @@ public class WorldScreen {
                 else if (fromItem)  {
                     currentMenu = 2;
                     fromItem = false;
+                }
+                else if (fromPc && depth == 1) {
+                    depth = 0;
+                    lock = false;
+                    Message.pokeMenu();
+                }
+                else if (fromPc) {
+                    currentMenu = 4;
+                    fromPc = false;
+                    cursor = 0;
                 }
                 else if (depth == 1) {
                     depth = 0; 
@@ -660,6 +691,16 @@ public class WorldScreen {
                 else currentMenu = 0;
             } break;
             case 3: break;
+            case 4: {
+                if (depth == 0) {
+                    currentMenu = 3;
+                    cursor = 0;
+                }
+                else if (depth == 1) {
+                    depth = 0;
+                    lock = false;
+                }
+            } break;
         }
         drawWorld();
     }
@@ -706,6 +747,25 @@ public class WorldScreen {
                             currentMenu = 2;
                             fromItem = false;
                             lock = false;
+                        } break;
+                    }
+                }
+                else if (fromPc) {
+                    switch(depth) {
+                        case 0: {
+                            Message.flip();
+                            lock = true;
+                            depth++;
+                        } break;
+
+                        case 1: {
+                            pc.swap(main, cursor, holdCursor);
+                            pc = new Pc();
+                            lock = false;
+                            depth = 0;
+                            cursor = 0;
+                            currentMenu = 4;
+                            fromPc = false;
                         } break;
                     }
                 }
@@ -756,6 +816,22 @@ public class WorldScreen {
                     }
                 }
                 if (actable) actors[which].act(); 
+            } break;
+            case 4: {
+                if (depth == 0) {
+                    depth++;
+                    Message.flip();
+                    lock = true;
+                }
+                else if (depth == 1) {
+                    lock = false;
+                    currentMenu = 1;
+                    depth = 0;
+                    holdCursor = cursor;
+                    Message.pokeMenu();
+                    fromPc = true;
+                }
+
             } break;
         }
         drawWorld();
