@@ -124,6 +124,11 @@ public class WorldScreen {
                     StdAudio.close();
                     StdAudio.loop(WORLDSONG);
                 }
+                else if (toPrint[i].equals("pc")) {
+                    currentMenu = 4;
+                    cursor = 0;
+                }
+
                 else if (toPrint[i].contains(".txt") && !hasInteracted) {
                     temp.delete();
                     StdDraw.save("tempBack.png");
@@ -137,6 +142,7 @@ public class WorldScreen {
                     hasInteracted = true;
                     lock = false;
                 }
+
                 else if (toPrint[i].contains(".mid") && !hasInteracted) {
                     lock = true;
                     StdAudio.close();
@@ -389,6 +395,7 @@ public class WorldScreen {
             case 1: PokeDraw.draw(main, cursor); break;
             case 2: Bag.draw(main, cursor, shelf); break;
             case 3: break;
+            case 4: Pc.draw(cursor);
         }
         StdDraw.show(5);
     }
@@ -680,9 +687,18 @@ public class WorldScreen {
                 if (fromItem) {
                     switch(depth) {
                         case 0: {
-                            Message.useItem(toUse, main.getPokemon(cursor));
-                            lock = true;
-                            depth++;
+                            if (toUse.couldUse(main.getPokemon(cursor))) {
+                                Message.useItem(toUse, main.getPokemon(cursor));
+                                lock = true;
+                                depth++;
+                            }
+                            else {
+                                Message.noItemEffect();
+                                drawWorld();
+                                Display.timeDelay();
+                                Display.timeDelay();
+                                Message.item();  
+                            }
                         } break;
                         case 1: {
                             toUse.use(main.getPokemon(cursor));

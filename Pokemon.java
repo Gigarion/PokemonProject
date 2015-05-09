@@ -32,14 +32,6 @@ public class Pokemon {
         this.faint = false;
         this.status = "no";
     }
-
-    public void toFile(PrintWriter write) {
-        write.println(name);
-        write.println(maxHealth);
-        write.println(speed);
-        for (int i = 0; i < 4; i++)
-            write.println(moves[i].getName());
-    }
     
     public int getSpeed() {
         return speed;
@@ -140,14 +132,6 @@ public class Pokemon {
         readPoke.close();
         Pokemon toReturn = new Pokemon(name, m, sp, myMoves);
         return toReturn;
-    }
-
-    public void toFile(PrintWriter p) throws IOException {
-        p.println(name);
-        p.println(maxHealth);
-        p.println(speed);
-        for (int i = 0; i < MOVES; i++)
-            moves[i].toFile(p);
     }
 
     public void receive(int dam, String stat) {
