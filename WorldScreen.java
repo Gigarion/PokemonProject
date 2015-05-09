@@ -159,7 +159,10 @@ public class WorldScreen {
                 }
                 else if ((hasInteracted && i != 0) || !hasInteracted && i < lines) {
                     Message.customSet(toPrint[i]);
-                    if (temp.exists()) StdDraw.picture(0, 0, "tempBack.png");
+                    if (temp.exists()) {
+                        StdDraw.picture(0, 0, "tempBack.png");
+                    }
+                    
                     message();
                     StdDraw.show(5);
                     Display.interval();
@@ -168,11 +171,13 @@ public class WorldScreen {
                 else {
                     temp.delete();
                     i = lines;
-                    Message.customSet(toPrint[lines - 1]);
-                    message();
-                    StdDraw.show(5);
-                    Display.interval();
-                    do {} while (!StdDraw.isKeyPressed(ENTER));
+                    if (!toPrint[lines - 1].contains(".txt")); {
+                        Message.customSet(toPrint[lines - 1]);
+                        message();
+                        StdDraw.show(5);
+                        Display.interval();
+                        do {} while (!StdDraw.isKeyPressed(ENTER));
+                    }
                 }
             }
         }

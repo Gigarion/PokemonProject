@@ -140,6 +140,8 @@ public class Pokemon {
             faint = true;
         if (status.equals("no"))
             status = stat;
+        if (stat.equals("cleanse"))
+            status = "no";
     }
 
     public void useMove(int moveNum, Pokemon target) {

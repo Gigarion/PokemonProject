@@ -91,7 +91,9 @@ public class Display {
     // Thus ends the hella constant block
     
     public static void setEnemy(Player e) {
+        System.out.println("yo");
         enemy = e;
+        enOut = enemy.getPokemon(0);
     }
     
     public static boolean isWild() {
@@ -323,6 +325,8 @@ public class Display {
         currentMenu = 4;
         depth = 0;
         shelf = 0;
+        enPokeOut = 0;
+        enOut = enemy.getPokemon(0);
         if (!wild) {
             showPlayers(newBackground);
         }
