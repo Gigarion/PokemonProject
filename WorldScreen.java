@@ -114,6 +114,16 @@ public class WorldScreen {
                 if (StdDraw.isKeyPressed(BACK) && lock == false) {
                     return;
                 }
+                else if (toPrint[i].equals("reset")) {
+                    StdAudio.close();
+                    Display.timeDelay();
+                    StdAudio.play("music\\heal.wav");
+                    main.heal();
+                    Display.timeDelay();
+                    Display.timeDelay();
+                    StdAudio.close();
+                    StdAudio.loop(WORLDSONG);
+                }
                 else if (toPrint[i].contains(".txt") && !hasInteracted) {
                     temp.delete();
                     StdDraw.save("tempBack.png");
@@ -748,5 +758,4 @@ public class WorldScreen {
         StdDraw.textLeft(-.9, -.8, Message.getMessage());
         StdDraw.show(5);
     }
-    
 }

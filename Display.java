@@ -36,18 +36,18 @@ public class Display {
     private static String fightBack;
     
     private static final double EPX = 0.75;
-    private static final double EPY = 0.75;
+    private static final double EPY = 0.5;
     private static final double PPX = -0.75;
     private static final double PPY = -0.45;
     
-    private static final double ENWID = .15;
-    private static final double ENHI = .3;
+    private static final double ENWID = .4;
+    private static final double ENHI = .7;
 
     private static final double BWID = .1;
     private static final double BHI = .1;
     
-    private static final double PWID = .225;
-    private static final double PHI = .45;
+    private static final double PWID = .25;
+    private static final double PHI = .5;
     
     private static final Font ITEM = new Font(Font.MONOSPACED, 0, 22);
     
@@ -182,7 +182,7 @@ public class Display {
             mainOut = main.getPokemon(mainPokeOut);
             enOut = enemy.getPokemon(enPokeOut);
         }
-        StdDraw.picture(0, 0, fightBack, 2, 2);
+        StdDraw.picture(0, 0, fightBack);
         
         if (world) {
             return;  
@@ -193,11 +193,11 @@ public class Display {
         }
         
         if (enPoke) {
-            StdDraw.picture(EPX, EPY, enOut.getImage());
+            StdDraw.picture(EPX, EPY, enOut.getImage(), ENWID, ENHI);
         } 
         
         if (mainPoke) 
-            StdDraw.picture(PPX, PPY, mainOut.getImage());
+            StdDraw.picture(PPX, PPY, mainOut.getImage(), PWID, PHI);
         
         if (message) {
             messageUpdate();
@@ -321,8 +321,8 @@ public class Display {
 
         else {
             Message.wildAppear(enemy);
-            StdDraw.picture(0, 0, fightBack, 2, 2);
-            StdDraw.picture(EPX, EPY, enemy.getImage());
+            StdDraw.picture(0, 0, fightBack);
+            StdDraw.picture(EPX, EPY, enemy.getImage(), ENWID, ENHI);
             StdDraw.picture(PPX, PPY, main.getImage(), PWID, PHI);
             messageUpdate();
             StdDraw.show(5);
@@ -341,11 +341,11 @@ public class Display {
             
             for (double i = 0; i < 2; i += 0.04) {
                 update();
-                StdDraw.picture(EPX, EPY, enemy.getImage());
+                StdDraw.picture(EPX, EPY, enemy.getImage(), ENWID, ENHI);
                 StdDraw.picture(PPX - i, PPY, main.getImage(), PWID, PHI);
                 messageUpdate();
                 StdDraw.show(5);
-                StdDraw.picture(0, 0, fightBack, 2, 2);
+                StdDraw.picture(0, 0, fightBack);
             }
             mainPokeSequence();
         }
@@ -361,9 +361,9 @@ public class Display {
         if (!wild) {
             for (double i = 0; i < 2; i += 0.04) {
                 update();
-                StdDraw.picture(PPX - i, PPY, mainOut.getImage());
+                StdDraw.picture(PPX - i, PPY, mainOut.getImage(), PWID, PHI);
                 StdDraw.show(5);
-                StdDraw.picture(0, 0, fightBack, 2, 2);
+                StdDraw.picture(0, 0, fightBack);
             }        
             StdDraw.clear();
             Message.endBattle(main, enemy);
@@ -400,7 +400,7 @@ public class Display {
                 update();
                 StdDraw.picture(EPX + i, EPY, enemy.getImage(), ENWID, ENHI);
                 StdDraw.show(5);
-                StdDraw.picture(0, 0, fightBack, 2, 2);
+                StdDraw.picture(0, 0, fightBack);
             }
             StdDraw.clear();
             Message.endBattle(enemy, main);
@@ -448,9 +448,9 @@ public class Display {
         Message.thatsEnough(mainOut);
         for (double i = 0; i < 2; i += 0.04) {
             update();
-            StdDraw.picture(PPX - i, PPY, mainOut.getImage());
+            StdDraw.picture(PPX - i, PPY, mainOut.getImage(), PWID, PHI);
             StdDraw.show(5);
-            StdDraw.picture(0, 0, fightBack, 2, 2);
+            StdDraw.picture(0, 0, fightBack);
         }
         
         mainPokeOut = toWhich;
@@ -472,9 +472,9 @@ public class Display {
         messageUpdate();
         for (double i = 2; i > 0; i -= 0.04) {
             update();
-            StdDraw.picture(EPX + i, EPY, enOut.getImage());
+            StdDraw.picture(EPX + i, EPY, enOut.getImage(), ENWID, ENHI);
             StdDraw.show(5);
-            StdDraw.picture(0, 0, fightBack, 2, 2);
+            StdDraw.picture(0, 0, fightBack);
         }
         enPokeStats = true;
         enPoke = true;
@@ -498,9 +498,9 @@ public class Display {
         update();
         for (double i = 2; i > 0; i -= 0.04) {
             update();
-            StdDraw.picture(PPX - i, PPY, mainOut.getImage());
+            StdDraw.picture(PPX - i, PPY, mainOut.getImage(), PWID, PHI);
             StdDraw.show(5);
-            StdDraw.picture(0, 0, fightBack, 2, 2);
+            StdDraw.picture(0, 0, fightBack);
         }
         mainPokeStats = true;
         mainPoke = true;
@@ -522,17 +522,17 @@ public class Display {
         showMessage();
         for (double i = 0; i < 0.1; i += 0.04) {
             update();
-            StdDraw.picture(EPX, EPY + i, enOut.getImage());
+            StdDraw.picture(EPX, EPY + i, enOut.getImage(), ENWID, ENHI);
             StdDraw.show(10);
-            StdDraw.picture(0, 0, fightBack, 2, 2);
+            StdDraw.picture(0, 0, fightBack);
         }
         for (double i = 0; i < 0.3; i += 0.04) {
             update();
-            StdDraw.picture(EPX, EPY - i, enOut.getImage());
+            StdDraw.picture(EPX, EPY - i, enOut.getImage(), ENWID, ENHI);
             StdDraw.show(10);
-            StdDraw.picture(0, 0, fightBack, 2, 2);
+            StdDraw.picture(0, 0, fightBack);
         }
-        StdDraw.picture(0, 0, fightBack, 2, 2);
+        StdDraw.picture(0, 0, fightBack);
         timeDelay();
         StdDraw.show(5);
         
@@ -556,12 +556,12 @@ public class Display {
         StdDraw.show(5);
         for (double i = 0; i < 0.1; i += 0.04) {
             update();
-            StdDraw.picture(PPX, PPY + i, mainOut.getImage());
+            StdDraw.picture(PPX, PPY + i, mainOut.getImage(), PWID, PHI);
             StdDraw.show(40);
         }
         for (double i = 0; i < 0.2; i += 0.04) {
             update();
-            StdDraw.picture(PPX, PPY - i, mainOut.getImage());
+            StdDraw.picture(PPX, PPY - i, mainOut.getImage(), PWID, PHI);
             messageUpdate();
             StdDraw.show(40);
         }
@@ -591,7 +591,7 @@ public class Display {
             StdDraw.picture(EPX + i, EPY, enemy.getImage(), ENWID, ENHI);
             StdDraw.picture(PPX - i, PPY, main.getImage(), PWID, PHI);
             StdDraw.show(5);
-            StdDraw.picture(0, 0, fightBack, 2, 2);
+            StdDraw.picture(0, 0, fightBack);
         }
         players = true;
         messageUpdate();
@@ -600,7 +600,7 @@ public class Display {
     }
     
     private static void showPlayers(String newBackground) {
-        StdDraw.picture(0, 0, fightBack, 2, 2);
+        StdDraw.picture(0, 0, fightBack);
         StdDraw.picture(EPX, EPY, enemy.getImage(), ENWID, ENHI);
         StdDraw.picture(PPX, PPY, main.getImage(), PWID, PHI);
         StdDraw.show(5);
@@ -621,7 +621,7 @@ public class Display {
             StdDraw.picture(PPX - i, PPY, main.getImage(), PWID, PHI);
             messageUpdate();
             StdDraw.show(5);
-            StdDraw.picture(0, 0, fightBack, 2, 2);
+            StdDraw.picture(0, 0, fightBack);
         }
         
         StdDraw.picture(0, 0, fightBack);
@@ -631,9 +631,9 @@ public class Display {
         Message.customSet(playerOut);
         messageUpdate(); 
         for (double i = 2; i > 0; i -= 0.04) {
-            StdDraw.picture(PPX - i, PPY, main.getPokemon(0).getImage());
+            StdDraw.picture(PPX - i, PPY, main.getPokemon(0).getImage(), PWID, PHI);
             StdDraw.show(5);
-            StdDraw.picture(0, 0, fightBack, 2, 2);
+            StdDraw.picture(0, 0, fightBack);
         }
         mainPokeStats = true;
         mainPoke = true;
@@ -835,7 +835,7 @@ public class Display {
         if ((double) enOut.getTempHealth() / enOut.getMaxHealth() < 0.25) adjusted += 15;
         if (!enOut.getStatus().equals("no")) adjusted += 15;
         
-        for (double i = 0; i < 1.4; i += 0.04) {
+        for (double i = 0; i < 1.32; i += 0.04) {
                 update();
                 StdDraw.picture(PPX + i + (i / 5), PPY + i, toThrow.getImage(), BWID, BHI);
                 StdDraw.show(5);
@@ -890,6 +890,7 @@ public class Display {
             timeDelay();
             timeDelay();
             Message.decide(mainOut);
+            enemyAction();
         }
     }
     

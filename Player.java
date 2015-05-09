@@ -66,6 +66,12 @@ public class Player {
         return team[number];
     }
 
+    public void heal() {
+        for (int i = 0; i < teamSize; i++) {
+            team[i].reset();
+        }
+    }
+
     public void swapPokemon(int one, int two) {
         if (one == two) return;
         Pokemon holder = getPokemon(one);
