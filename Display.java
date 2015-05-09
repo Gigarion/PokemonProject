@@ -617,7 +617,6 @@ public class Display {
         message = true;
         
         for (double i = 0; i < 2; i += 0.04) {
-            update();
             StdDraw.picture(EPX + i, EPY, enemy.getImage(), ENWID, ENHI);
             StdDraw.picture(PPX - i, PPY, main.getImage(), PWID, PHI);
             messageUpdate();
@@ -632,7 +631,6 @@ public class Display {
         Message.customSet(playerOut);
         messageUpdate(); 
         for (double i = 2; i > 0; i -= 0.04) {
-            update();
             StdDraw.picture(PPX - i, PPY, main.getPokemon(0).getImage());
             StdDraw.show(5);
             StdDraw.picture(0, 0, fightBack, 2, 2);
@@ -805,7 +803,10 @@ public class Display {
     }
     
     public static void poisonSequence(Pokemon poke) {
-        Message.poison(poke);
+        if (poke == enOut)
+            Message.enPoison(poke);
+        else
+            Message.poison(poke);
         update();
         timeDelay();
         timeDelay();
@@ -815,7 +816,10 @@ public class Display {
     }
 
     public static void burnSequence(Pokemon poke) {
-        Message.burn(poke);
+        if (poke == enOut)
+            Message.enBurn(poke);
+        else
+            Message.burn(poke);
         update();
         timeDelay();
         timeDelay();

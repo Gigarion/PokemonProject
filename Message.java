@@ -161,4 +161,12 @@ public class Message {
     public static void capture(Player enemy) {
         currentState = enemy.getName() + " has been caught!";
     }
+
+    public static void enBurn(Pokemon p) {
+        currentState = "Enemy" + p.getName() + " is hurt by its burn!";
+    }
+
+    public static void enPoison(Pokemon p) {
+        currentState = "Enemy " + p.getName() + " is hurt by poison!";
+    }
 }
