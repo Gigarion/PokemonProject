@@ -835,7 +835,7 @@ public class Display {
         if ((double) enOut.getTempHealth() / enOut.getMaxHealth() < 0.25) adjusted += 15;
         if (!enOut.getStatus().equals("no")) adjusted += 15;
         
-        for (double i = 0; i < 1.4; i += 0.04) {
+        for (double i = 0; i < 1.32; i += 0.04) {
                 update();
                 StdDraw.picture(PPX + i + (i / 5), PPY + i, toThrow.getImage(), BWID, BHI);
                 StdDraw.show(5);
@@ -890,6 +890,7 @@ public class Display {
             timeDelay();
             timeDelay();
             Message.decide(mainOut);
+            enemyAction();
         }
     }
     

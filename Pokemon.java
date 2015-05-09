@@ -79,6 +79,7 @@ public class Pokemon {
     public void reset() {
         faint = false;
         tempHealth = maxHealth;
+        status = "no";
     }
 
     public boolean isFaint() {
