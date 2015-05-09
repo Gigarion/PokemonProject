@@ -1,3 +1,3 @@
 images\\E106.png
 music\\trainer-battle.mid
-pokemon\\CALEB.txt
+pokemon\\KATIE.txt
