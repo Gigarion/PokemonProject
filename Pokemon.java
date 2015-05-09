@@ -32,6 +32,14 @@ public class Pokemon {
         this.faint = false;
         this.status = "no";
     }
+
+    public void toFile(PrintWriter write) {
+        write.println(name);
+        write.println(maxHealth);
+        write.println(speed);
+        for (int i = 0; i < 4; i++)
+            write.println(moves[i].getName());
+    }
     
     public int getSpeed() {
         return speed;
@@ -154,6 +162,7 @@ public class Pokemon {
         Move toUse = moves[moveNum];
         int whoHit = toUse.getTarget();
         String effect = toUse.getStatus();
+        toUse.reduce();
 
         int damage = toUse.getDamage();
         if (status.equals("BRN"))

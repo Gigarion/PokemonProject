@@ -91,10 +91,6 @@ public class Player {
         return balls;
     }
 
-    public void makeMove(int poke, int move, Pokemon target) {
-        team[poke].getMove(move).makeMove(target);
-    }
-
     public String getMove(int pokeNum, int moveNum) {
         return team[pokeNum].getMove(moveNum).getName();
     }

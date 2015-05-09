@@ -2,7 +2,7 @@ pipe
 5
 players//mainitems.txt
 pokemon//SAM.txt
-pokemon//SAM.txt
-pokemon//SAM.txt
-pokemon//SAM.txt
-pokemon//SAM.txt
+pokemon//ANTHONY.txt
+pokemon//KATIE.txt
+pokemon//CALEB.txt
+pokemon//JUPITER.txt
