@@ -749,6 +749,4 @@ public class WorldScreen {
         StdDraw.show(5);
     }
     
-    public static void main(String[] args) throws IOException {
-    }
 }
