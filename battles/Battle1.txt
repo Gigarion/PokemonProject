@@ -1,6 +1,6 @@
 images\\background.png
 music\\trainer-battle.mid
-shield
+PRINCETON
 5
 build\\enemyitems.txt
 pokemon\\JUPITER.txt
