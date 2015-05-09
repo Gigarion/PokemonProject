@@ -9,5 +9,5 @@ images\\electron.png
 build\\Battle1Prompt.txt
 0.3
 -0.4
-images\\caleb.png
+images\jupiter.png
 build\\\wildKatie.txt

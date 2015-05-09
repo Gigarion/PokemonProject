@@ -32,6 +32,6 @@ public class PictureMaker {
         battle.save("Pokemon\\" + pieces + ".png");
         Display.setBounds();
         //StdDraw.picture(0, 0, pieces + ".jpg");
-        StdDraw.picture(0.5, 0.5, pieces + ".png");
+        StdDraw.picture(0.5, 0.5, "Pokemon\\" + pieces + ".png");
     }
 }

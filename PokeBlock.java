@@ -7,7 +7,7 @@ public class PokeBlock {
     private static final double BIGPICX   = 0.12;
     private static final double BIGPICY   = 0.40;
     private static final double BIGHEIGHT = 0.58;
-    private static final double PICWID = 0.17;
+    private static final double PICWID = 0.15;
     private static final double PICHI = .25;
     private static final Color  KICKING   = new Color(51, 153, 153);
     private static final Color  FAINT     = new Color(209, 117, 117);
