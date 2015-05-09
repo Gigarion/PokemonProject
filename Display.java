@@ -157,6 +157,14 @@ public class Display {
                         case 2: StdDraw.picture( -.4, -0.78, cImage); break;
                         case 3: StdDraw.picture( -.4, -0.88, cImage); break;
                     }
+                    StdDraw.setPenColor(StdDraw.WHITE);
+                    StdDraw.filledPolygon(MENUX, MENUY);
+                    StdDraw.setPenColor(StdDraw.BLACK);
+                    StdDraw.setPenRadius(BORDER);
+                    StdDraw.polygon(MENUX, MENUY);
+                    StdDraw.text(0.8, -0.78,"PP:");
+                    int[] pp = mainOut.getMove(cursor).getPP();
+                    StdDraw.text(0.8, -0.88, pp[0] + "/" + pp[1]);
                 } 
                 
             } break;
@@ -906,6 +914,14 @@ public class Display {
         switch(currentMenu) {
             case 0: {
                 Move toUse = mainOut.getMove(cursor);
+                if (!toUse.canUse()) {
+                    Message.empty(mainOut);
+                    messageUpdate();
+                    timeDelay();
+                    timeDelay();
+                    Message.decide(mainOut);
+                    return;
+                }
                 currentMenu = 4;
                 if (mainOut.getStatus().equals("PAR") && Math.random() < 0.25) {
                     Message.paralyze(mainOut);                    
@@ -1159,7 +1175,8 @@ public class Display {
     
     public static void enemyAction() {
         currentMenu = 4;
-        int move = (int) (Math.random() * 4);
+        int move = 0;
+        do { move = (int) (Math.random() * 4); } while (!enOut.getMove(move).canUse());
         Move toUse = enOut.getMove(move);
 
         if (enOut.getStatus().equals("PAR") && Math.random() < 0.25) {

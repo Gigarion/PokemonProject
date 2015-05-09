@@ -165,6 +165,7 @@ public class Pokemon {
             Display.timeDelay();
         }
         else target.receive(damage, "no");
+        toUse.reduce();
     }
 
     public static void main(String[] args) throws IOException {

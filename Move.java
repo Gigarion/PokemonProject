@@ -16,14 +16,18 @@ public class Move {
     private int damage; // how much damage the move does
     private int accuracy; //  likelihood of hit
     private int statAcc;
+    private int ppMax;
+    private int ppTemp;
     
-    public Move (String name, int targetable, String stat, int dam, int acc, int sAcc) {
+    public Move (String name, int targetable, String stat, int dam, int acc, int sAcc, int pp) {
         this.name = name;
         this.whoHit = targetable;
         this.status = stat;
         this.damage = dam;
         this.accuracy = acc;
         this.statAcc = sAcc;
+        this.ppMax = pp;
+        this.ppTemp = ppMax;
     }
     
     public static Move setMove(Scanner s) throws IOException {
@@ -36,6 +40,7 @@ public class Move {
         * damage of move (negative if healing)
         * accuracy of move 
         * adjusted accuracy of any status effect of the move
+        * pp
         ****************************************/
         File toRead = new File("moves\\" + s.next() + ".txt");
         Scanner move = new Scanner(toRead);
@@ -45,8 +50,9 @@ public class Move {
         int d = Integer.parseInt(move.next());
         int a = Integer.parseInt(move.next());
         int sa = Integer.parseInt(move.next());
+        int p = Integer.parseInt(move.next());
         move.close();
-        Move toReturn = new Move(n, t, st, d, a, sa);
+        Move toReturn = new Move(n, t, st, d, a, sa, p);
         return toReturn;
     }
 
@@ -57,6 +63,7 @@ public class Move {
         p.println(damage);
         p.println(accuracy);
         p.println(statAcc);
+        p.println(ppMax);
     }
     
     public String getName() {
@@ -83,6 +90,16 @@ public class Move {
         return statAcc;
     }
 
+    public boolean canUse() {
+        if (ppTemp == 0) return false;
+        else return true;
+    }
+
+    public int[] getPP() {
+        int[] toReturn = {ppTemp, ppMax};
+        return toReturn;
+    }
+
     public void listStats() {
         System.out.println("Name: "         + name);
         System.out.println("whoHit: "     + whoHit);
@@ -91,15 +108,7 @@ public class Move {
         System.out.println("accuracy: " + accuracy);
     }
 
-    public void makeMove(Pokemon t) {
-        if (Math.random() * 100.0 < statAcc && !status.equals("no"))  {
-            if (t.getStatus().equals("no"))
-                Message.status(t, status);
-            
-            else if (damage == 0 && !status.equals("no")) Message.noEffect();
-            t.receive(damage, status);
-            Display.timeDelay();
-        }
-        else t.receive(damage, "no");
+    public void reduce() {
+        ppTemp--;
     }
 }
