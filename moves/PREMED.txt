@@ -1,0 +1,6 @@
+PREMED
+-1
+cleanse
+100
+100
+20

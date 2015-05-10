@@ -5,5 +5,5 @@ pokemon//SAM.txt
 pokemon//ANTHONY.txt
 pokemon//KATIE.txt
 pokemon//CALEB.txt
-pokemon//JUPITER.txt
-pokemon//CALEB.txt
+pokemon//ALEX.txt
+pokemon//LINDA.txt
