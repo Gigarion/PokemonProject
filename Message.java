@@ -169,4 +169,12 @@ public class Message {
     public static void enPoison(Pokemon p) {
         currentState = "Enemy " + p.getName() + " is hurt by poison!";
     }
+
+    public static void moveToBox(Pokemon p) {
+        currentState = p.getName() + " was moved to the pc.";
+    }
+
+    public static void pc() {
+        currentState = "pc";
+    }
 }

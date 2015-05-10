@@ -2,11 +2,13 @@ import java.awt.*;
 public class PokeBlock {
     private static final double LENGTH    = 0.78;
     private static final double HEIGHT    = 0.36;
-    private static final double PICX      = 0.05;
-    private static final double PICY      = 0.25;
-    private static final double BIGPICX   = 0.10;
+    private static final double PICX      = 0.09;
+    private static final double PICY      = 0.2;
+    private static final double BIGPICX   = 0.12;
     private static final double BIGPICY   = 0.40;
     private static final double BIGHEIGHT = 0.58;
+    private static final double PICWID = 0.15;
+    private static final double PICHI = .25;
     private static final Color  KICKING   = new Color(51, 153, 153);
     private static final Color  FAINT     = new Color(209, 117, 117);
     private static final Color  KSELECT   = new Color(50, 200, 200);
@@ -80,7 +82,7 @@ public class PokeBlock {
                 else StdDraw.setPenColor(Color.BLACK);
                 StdDraw.polygon(xBounds, yBounds);
                 
-                StdDraw.picture(x + BIGPICX, y + BIGPICY, image, .25, .25);
+                StdDraw.picture(x + BIGPICX, y + BIGPICY, image, .18, .25);
                 
                 if (!status.equals("no"))
                     StdDraw.picture(x + BIGPICX, y + (BIGPICY / 2), "images\\" + status + ".png");
@@ -100,7 +102,7 @@ public class PokeBlock {
                 else       StdDraw.setPenColor(Color.BLACK);
                 StdDraw.setPenRadius(BORDER);
                 StdDraw.polygon(xBounds, yBounds);
-                StdDraw.picture(x + PICX, y + PICY, image);
+                StdDraw.picture(x + PICX, y + PICY, image, PICWID, PICHI);
                 if (!status.equals("no"))
                     StdDraw.picture(x + PICX, y + (PICY / 2), "images\\" + status + ".png");
                 

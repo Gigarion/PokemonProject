@@ -11,7 +11,6 @@ public class Bag {
     private static final double[] MENUY  = { 0.97, -0.97, -0.97,  0.97};
     private static final double[] INNERX = { 0.13,  0.13,  0.94,  0.94};
     private static final double[] INNERY = { 0.88, -0.88, -0.88,  0.88};
-    
     private static       double[] ITEMY = new double[22];
     
     
@@ -31,8 +30,12 @@ public class Bag {
         }
         
         StdDraw.picture(0, 0, BACKGROUND, 4, 4);
-        StdDraw.picture(BAGX, BAGY, "images\\bag.png", .6, .7);
+        if (shelf == 0)
+            StdDraw.picture(BAGX, BAGY, "images\\itembag.png", .6, .7);
         
+        else if (shelf == 1) 
+            StdDraw.picture(BAGX, BAGY, "images\\ballbag.png", .6, .7);
+
         StdDraw.setPenColor(StdDraw.WHITE);
         StdDraw.filledPolygon(MESSX, MESSY);
         StdDraw.filledPolygon(TITLEX, TITLEY);
@@ -51,7 +54,10 @@ public class Bag {
         
         StdDraw.setPenColor();
         StdDraw.setFont(BIGFONT);
-        StdDraw.text(-0.48, 0.88, "ITEMS");
+        if (shelf == 0)
+            StdDraw.text(-0.48, 0.88, "ITEMS");
+        else if (shelf == 1)
+            StdDraw.text(-0.48, 0.88, "POKEBALLS");
         
         StdDraw.picture(-.15, 0.88, CURSOR, .05, .05);
         StdDraw.picture(-.82, 0.88, CURSOR, .05, .05, 180);

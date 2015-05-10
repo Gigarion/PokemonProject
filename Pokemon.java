@@ -134,26 +134,21 @@ public class Pokemon {
         return toReturn;
     }
 
-    public void toFile(PrintWriter p) throws IOException {
-        p.println(name);
-        p.println(maxHealth);
-        p.println(speed);
-        for (int i = 0; i < MOVES; i++)
-            moves[i].toFile(p);
-    }
-
     public void receive(int dam, String stat) {
         tempHealth -= dam;
         if (tempHealth <= 0)
             faint = true;
         if (status.equals("no"))
             status = stat;
+        if (stat.equals("cleanse"))
+            status = "no";
     }
 
     public void useMove(int moveNum, Pokemon target) {
         Move toUse = moves[moveNum];
         int whoHit = toUse.getTarget();
         String effect = toUse.getStatus();
+        toUse.reduce();
 
         int damage = toUse.getDamage();
         if (status.equals("BRN"))

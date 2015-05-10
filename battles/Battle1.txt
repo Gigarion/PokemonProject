@@ -1,10 +1,6 @@
 images\\background.png
 music\\trainer-battle.mid
-shield
-5
+PRINCETON
+1
 build\\enemyitems.txt
-pokemon\\JUPITER.txt
-pokemon\\SAM.txt
-pokemon\\SAM.txt
-pokemon\\SAM.txt
-pokemon\\SAM.txt
+pokemon\\RPL.txt

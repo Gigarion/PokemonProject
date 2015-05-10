@@ -78,6 +78,10 @@ public class Player {
         team[one] = team[two];
         team[two] = holder;
     }
+
+    public void setPokemon(int which, Pokemon poke) {
+        team[which] = poke;
+    }
     
     public Pokemon[] getTeam() {
         return team;
@@ -89,10 +93,6 @@ public class Player {
 
     public Ball[] getBalls() {
         return balls;
-    }
-
-    public void makeMove(int poke, int move, Pokemon target) {
-        team[poke].getMove(move).makeMove(target);
     }
 
     public String getMove(int pokeNum, int moveNum) {
@@ -109,6 +109,7 @@ public class Player {
             team = newTeam;
         }
         else if (teamSize == 6) {
+            Message.moveToBox(toAdd);
             File pc = new File("players\\storage.txt");
             File output = new File("players\\output.txt");
             output.createNewFile();
@@ -119,36 +120,16 @@ public class Player {
                     putData.println(keepData.next());
                 keepData.close();
             }
-            putData.println(toAdd.getName());
-            putData.println(toAdd.getMaxHealth());
-            putData.println(toAdd.getSpeed());
-            Move[] moves = toAdd.getMoves();
-            for (int i = 0; i < moves.length; i++) {
-                putData.println(moves[i].getName());
-            }
-        }
-    }
-
-    public void addPokemon(Scanner s) throws IOException {
-        if (teamSize < 6) {
-            Pokemon[] newTeam = new Pokemon[++teamSize];
-            newTeam[teamSize - 1] = Pokemon.fromFile(s);
-        }
-
-        else if (teamSize == 6) {
-            File pc = new File("players\\storage.txt");
-            File output = new File("players\\output.txt");
-            output.createNewFile();
-            PrintWriter putData = new PrintWriter(output);
-            if (!pc.createNewFile()) {
-                Scanner keepData = new Scanner(pc);
-                while (keepData.hasNext())
-                    putData.println(keepData.next());
-                keepData.close();
-            }
-            while (s.hasNext())
-                putData.println(s.next());
+            putData.println("Pokemon\\" + toAdd.getName() + ".txt");
             putData.close();
+            Scanner transRead = new Scanner(output);
+            PrintWriter transfer = new PrintWriter(pc);
+            while (transRead.hasNext()) {
+                transfer.println(transRead.next());
+            }
+            transRead.close();
+            transfer.close();
+            output.delete();
         }
     }
 }
