@@ -457,7 +457,7 @@ public class Display {
         mainPoke = false;
         mainPokeStats = false;
         Message.thatsEnough(mainOut);
-        
+
         for (double i = 0; i < 2; i += 0.04) {
             update();
             StdDraw.picture(PPX - i, PPY, mainOut.getImage(), PWID, PHI);
@@ -504,7 +504,7 @@ public class Display {
         menu = true;
         mainPoke = false;
         mainPokeStats = false;
-        mainOut = main.getPokemon(0);
+        mainOut = main.getPokemon(mainPokeOut);
         String mess = "You're up, " + mainOut.getName() + "!";
         Message.customSet(mess);
         messageUpdate();
