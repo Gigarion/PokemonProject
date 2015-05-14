@@ -6,6 +6,11 @@ public class WorldScreen {
     private static final double[] MESSX = {-.97, -.97,  .97, .97};
     private static final double[] MESSY = {-.97,-.7, -.7, -.97};
     
+    private static final double ACTWID = .07;
+    private static final double ACTHI = .1;
+
+    private static final double SPRITE = 0.12;
+
     private static final double BORDER   = 0.004;
     private static final String WORLDSONG = "music\\fortree-city.mid";
     private int cursor;
@@ -98,7 +103,7 @@ public class WorldScreen {
         }
         
         private void draw() {
-            StdDraw.picture(bx, by, image);
+            StdDraw.picture(bx, by, image, ACTWID, ACTHI);
         }
         
         private void act() throws IOException {
@@ -123,8 +128,6 @@ public class WorldScreen {
                     main.heal();
                     Display.timeDelay();
                     Display.timeDelay();
-                    StdAudio.close();
-                    StdAudio.loop(WORLDSONG);
                 }
                 else if (toPrint[i].equals("pc")) {
                     Message.pc();
@@ -151,7 +154,7 @@ public class WorldScreen {
 
                 else if (toPrint[i].contains(".mid") && !hasInteracted) {
                     lock = true;
-                    StdAudio.close();
+                    //StdAudio.close();
                     Display.timeDelay();
                     StdAudio.play(toPrint[i]);
                     Display.interval();
@@ -418,7 +421,7 @@ public class WorldScreen {
     
     private void altDraw() {
         StdDraw.picture(xBack, yBack, background, 4, 4);
-        StdDraw.picture(0, 0, wImage[direction], .05, .05);
+        StdDraw.picture(0, 0, wImage[direction], SPRITE, SPRITE);
         for (int i = 0; i < walls.length; i++)
             walls[i].draw();
         for (int i = 0; i < actors.length; i++)
@@ -842,8 +845,6 @@ public class WorldScreen {
         drawWorld();
     }
     private void drain() {
-        StdAudio.close();
-        Display.timeDelay();
         StdAudio.loop(WORLDSONG);
     }
     private void message() {

@@ -1,9 +1,4 @@
 pipe
-6
+1
 players//mainitems.txt
-pokemon//SAM.txt
-pokemon//ANTHONY.txt
-pokemon//KATIE.txt
-pokemon//CALEB.txt
-pokemon//ALEX.txt
-pokemon//LINDA.txt
+pokemon//MARIAH.txt

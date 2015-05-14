@@ -5,9 +5,9 @@ sprite\\caleb.png
 sprite\\electron.png
 sprite\\jupiter.png
 sprite\\squirrel.png
-sprite\\caleb.png
-sprite\\electron.png
-sprite\\jupiter.png
-sprite\\squirrel.png
+sprite\\walkup.png
+sprite\\walkdown.png
+sprite\\walkright.png
+sprite\\walkleft.png
 build\\walls.txt
 build\\actors.txt

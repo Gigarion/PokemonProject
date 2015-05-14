@@ -163,7 +163,7 @@ public class Message {
     }
 
     public static void enBurn(Pokemon p) {
-        currentState = "Enemy" + p.getName() + " is hurt by its burn!";
+        currentState = "Enemy " + p.getName() + " is hurt by its burn!";
     }
 
     public static void enPoison(Pokemon p) {

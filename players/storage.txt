@@ -1,2 +1,2 @@
-Pokemon\KATIE.txt
-Pokemon\KATIE.txt
+pokemon\KATIE.txt
+pokemon\KATIE.txt
