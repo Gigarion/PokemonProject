@@ -1,4 +1,6 @@
 pipe
+0.7
+-0.5
 1
-players//mainitems.txt
-pokemon//MARIAH.txt
+players\mainitems.txt
+Pokemon\MARIAH.txt

@@ -11,6 +11,9 @@ public class WorldScreen {
 
     private static final double SPRITE = 0.12;
 
+    private static final double STARTX = 0.7;
+    private static final double STARTY = -0.5;
+
     private static final double BORDER   = 0.004;
     private static final String WORLDSONG = "music\\fortree-city.mid";
     private int cursor;
@@ -303,11 +306,11 @@ public class WorldScreen {
         StdAudio.loop(WORLDSONG);
         Display.interval();
         this.direction = 1;
+        this.xBack = player.getX();
+        this.yBack = player.getY();
         File world = new File("build\\mainWorld.txt");
         Scanner readWorld = new Scanner(world);
         this.background = readWorld.next();
-        this.xBack = readWorld.nextDouble();
-        this.yBack = readWorld.nextDouble();
         this.pImage = new String[4];
         this.wImage = new String[4];
         for (int i = 0; i < 4; i++) {
@@ -723,6 +726,22 @@ public class WorldScreen {
                         cursor = 0;
                     } break;
                     case 2: currentMenu = 2; cursor = 0; break;
+                    case 5: {
+                        File player = new File("players\\mainplayer.txt");
+                        player.delete();
+                        player.createNewFile();
+                        PrintWriter saveMe = new PrintWriter(player);
+                        saveMe.println(main.getName());
+                        saveMe.println(STARTX);
+                        saveMe.println(STARTY);
+                        saveMe.println(main.getTeamSize());
+                        saveMe.println("players\\mainitems.txt");
+                        for (int i = 0; i < main.getTeamSize(); i++) {
+                            saveMe.println("Pokemon\\" + main.getPokemon(i).getName() + ".txt");
+                        }
+                        saveMe.close();
+                        
+                    } break;
                     default: {
                         Message.customSet("I wish it was that functional too :(");
                         drawWorld();

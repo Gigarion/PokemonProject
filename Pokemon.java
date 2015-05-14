@@ -154,7 +154,7 @@ public class Pokemon {
         if (status.equals("BRN"))
             damage /= 2;
         if ((Math.random() * 100) < toUse.getStatAccuracy() && !toUse.getStatus().equals("no")) {
-            if (target.getStatus().equals("no"))
+            if (target.getStatus().equals("no") && !toUse.getStatus().equals("cleanse"))
                 Message.status(target, effect);
             else if (damage == 0 && !effect.equals("no")) Message.noEffect();
             target.receive(damage, effect);
