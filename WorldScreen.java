@@ -398,7 +398,7 @@ public class WorldScreen {
     }
     
     public void drawWorld() {
-        StdDraw.picture(xBack, yBack, background, 4, 4);
+        StdDraw.picture(xBack, yBack, background, 25, 25);
         StdDraw.picture(0, 0, pImage[direction]);
         for (int i = 0; i < walls.length; i++)
             walls[i].draw();
@@ -423,7 +423,7 @@ public class WorldScreen {
     }
     
     private void altDraw() {
-        StdDraw.picture(xBack, yBack, background, 4, 4);
+        StdDraw.picture(xBack, yBack, background, 25, 25);
         StdDraw.picture(0, 0, wImage[direction], SPRITE, SPRITE);
         for (int i = 0; i < walls.length; i++)
             walls[i].draw();
