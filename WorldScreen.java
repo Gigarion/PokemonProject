@@ -399,7 +399,7 @@ public class WorldScreen {
             else if (StdDraw.isKeyPressed(MUSIC)) {
                 drain();
             }
-            //Display.interval();
+            Display.interval();
         }
     }
     
@@ -407,8 +407,8 @@ public class WorldScreen {
         StdDraw.clear(Color.WHITE);
         StdDraw.picture(xBack, yBack, background, 3, 3);
 
-        for (int i = 0; i < walls.length; i++)
-             walls[i].draw();
+        //for (int i = 0; i < walls.length; i++)
+          //   walls[i].draw();
         for (int i = 0; i < actors.length; i++)
             actors[i].draw();
         StdDraw.picture(0, 0, pImage[direction], SPRITE, SPRITE);
@@ -434,8 +434,8 @@ public class WorldScreen {
         StdDraw.clear(Color.WHITE);
         StdDraw.picture(xBack, yBack, background, 3, 3);
 
-        for (int i = 0; i < walls.length; i++)
-           walls[i].draw();
+        //for (int i = 0; i < walls.length; i++)
+          // walls[i].draw();
         for (int i = 0; i < actors.length; i++)
             actors[i].draw();
         StdDraw.picture(0, 0, wImage[direction], SPRITE, SPRITE);
@@ -487,7 +487,7 @@ public class WorldScreen {
                                 actors[i].shift(true, true);
                         }
                         altDraw();
-                        //Display.interval();
+                        Display.interval();
                         if (!stop) {
                             yBack -= SHIFT;
                             for (int i = 0; i < walls.length; i++)
@@ -548,7 +548,7 @@ public class WorldScreen {
                                 actors[i].shift(true, false);
                         }
                         altDraw();
-                        //Display.interval();
+                        Display.interval();
                         if (!stop) {
                             yBack += SHIFT;
                             for (int i = 0; i < walls.length; i++)
@@ -599,7 +599,7 @@ public class WorldScreen {
                                 actors[i].shift(false, true);
                         }
                         altDraw();
-                        //Display.interval();
+                        Display.interval();
                         if (!stop) {
                             xBack -= SHIFT;
                             for (int i = 0; i < walls.length; i++)
@@ -652,7 +652,7 @@ public class WorldScreen {
                                 actors[i].shift(false, false);
                         }
                         altDraw();
-                        //Display.interval();
+                        Display.interval();
                         if (!stop) {
                             xBack += SHIFT;
                             for (int i = 0; i < walls.length; i++)
