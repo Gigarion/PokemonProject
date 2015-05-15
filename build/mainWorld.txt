@@ -1,6 +1,4 @@
 images\\hall.png
-0.7
--0.5
 sprite\\caleb.png
 sprite\\electron.png
 sprite\\jupiter.png

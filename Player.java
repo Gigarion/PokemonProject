@@ -8,6 +8,8 @@ public class Player {
     private int numItems;
     private Item[] items;
     private Ball[] balls;
+    private double x;
+    private double y;
     
     public Player(String n) {
         name = n;
@@ -26,6 +28,10 @@ public class Player {
     public Player(Scanner s) throws IOException {
         name = s.next();
         image = "images\\" + name + ".png";
+        
+        x = Double.parseDouble(s.next());
+        y = Double.parseDouble(s.next());
+        
         teamSize = Integer.parseInt(s.next());
         team = new Pokemon[teamSize];
         
@@ -70,6 +76,13 @@ public class Player {
         for (int i = 0; i < teamSize; i++) {
             team[i].reset();
         }
+    }
+
+    public double getX() {
+        return x;
+    }
+    public double getY() {
+        return y;
     }
 
     public void swapPokemon(int one, int two) {

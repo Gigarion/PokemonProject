@@ -78,6 +78,7 @@ public class Display {
 
     private static int enPokeOut;
     private static int mainPokeOut;
+    private static int mainPokeFaint;
     
     private static int cursor;
     private static int depth;
@@ -231,6 +232,9 @@ public class Display {
             double length = (EHBX[1] - EHBX[0]) * perLine;
             
             StdDraw.setPenColor(StdDraw.GREEN);
+            if (perLine < .50) StdDraw.setPenColor(StdDraw.ORANGE);
+            if (perLine < .15) StdDraw.setPenColor(StdDraw.RED);
+            
             StdDraw.setPenRadius(0.006);
             if (length > 0)
                 StdDraw.line(EHBX[0], EHBY, EHBX[0] + length, EHBY);
@@ -256,6 +260,8 @@ public class Display {
             double length = (EHBX[1] - EHBX[0]) * perLine;
             
             StdDraw.setPenColor(StdDraw.GREEN);
+            if (perLine < .50) StdDraw.setPenColor(StdDraw.ORANGE);
+            if (perLine < .15) StdDraw.setPenColor(StdDraw.RED);
             StdDraw.setPenRadius(0.006);
             if (length > 0)
                 StdDraw.line(PHBX[0], PHBY, PHBX[0] + length, PHBY);
@@ -272,7 +278,7 @@ public class Display {
             if (enPokeOut == enemy.getTeamSize()) {
                 HBA.winBattle();
             }
-            if (mainPokeOut == main.getTeamSize()) {
+            if (mainPokeFaint == main.getTeamSize()) {
                 HBA.loseBattle();
             }
         }
@@ -291,7 +297,7 @@ public class Display {
             }
         }
         
-        StdDraw.show(5);
+        StdDraw.show(10);
     }
     
     private static void fadeOut(String newBackground) {
@@ -299,16 +305,16 @@ public class Display {
         for (double i = 0; i < 2; i += 0.05) {
             //StdDraw.picture(0, 0, fightBack);
             StdDraw.filledCircle(0, 0, i);
-            StdDraw.show(5);
+            StdDraw.show(10);
         }
         
         for (double i = 2; i >= 0; i -= 0.05) {
             //StdDraw.picture(0, 0, fightBack);
             StdDraw.filledCircle(0, 0, i);
-            StdDraw.show(5);
+            StdDraw.show(10);
         }
         StdDraw.picture(0, 0, newBackground, 2, 2);
-        StdDraw.show(5);
+        StdDraw.show(10);
     }
     
     public static void openSequence(String newBackground) throws IOException {
@@ -327,6 +333,7 @@ public class Display {
         shelf = 0;
         enPokeOut = 0;
         enOut = enemy.getPokemon(0);
+        mainPokeFaint = 0;
         if (!wild) {
             showPlayers(newBackground);
         }
@@ -337,14 +344,14 @@ public class Display {
             StdDraw.picture(EPX, EPY, enemy.getImage(), ENWID, ENHI);
             StdDraw.picture(PPX, PPY, main.getImage(), PWID, PHI);
             messageUpdate();
-            StdDraw.show(5);
+            StdDraw.show(10);
             message = true;
             menu = true;
             players = false;
             enPoke = true;
             enPokeStats = true;
             menuUpdate();
-            StdDraw.show(5);
+            StdDraw.show(10);
             Display.timeDelay();
             Display.timeDelay();
             do  {} while (!StdDraw.hasNextKeyTyped());
@@ -355,7 +362,7 @@ public class Display {
                 StdDraw.picture(PPX - i, PPY, main.getImage(), PWID, PHI);
                 messageUpdate();
                 menuUpdate();
-                StdDraw.show(5);
+                StdDraw.show(10);
                 StdDraw.picture(0, 0, fightBack);
             }
             mainPokeSequence();
@@ -373,7 +380,7 @@ public class Display {
             for (double i = 0; i < 2; i += 0.04) {
                 update();
                 StdDraw.picture(PPX - i, PPY, mainOut.getImage(), PWID, PHI);
-                StdDraw.show(5);
+                StdDraw.show(10);
                 StdDraw.picture(0, 0, fightBack);
             }        
             StdDraw.clear();
@@ -410,7 +417,7 @@ public class Display {
             for (double i = 2; i > 0; i -= 0.04) {
                 update();
                 StdDraw.picture(EPX + i, EPY, enemy.getImage(), ENWID, ENHI);
-                StdDraw.show(5);
+                StdDraw.show(10);
                 StdDraw.picture(0, 0, fightBack);
             }
             StdDraw.clear();
@@ -461,7 +468,7 @@ public class Display {
         for (double i = 0; i < 2; i += 0.04) {
             update();
             StdDraw.picture(PPX - i, PPY, mainOut.getImage(), PWID, PHI);
-            StdDraw.show(5);
+            StdDraw.show(10);
             StdDraw.picture(0, 0, fightBack);
         }
         
@@ -485,7 +492,7 @@ public class Display {
         for (double i = 2; i > 0; i -= 0.04) {
             update();
             StdDraw.picture(EPX + i, EPY, enOut.getImage(), ENWID, ENHI);
-            StdDraw.show(5);
+            StdDraw.show(10);
             StdDraw.picture(0, 0, fightBack);
         }
         enPokeStats = true;
@@ -512,7 +519,7 @@ public class Display {
         for (double i = 2; i > 0; i -= 0.04) {
             update();
             StdDraw.picture(PPX - i, PPY, mainOut.getImage(), PWID, PHI);
-            StdDraw.show(5);
+            StdDraw.show(10);
             StdDraw.picture(0, 0, fightBack);
         }
         mainPokeStats = true;
@@ -547,7 +554,7 @@ public class Display {
         }
         StdDraw.picture(0, 0, fightBack);
         timeDelay();
-        StdDraw.show(5);
+        StdDraw.show(10);
         
         enPokeOut++;
         enPokeSequence();
@@ -563,10 +570,11 @@ public class Display {
     public static void playerFaintSequence() {
         mainPoke = false;
         myTurn = false;
+        mainPokeFaint++;
         timeDelay();
         Message.fainted(main, mainOut);
         messageUpdate();
-        StdDraw.show(5);
+        StdDraw.show(10);
         for (double i = 0; i < 0.1; i += 0.04) {
             update();
             StdDraw.picture(PPX, PPY + i, mainOut.getImage(), PWID, PHI);
@@ -579,11 +587,13 @@ public class Display {
             StdDraw.show(40);
         }
         timeDelay();
-        StdDraw.show(5);
-        mustChoose = true;
-        Message.pokeMenu();
-        depth = 0;
-        currentMenu = 1;
+        StdDraw.show(10);
+        if (!(mainPokeFaint == main.getTeamSize())) {
+            mustChoose = true;
+            Message.pokeMenu();
+            depth = 0;
+            currentMenu = 1;
+        }
     }
     
     public static void timeDelay() {
@@ -603,7 +613,7 @@ public class Display {
             update();
             StdDraw.picture(EPX + i, EPY, enemy.getImage(), ENWID, ENHI);
             StdDraw.picture(PPX - i, PPY, main.getImage(), PWID, PHI);
-            StdDraw.show(5);
+            StdDraw.show(10);
             StdDraw.picture(0, 0, fightBack);
         }
         players = true;
@@ -616,13 +626,13 @@ public class Display {
         StdDraw.picture(0, 0, fightBack);
         StdDraw.picture(EPX, EPY, enemy.getImage(), ENWID, ENHI);
         StdDraw.picture(PPX, PPY, main.getImage(), PWID, PHI);
-        StdDraw.show(5);
+        StdDraw.show(10);
         message = true;
         menu = true;
         players = false;
         Message.challenge(enemy, main);
         menuUpdate();
-        StdDraw.show(5);
+        StdDraw.show(10);
         Display.timeDelay();
         Display.timeDelay();
         do  {   
@@ -633,7 +643,7 @@ public class Display {
             update();
             StdDraw.picture(EPX + i, EPY, enemy.getImage(), ENWID, ENHI);
             StdDraw.picture(PPX - i, PPY, main.getImage(), PWID, PHI);
-            StdDraw.show(5);
+            StdDraw.show(10);
             StdDraw.picture(0, 0, fightBack);
         }
         
@@ -646,7 +656,7 @@ public class Display {
         for (double i = 2; i > 0; i -= 0.04) {
             update();
             StdDraw.picture(PPX - i, PPY, main.getPokemon(0).getImage(), PWID, PHI);
-            StdDraw.show(5);
+            StdDraw.show(10);
             StdDraw.picture(0, 0, fightBack);
         }
         mainPokeStats = true;
@@ -852,7 +862,7 @@ public class Display {
         for (double i = 0; i < 1.32; i += 0.04) {
                 update();
                 StdDraw.picture(PPX + i + (i / 5), PPY + i, toThrow.getImage(), BWID, BHI);
-                StdDraw.show(5);
+                StdDraw.show(10);
         }
         enPoke = false;
         update();
@@ -862,15 +872,15 @@ public class Display {
                 interval();
                 for (double i = 0; i < 15; i++) {
                     StdDraw.picture(EPX, EPY, toThrow.getImage(), BWID, BHI, i);
-                    StdDraw.show(5);
+                    StdDraw.show(10);
                 }
                 for (double i = 15; i > -15; i--) {
                     StdDraw.picture(EPX, EPY, toThrow.getImage(), BWID, BHI, i);
-                    StdDraw.show(5);
+                    StdDraw.show(10);
                 }
                 for (double i = -15; i < 0; i++) {
                     StdDraw.picture(EPX, EPY, toThrow.getImage(), BWID, BHI, i);
-                    StdDraw.show(5);
+                    StdDraw.show(10);
                 }
             }
             HBA.capture();
@@ -880,22 +890,22 @@ public class Display {
             int times =  1 + (int) (Math.random() * 3);
             for (int j = 0; j < times; j++) {
                 StdDraw.picture(EPX, EPY, toThrow.getImage(), BWID, BHI);
-                StdDraw.show(5);
+                StdDraw.show(10);
                 interval();
                 for (double i = 0; i < 15; i++) {
                     //update();
                     StdDraw.picture(EPX, EPY, toThrow.getImage(), BWID, BHI, i);
-                    StdDraw.show(5);
+                    StdDraw.show(10);
                 }
                 for (double i = 15; i > -15; i--) {
                     //update();
                     StdDraw.picture(EPX, EPY, toThrow.getImage(), BWID, BHI, i);
-                    StdDraw.show(5);
+                    StdDraw.show(10);
                 }
                 for (double i = -15; i < 0; i++) {
                     //update();
                     StdDraw.picture(EPX, EPY, toThrow.getImage(), BWID, BHI, i);
-                    StdDraw.show(5);
+                    StdDraw.show(10);
                 }
             }
             Message.escaped(enOut);
@@ -946,6 +956,8 @@ public class Display {
                 else {
                     Message.miss(mainOut);
                     showMessage();
+                    timeDelay();
+                    timeDelay();
                 }
                 
                 if (enOut.isFaint())
@@ -1109,7 +1121,7 @@ public class Display {
                             StdDraw.setPenColor(StdDraw.BLACK);
                             StdDraw.polygon(BMESSX, BMESSY);
                             StdDraw.textLeft(-0.95, -0.45, Message.getMessage());
-                            StdDraw.show(5);
+                            StdDraw.show(10);
                             timeDelay();
                             update();
                         }
@@ -1197,7 +1209,7 @@ public class Display {
             else if (toUse.getTarget() < 0)
                 enOut.useMove(move, enOut);
             
-            StdDraw.show(5);
+            StdDraw.show(10);
             timeDelay();
             update();
             
@@ -1210,8 +1222,10 @@ public class Display {
         else {
             Message.miss(enemy, enOut);
             showMessage();
+            timeDelay();
+            timeDelay();
         }
-        if (!mustChoose) {
+        if (!mustChoose && !mainOut.isFaint()) {
             if (mainOut.getStatus().equals("PSN")) {
                 poisonSequence(mainOut);
             }
@@ -1244,7 +1258,7 @@ public class Display {
     
     private static void showMessage() {
         messageUpdate();
-        StdDraw.show(5);
+        StdDraw.show(10);
         timeDelay();
     }
     
@@ -1252,23 +1266,23 @@ public class Display {
         update();
         if (type <  0) {
             StdDraw.setPenColor(StdDraw.GREEN);
-            for(double i = 0; i < 1; i += 0.04) {
+            for(double i = 0; i < .5; i += 0.04) {
                 update();
                 if (initiator == main)
                     StdDraw.filledCircle(PPX + i + (i / 5), PPY + i, 0.04);
                 else if (initiator == enemy)
                     StdDraw.filledCircle(EPX - i, EPY - i, 0.04);
-                StdDraw.show(5); 
+                StdDraw.show(10); 
             }
             update();
             StdDraw.setPenColor(StdDraw.BLUE);
-            for (double i = 1; i > 0; i -= 0.04) {
+            for (double i = .5; i > 0; i -= 0.04) {
                 update();
                 if (initiator == main)
                     StdDraw.filledCircle(PPX + i + (i / 5), PPY + i, 0.04);
                 else if (initiator == enemy)
                     StdDraw.filledCircle(EPX - i, EPY - i, 0.04);
-                StdDraw.show(5);
+                StdDraw.show(10);
             }
             StdDraw.setPenColor();
             update();
@@ -1281,7 +1295,7 @@ public class Display {
                     StdDraw.filledCircle(PPX + i + (i / 5), PPY + i, 0.04);
                 else if (initiator == enemy)
                     StdDraw.filledCircle(EPX - i, EPY - i, 0.04);
-                StdDraw.show(5);
+                StdDraw.show(10);
             }
             StdDraw.setPenColor();
         }

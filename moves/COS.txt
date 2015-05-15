@@ -1,7 +1,7 @@
 COMPUTERSSS!
 1
-PAR
-15
+no
+25
 100
 50
 20

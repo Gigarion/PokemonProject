@@ -115,7 +115,6 @@ public class HBA {
                 Display.interval();
             }
         }
-        //StdAudio.close();
         Display.interval(); 
         System.out.println("im free");
         if (win) {
