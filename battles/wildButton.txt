@@ -1,0 +1,3 @@
+images\\E106.png
+music\\wild.mid
+pokemon\BUTTON.txt

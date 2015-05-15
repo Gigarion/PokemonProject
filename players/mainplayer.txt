@@ -1,6 +1,6 @@
 pipe
-3.91
--4.45
+0.0
+1.25
 1
 players\mainitems.txt
 Pokemon\MARIAH.txt
