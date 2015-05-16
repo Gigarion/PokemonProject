@@ -1,8 +1,8 @@
-images\\hall.png
-sprite\\caleb.png
-sprite\\electron.png
-sprite\\jupiter.png
-sprite\\squirrel.png
+images\\map.png
+sprite\\walkup.png
+sprite\\walkdown.png
+sprite\\walkright.png
+sprite\\walkleft.png
 sprite\\walkup.png
 sprite\\walkdown.png
 sprite\\walkright.png

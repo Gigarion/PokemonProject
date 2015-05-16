@@ -136,6 +136,8 @@ public class Pokemon {
 
     public void receive(int dam, String stat) {
         tempHealth -= dam;
+        if (tempHealth > maxHealth)
+            tempHealth = maxHealth;
         if (tempHealth <= 0)
             faint = true;
         if (status.equals("no"))

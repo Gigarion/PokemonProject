@@ -1,6 +1,8 @@
 images\\background.png
 music\\trainer-battle.mid
 PRINCETON
+0
+0
 1
 build\\enemyitems.txt
 pokemon\\RPL.txt

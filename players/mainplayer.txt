@@ -1,6 +1,7 @@
 pipe
-3.91
--4.45
-1
+0.0
+1.25
+2
 players\mainitems.txt
 Pokemon\MARIAH.txt
+Pokemon\KATIE.txt

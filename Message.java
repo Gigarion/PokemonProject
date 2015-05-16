@@ -174,6 +174,10 @@ public class Message {
         currentState = p.getName() + " was moved to the pc.";
     }
 
+    public static void save() {
+        currentState = "Game Saved!";
+    }
+
     public static void pc() {
         currentState = "pc";
     }
