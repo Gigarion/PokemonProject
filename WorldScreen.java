@@ -126,7 +126,6 @@ public class WorldScreen {
                     return;
                 }
                 else if (toPrint[i].equals("reset")) {
-                    StdAudio.close();
                     Display.timeDelay();
                     StdAudio.play("music\\heal.wav");
                     main.heal();
@@ -151,16 +150,13 @@ public class WorldScreen {
                     if (toPrint[i].contains("wild")) Display.setWild(true);
                     else Display.setWild(false);
                     HBA.battle(toPrint[i],  main);
-                    StdAudio.loop(WORLDSONG);
                     hasInteracted = true;
                     lock = false;
                 }
 
                 else if (toPrint[i].contains(".mid") && !hasInteracted) {
                     lock = true;
-                    //StdAudio.close();
                     Display.timeDelay();
-                    StdAudio.play(toPrint[i]);
                     Display.interval();
                     temp.delete();
                 }
@@ -395,16 +391,12 @@ public class WorldScreen {
             else if (StdDraw.isKeyPressed(BACK)) {
                 back();
             }
-
-            else if (StdDraw.isKeyPressed(MUSIC)) {
-                drain();
-            }
             Display.interval();
         }
     }
     
     public void drawWorld() {
-        StdDraw.clear(Color.WHITE);
+        StdDraw.clear(Color.GRAY);
         StdDraw.picture(xBack, yBack, background, 3, 3);
 
         //for (int i = 0; i < walls.length; i++)
@@ -431,7 +423,7 @@ public class WorldScreen {
     }
     
     private void altDraw() {
-        StdDraw.clear(Color.WHITE);
+        StdDraw.clear(Color.GRAY);
         StdDraw.picture(xBack, yBack, background, 3, 3);
 
         //for (int i = 0; i < walls.length; i++)
@@ -750,7 +742,12 @@ public class WorldScreen {
                             saveMe.println("Pokemon\\" + main.getPokemon(i).getName() + ".txt");
                         }
                         saveMe.close();
-                        
+                        Message.save();
+                        message();
+                        Display.timeDelay();
+                        Display.timeDelay();
+                        currentMenu = 3;
+                        cursor = 0;
                     } break;
                     default: {
                         Message.customSet("I wish it was that functional too :(");

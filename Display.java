@@ -654,7 +654,8 @@ public class Display {
         Message.customSet(playerOut);
         messageUpdate(); 
         for (double i = 2; i > 0; i -= 0.04) {
-            update();
+            messageUpdate();
+            menuUpdate();
             StdDraw.picture(PPX - i, PPY, main.getPokemon(0).getImage(), PWID, PHI);
             StdDraw.show(10);
             StdDraw.picture(0, 0, fightBack);
