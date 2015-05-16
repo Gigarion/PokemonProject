@@ -1,9 +1,11 @@
 images\\background.png
-music\\trainer-battle.mid
 PRINCETON
 0
 0
-2
+5
 build\\enemyitems.txt
 pokemon\\RPL.txt
 pokemon\\WINTER.txt
+pokemon\\WRITINGSEM.txt
+pokemon\\MIDTERMS.txt
+pokemon\\FINALS.txt

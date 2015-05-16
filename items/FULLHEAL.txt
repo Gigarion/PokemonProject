@@ -1,0 +1,4 @@
+FULL HEAL
+0
+cleanse
+Cures status effects

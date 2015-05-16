@@ -1,5 +1,7 @@
-4
-music\\battle.mid
-Imma gonna fight you!
+6
+So you got into our school....
+Congratulations..... But.
+Do you think you can take us 
+in a Pokemon Battle?
 battles\\Battle1.txt
-I fought ya!
+Welcome to Princeton

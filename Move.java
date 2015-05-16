@@ -103,6 +103,9 @@ public class Move {
         ppTemp--;
     }
 
+    public void reset() {
+        ppTemp = ppMax;
+    }
     public void listStats() {
         System.out.println("Name: "         + name);
         System.out.println("whoHit: "     + whoHit);

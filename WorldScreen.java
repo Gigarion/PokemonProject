@@ -106,7 +106,11 @@ public class WorldScreen {
         }
         
         private void draw() {
-            if (!image.equals("null"))
+            if (image.contains("pc"))
+                StdDraw.picture(bx, by, image, ACTWID, (2 * ACTHI));
+            else if (image.contains("center"))
+                StdDraw.picture(bx, by, image, (1.2 * ACTWID), (1.2 * ACTHI));
+            else if (!image.equals("null"))
                 StdDraw.picture(bx, by, image, ACTWID, ACTHI);
         }
         
@@ -134,7 +138,9 @@ public class WorldScreen {
                 }
                 else if (toPrint[i].equals("pc")) {
                     Message.pc();
+
                     pc = new Pc();
+                    System.out.println(pc.getSize());
                     currentMenu = 4;
                     depth = 0;
                     cursor = 0;
@@ -380,6 +386,7 @@ public class WorldScreen {
             }
             else if (StdDraw.isKeyPressed(ENTER)) {
                 act();
+                Display.interval();
             }
             else if (StdDraw.isKeyPressed(START)) {
                 if (!start) cursor = 0;
@@ -852,18 +859,20 @@ public class WorldScreen {
                 if (actable) actors[which].act(); 
             } break;
             case 4: {
-                if (depth == 0) {
-                    depth++;
-                    Message.flip();
-                    lock = true;
-                }
-                else if (depth == 1) {
-                    lock = false;
-                    currentMenu = 1;
-                    depth = 0;
-                    holdCursor = cursor;
-                    Message.pokeMenu();
-                    fromPc = true;
+                if (pc.getSize() > 0) {
+                    if (depth == 0) {
+                        depth++;
+                        Message.flip();
+                        lock = true;
+                    }
+                    else if (depth == 1) {
+                        lock = false;
+                        currentMenu = 1;
+                        depth = 0;
+                        holdCursor = cursor;
+                        Message.pokeMenu();
+                        fromPc = true;
+                    }
                 }
 
             } break;

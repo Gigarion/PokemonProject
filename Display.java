@@ -1302,6 +1302,10 @@ public class Display {
             StdDraw.setPenColor();
         }
     }
+
+    public static void bringBack() {
+        mainPokeFaint--;
+    }
     
     public static Player getPlayer() {
         return main;

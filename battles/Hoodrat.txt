@@ -1,0 +1,11 @@
+images\\wildBack.png
+HOODRATS
+0
+0
+5
+build\\enemyitems.txt
+pokemon\\MARIAH.txt
+pokemon\\MELANIE.txt
+pokemon\\VANESSA.txt
+pokemon\\CALEB.txt
+pokemon\\ALEX.txt

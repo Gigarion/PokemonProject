@@ -69,10 +69,12 @@ public class Pokemon {
         tempHealth += health;
         if (tempHealth > maxHealth)
             tempHealth = maxHealth;
-        if (cure == status)
+        if (cure.equals(status) || cure.equals("cleanse"))
             status = "no";
         if (cure.equals("REVIVE")) {
+            status = "no";
             tempHealth = maxHealth / 2;
+            Display.bringBack();
         }
     }
 
@@ -80,6 +82,8 @@ public class Pokemon {
         faint = false;
         tempHealth = maxHealth;
         status = "no";
+        for (int i = 0; i < MOVES; i++)
+            moves[i].reset();
     }
 
     public boolean isFaint() {
@@ -136,8 +140,8 @@ public class Pokemon {
 
     public void receive(int dam, String stat) {
         tempHealth -= dam;
-        if (tempHealth > maxHealth)
-            tempHealth = maxHealth;
+        if (tempHealth > maxHealth) tempHealth = maxHealth;
+        if (tempHealth < 0) tempHealth = 0;
         if (tempHealth <= 0)
             faint = true;
         if (status.equals("no"))
@@ -160,6 +164,8 @@ public class Pokemon {
                 Message.status(target, effect);
             else if (damage == 0 && !effect.equals("no")) Message.noEffect();
             target.receive(damage, effect);
+            Display.messageUpdate();
+            StdDraw.show(10);
             Display.timeDelay();
         }
         else target.receive(damage, "no");

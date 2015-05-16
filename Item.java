@@ -67,6 +67,9 @@ public class Item {
         if (heal != 0 && cure.equals("no") && poke.getTempHealth() == poke.getMaxHealth()) {
             return false;
         }
+        else if (heal != 0 && cure.equals("cleanse") && poke.getTempHealth() == poke.getMaxHealth() && poke.getStatus().equals("no")) {
+            return false;
+        }
         else if (cure.equals("REVIVE") && poke.isFaint()) {
             return true;
         }

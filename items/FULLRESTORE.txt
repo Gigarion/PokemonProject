@@ -1,0 +1,4 @@
+FULL RESTORE
+500
+cleanse
+Completely Heals Pokemon

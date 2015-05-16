@@ -46,7 +46,10 @@ public class Message {
     }
 
     public static void miss(Player enemy, Pokemon out) {
-        currentState = enemy.getName() + "'s " + out.getName() + " missed!";
+        if (Display.isWild())
+            currentState = "Wild " + out.getName() + " missed!";
+        else
+            currentState = enemy.getName() + "'s " + out.getName() + " missed!";
     }
 
     public static void endBattle(Player winner, Player loser) {

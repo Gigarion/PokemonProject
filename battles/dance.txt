@@ -1,0 +1,9 @@
+images\\wildBack.png
+DANCESQUAD
+0
+0
+3
+build\\enemyitems.txt
+pokemon\\RICHARD.txt
+pokemon\\CLARK.txt
+pokemon\\PEYTON.txt

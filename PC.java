@@ -50,7 +50,7 @@ public class Pc {
 	}
 
 	public int getSize() {
-		return inBox.length - 1;
+		return inBox.length;
 	}
 
 	public void draw(Player main, int cursor) {

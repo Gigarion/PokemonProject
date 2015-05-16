@@ -1,0 +1,2 @@
+images\wildback.png
+pokemon\MAX.txt

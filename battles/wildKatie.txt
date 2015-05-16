@@ -1,3 +1,2 @@
-images\\E106.png
-music\\trainer-battle.mid
+images\wildback.png
 pokemon\\KATIE.txt

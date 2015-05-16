@@ -1,0 +1,2 @@
+images\wildback.png
+pokemon\VANESSA.txt

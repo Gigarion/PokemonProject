@@ -104,7 +104,7 @@ public class PokeBlock {
                 StdDraw.polygon(xBounds, yBounds);
                 StdDraw.picture(x + PICX, y + PICY, image, PICWID, PICHI);
                 if (!status.equals("no"))
-                    StdDraw.picture(x + PICX, y + (PICY / 2), "images\\" + status + ".png");
+                    StdDraw.picture(x + (3 * PICX), y + (PICY / 2), "images\\" + status + ".png");
                 
                 StdDraw.setPenColor();
                 StdDraw.setPenRadius(0.016);

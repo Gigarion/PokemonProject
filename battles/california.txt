@@ -1,0 +1,9 @@
+images\wildBack.png
+CALIFORNIA
+0
+0
+3
+build\\enemyitems.txt
+pokemon\\MAX.txt
+pokemon\\MARIAH.txt
+pokemon\\KATIE.txt

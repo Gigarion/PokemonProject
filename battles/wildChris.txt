@@ -1,3 +1,2 @@
-images\\E106.png
-music\\wild.mid
+images\wildback.png
 pokemon\CHRIS.txt

@@ -1,8 +1,8 @@
 images\\map.png
-sprite\\walkup.png
-sprite\\walkdown.png
-sprite\\walkright.png
-sprite\\walkleft.png
+sprite\\standup.png
+sprite\standdown.png
+sprite\standright.png
+sprite\standleft.png
 sprite\\walkup.png
 sprite\\walkdown.png
 sprite\\walkright.png

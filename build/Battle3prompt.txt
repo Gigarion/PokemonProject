@@ -1,0 +1,4 @@
+3
+Time to dance!
+battles\\dance.txt
+You've got some sick moves...

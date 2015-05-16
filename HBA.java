@@ -55,7 +55,7 @@ public class HBA {
         // find the battle file and set up the scanner
         String battleBackground = s.next();
         Display.setFightBackground(battleBackground);
-        String fightSong = s.next();
+        //String fightSong = s.next();
         //StdAudio.loop(fightSong);
         Display.interval();
         // set this battle's background and audio
