@@ -56,7 +56,7 @@ public class HBA {
         String battleBackground = s.next();
         Display.setFightBackground(battleBackground);
         String fightSong = s.next();
-        StdAudio.loop(fightSong);
+        //StdAudio.loop(fightSong);
         Display.interval();
         // set this battle's background and audio
         Player enemy = null;
@@ -116,16 +116,16 @@ public class HBA {
             }
         }
         Display.interval(); 
-        System.out.println("im free");
+        //System.out.println("im free");
         if (win) {
             Display.winSequence();
         }
         else if (lose) {
-            System.out.println("ya lost sucker");
+            //System.out.println("ya lost sucker");
             Display.loseSequence();
         }
         else if (capture) {
-            System.out.println("caught ya");
+            //System.out.println("caught ya");
             Display.captureSequence();
         }
         Display.update();

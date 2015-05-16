@@ -370,7 +370,7 @@ public class Display {
     }
     
     public static void winSequence() {
-        StdAudio.play("music\\win.mid");
+        //StdAudio.play("music\\win.mid");
         mainPoke = false;
         enPoke = false;
         mainPokeStats = false;
@@ -446,7 +446,7 @@ public class Display {
     }
 
     public static void captureSequence() throws IOException {
-        StdAudio.play("music\\win.mid");
+        //StdAudio.play("music\\win.mid");
         Message.capture(enemy);
         update();
         do {} while (!StdDraw.isKeyPressed(ENTER));
@@ -485,7 +485,8 @@ public class Display {
             enPokeStats = false;
             return;
         }
-        enOut = enemy.getPokemon(enPokeOut);
+        if (!wild)
+            enOut = enemy.getPokemon(enPokeOut);
         String enemyOut = enemy.getName() + " sent out a " + enOut.getName() + "!";
         Message.customSet(enemyOut);
         messageUpdate();

@@ -53,12 +53,12 @@ images\wp2.gif
 build\\wildSam.txt
 -1.18
 0.07
-images\wp1.gif
-build\wildAlex.txt
--1.4
-.6
 images\wp2.gif
 build\wildButton.txt
+-1.4
+.6
+images\wp3.gif
+build\wildAlex.txt
 -.31
 2.28
 null

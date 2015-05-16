@@ -305,7 +305,7 @@ public class WorldScreen {
     public WorldScreen(Player player) throws IOException {
         StdDraw.setFont(TEXT);
         this.main = player;
-        StdAudio.loop(WORLDSONG);
+        //StdAudio.loop(WORLDSONG);
         Display.interval();
         this.direction = 1;
         this.xBack = player.getX();
@@ -400,7 +400,7 @@ public class WorldScreen {
         StdDraw.picture(xBack, yBack, background, 3, 3);
 
         //for (int i = 0; i < walls.length; i++)
-          //   walls[i].draw();
+          //  walls[i].draw();
         for (int i = 0; i < actors.length; i++)
             actors[i].draw();
         StdDraw.picture(0, 0, pImage[direction], SPRITE, SPRITE);
@@ -871,7 +871,7 @@ public class WorldScreen {
         drawWorld();
     }
     private void drain() {
-        StdAudio.loop(WORLDSONG);
+       // StdAudio.loop(WORLDSONG);
     }
     private void message() {
         StdDraw.setPenColor(StdDraw.WHITE);

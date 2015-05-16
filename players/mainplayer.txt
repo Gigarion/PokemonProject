@@ -3,5 +3,5 @@ pipe
 1.25
 2
 players\mainitems.txt
-Pokemon\MARIAH.txt
-Pokemon\KATIE.txt
+Pokemon\ALEX.txt
+Pokemon\MELANIE.txt

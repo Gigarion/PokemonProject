@@ -7,4 +7,4 @@ items\\REVIVE.txt
 2
 1
 balls\\POKEBALL.txt
-5
+10
