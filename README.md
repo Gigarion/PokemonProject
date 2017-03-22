@@ -9,10 +9,10 @@ PC system works.
 Every time you restart the game, it resets the items in your pack and makes everything catcheable/fightable again.  You'd have to clear some of the files in the data folder to actually reset (just redownload the repo honestly).
 
 The controls are (terrible, gotta pick better buttons): 
-
+<ul>
 Movement: wasd
-Interact/action: space
-Go back: b
-Open menu; p (why???)
-
+<li>Interact/action: space
+<li>Go back: b
+<li>Open menu; p (why???)
+<ul>
 If anyone actually wants to use this as a framework, send me a shoutout and we can figure out how to make something cool :D.
