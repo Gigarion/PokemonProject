@@ -1,7 +1,8 @@
 ALANA
 0.0
 1.25
-2
+3
 players\mainitems.txt
 Pokemon\ALEX.txt
 Pokemon\MELANIE.txt
+Pokemon\JESUS.txt

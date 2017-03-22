@@ -1,6 +1,7 @@
 import java.io.*;
 import java.util.*;
 import java.awt.*;
+
 public class WorldScreen {
     private static final Font TEXT = new Font(Font.MONOSPACED, 0, 22);
     private static final double[] MESSX = {-.97, -.97,  .97, .97};
@@ -311,7 +312,7 @@ public class WorldScreen {
     public WorldScreen(Player player) throws IOException {
         StdDraw.setFont(TEXT);
         this.main = player;
-        //StdAudio.loop(WORLDSONG);
+        StdAudio.loop(WORLDSONG);
         Display.interval();
         this.direction = 1;
         this.xBack = player.getX();
