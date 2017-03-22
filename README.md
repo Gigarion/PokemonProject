@@ -1,17 +1,18 @@
 # PokemonProject
-Basic pokemon game building kit that will allow for custom battles, pokemon, etc.  I'm building on a specific scenario and files will be related to that, but could easily be adapted for individual projects
+Basic pokemon game building kit that will allow for custom battles, pokemon, etc.  I'm building on a specific scenario (Birthday present for a friend) and all files here are related to that, but could easily be adapted for individual projects.
 
-Work done to date:
-Created "Move" and "Pokemon" class, each with the necessary framework to construct moves and creatures to use those moves.
-Created the main class, began constructing the battle logic.  
+This project took exactly a month to put into its current state, i'd love to revisit and rework it sometime.
+You can run around the map, fight and catch most of the pokemon (my freshman hallmates :D), and the guy at the top center is kind of a boss. 
 
-Battle framework as of 4/17/2015: (within work desktop today file)
-Battle is passed a File and a Player who is the controllable character in the battle
-Using the given format, reads data from the given file to create an enemy player object
-Use display function to fade into the battle screen, changes display nature, intialize 
-challenge message, and show player icon movement.
-Enters the while loop, based on a win or loss condition that **will be the result of a complete faint of either team,
-** or possibly a capture condition
-Basic menu navigation ability is beginning, the menu logic will take some time to work out.  I'll probably
-make the initial very specific, but I think i'll build a menubuilder class to make things more modular in
-the future.
+PC system works.
+
+Every time you restart the game, it resets the items in your pack and makes everything catcheable/fightable again.  You'd have to clear some of the files in the data folder to actually reset (just redownload the repo honestly).
+
+The controls are (terrible, gotta pick better buttons): 
+
+Movement: wasd
+Interact/action: space
+Go back: b
+Open menu; p (why???)
+
+If anyone actually wants to use this as a framework, send me a shoutout and we can figure out how to make something cool :D.
