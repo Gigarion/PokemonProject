@@ -16,4 +16,5 @@ Every time you restart the game, it resets the items in your pack and makes ever
   <li>Go back: b
   <li>Open menu; p (why???)
 </ul>
+
 If anyone actually wants to use this as a framework, send me a shoutout and we can figure out how to make something cool :D.
