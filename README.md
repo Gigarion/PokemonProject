@@ -8,8 +8,7 @@ PC system works.
 
 Every time you restart the game, it resets the items in your pack and makes everything catcheable/fightable again.  You'd have to clear some of the files in the data folder to actually reset (just redownload the repo honestly).
 
-The controls are (terrible, gotta pick better buttons): 
-<ul>
+<ul> The controls are (terrible, gotta pick better buttons): 
 Movement: wasd
 <li>Interact/action: space
 <li>Go back: b
