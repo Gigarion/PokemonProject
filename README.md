@@ -9,6 +9,8 @@ This project took exactly a month to put into its current state, i'd love to rev
 <li> run: java HBA
 </ul>
 
+## Features (in general):
+
 You can run around the map, fight and catch most of the pokemon (my freshman hallmates :D), and the guy at the top center is kind of a boss. 
 
 PC system works, just catch more than 6 pokemon and you should have interactivity there.
